@@ -1,8 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "trauma/traumaAnalytics",
+    "description": "Trauma Analytics.",
+    "keywords": ["trauma", "analytics", "courses"],
     "type": "project",
     "repositories": [
         {
