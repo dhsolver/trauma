@@ -41,6 +41,8 @@ elixir(function(mix) {
     mix.copy('resources/vendor/jquery-colorbox/example3/images/**', 'public/css/images');
     mix.copy('resources/vendor/jquery-ui/themes/base/images/**', 'public/css/images');
 
+    // Copy asset images to public
+    mix.copy('resources/assets/images/**', 'public/images');
 
     // Copy flag resources
     mix.copy('resources/vendor/flag-sprites/dist/css/flag-sprites.min.css', 'public/css/flags.css');
