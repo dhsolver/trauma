@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Laravel</a>
+            <a class="navbar-brand" href="{{ url('/') }}">Trauma Analytics</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -16,15 +16,21 @@
                 <li class="{{ (Request::is('/') ? 'active' : '') }}">
                     <a href="{{ url('') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
-                <li class="{{ (Request::is('articles') ? 'active' : '') }}">
-                    <a href="{{ url('articles') }}">Articles</a>
+                <li class="{{ (Request::is('consulting') ? 'active' : '') }}">
+                    <a href="{{ url('consulting') }}">Consulting</a>
                 </li>
-                <li class="{{ (Request::is('about') ? 'active' : '') }}">
-                    <a href="{{ url('about') }}">About</a>
+                <li class="{{ (Request::is('data') ? 'active' : '') }}">
+                    <a href="{{ url('data') }}">Data</a>
                 </li>
-                <li class="{{ (Request::is('contact') ? 'active' : '') }}">
-                    <a href="{{ url('contact') }}">Contact</a>
+                <li class="{{ (Request::is('education') ? 'active' : '') }}">
+                    <a href="{{ url('education') }}">Education</a>
                 </li>
+
+                @if (!Auth::guest())
+                <li class="{{ (Request::is('courses') ? 'active' : '') }}">
+                    <a href="{{ url('courses') }}">Courses Catalog</a>
+                </li>
+                @endif
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -42,7 +48,7 @@
                             @if(Auth::check())
                                 @if(Auth::user()->admin==1)
                                     <li>
-                                        <a href="{{ url('admin/dashboard') }}"><i class="fa fa-tachometer"></i> Admin Dashboard</a>
+                                        <a href="{{ url('admin/dashboard') }}"><i class="fa fa-tachometer"></i> Admin</a>
                                     </li>
                                 @endif
                                 <li role="presentation" class="divider"></li>

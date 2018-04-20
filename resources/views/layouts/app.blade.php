@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@section('title') Laravel 5 Sample Site @show</title>
+    <title>@section('title') Trauma Analytics @show</title>
     @section('meta_keywords')
         <meta name="keywords" content="your, awesome, keywords, here"/>
     @show @section('meta_author')
-        <meta name="author" content="Jon Doe"/>
+        <meta name="author" content="Mike Walker, Sean Madhavan"/>
     @show @section('meta_description')
         <meta name="description"
-              content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei."/>
+              content="Use Trauma Analytics to improve your learning experience."/>
     @show
 
 		<link href="{{ asset('css/site.css') }}" rel="stylesheet">
