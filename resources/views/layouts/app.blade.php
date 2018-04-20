@@ -36,8 +36,10 @@
 
 @include('partials.nav')
 
-<div class="container">
-@yield('content')
+<div class="page-container">
+    <div class="container">
+    @yield('content')
+    </div>
 </div>
 
 @include('partials.footer')

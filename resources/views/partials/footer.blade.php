@@ -1,8 +1,8 @@
 <div id="footer">
     <div class="container">
-        <div class="row">
+        <div class="row equal-height">
             <div class="col-sm-6">
-                <div class="footer-info social">
+                <div class="content-box">
                     <h4>Follow Us</h4>
                     <a href="https://twitter.com/TraumAnalytics" target="_blank" title="Visit Trauma Analytics on Twitter">
                         <span class="fa fa-2x fa-twitter"></span>
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="footer-info contact">
+                <div class="content-box">
                     <h4>Contact Us</h4>
                     <a href="mailto:mike.walker@traumaanalytics.com">mike.walker@traumaanalytics.com</a>
                 </div>
