@@ -1,8 +1,23 @@
 <div id="footer">
     <div class="container">
-        <p class="text-muted credit"><span style="text-align: left; float: left">&copy; 2015 <a href="#">Laravel
-                    5 Starter Site</a></span> <span class="hidden-phone"
-                                                    style="text-align: right; float: right">Powered by: <a
-                        href="http://laravel.com/" alt="Laravel 5.1">Laravel 5.1</a></span></p>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="footer-info social">
+                    <h4>Follow Us</h4>
+                    <a href="https://twitter.com/TraumAnalytics" target="_blank" title="Visit Trauma Analytics on Twitter">
+                        <span class="fa fa-2x fa-twitter"></span>
+                    </a>
+                    <a href="https://www.facebook.com/TraumAnaytics" target="_blank" title="Visit Trauma Analytics on Facebook">
+                        <span class="fa fa-2x fa-facebook-official"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="footer-info contact">
+                    <h4>Contact Us</h4>
+                    <a href="mailto:mike.walker@traumaanalytics.com">mike.walker@traumaanalytics.com</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

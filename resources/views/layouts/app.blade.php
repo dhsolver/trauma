@@ -15,7 +15,9 @@
               content="Use Trauma Analytics to improve your learning experience."/>
     @show
 
-		<link href="{{ asset('css/site.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/site.css') }}" rel="stylesheet">
+		<link href="{{ asset('css/index.css') }}" rel="stylesheet">
+
         <script src="{{ asset('js/site.js') }}"></script>
 
     @yield('styles')
@@ -29,11 +31,15 @@
     <link rel="shortcut icon" href="{!! asset('assets/site/ico/favicon.ico')  !!} ">
 </head>
 <body>
+
+@include('partials.header')
+
 @include('partials.nav')
 
 <div class="container">
 @yield('content')
 </div>
+
 @include('partials.footer')
 
 <!-- Scripts -->
