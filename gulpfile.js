@@ -27,7 +27,6 @@ gulp.task('default', function () {
     var paths = {
         'jquery': vendors + '/jquery/dist',
         'bootstrap': vendors + '/bootstrap/dist',
-        'bootswatch': vendors + '/bootswatch/simplex',
         'fontawesome': vendors + '/font-awesome',
         'colorbox': vendors + '/jquery-colorbox',
         'dataTables': vendors + '/datatables/media',
@@ -72,7 +71,6 @@ gulp.task('default', function () {
             paths.bootstrap + '/css/bootstrap.css',
             paths.bootstrap + '/css/bootstrap-theme.css',
             paths.fontawesome + '/css/font-awesome.css',
-            paths.bootswatch + '/bootstrap.css',
             paths.colorbox + '/example3/colorbox.css',
             paths.justifiedGallery + '/css/justifiedGallery.css',
             // '/../scss/index.css'
@@ -91,7 +89,6 @@ gulp.task('default', function () {
             paths.bootstrap + '/css/bootstrap.css',
             paths.bootstrap + '/css/bootstrap-theme.css',
             paths.fontawesome + '/css/font-awesome.css',
-            paths.bootswatch + '/bootstrap.css',
             paths.colorbox + '/example3/colorbox.css',
             paths.dataTables + '/css/dataTables.bootstrap.css',
             paths.dataTablesBootstrap3Plugin + '/css/datatables-bootstrap3.css',
