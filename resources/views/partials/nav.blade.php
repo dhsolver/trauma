@@ -15,7 +15,7 @@
                 <li class="{{ (Request::is('/') ? 'active' : '') }}">
                     <a href="{{ url('') }}">Home</a>
                 </li>
-                <li class="{{ (Request::is('consulting') ? 'active' : '') }}">
+                <!-- <li class="{{ (Request::is('consulting') ? 'active' : '') }}">
                     <a href="{{ url('consulting') }}">Consulting</a>
                 </li>
                 <li class="{{ (Request::is('data') ? 'active' : '') }}">
@@ -23,16 +23,16 @@
                 </li>
                 <li class="{{ (Request::is('education') ? 'active' : '') }}">
                     <a href="{{ url('education') }}">Education</a>
-                </li>
+                </li> -->
 
-                @if (!Auth::guest())
+                <!-- @if (!Auth::guest())
                 <li class="{{ (Request::is('courses') ? 'active' : '') }}">
                     <a href="{{ url('courses') }}">Courses Catalog</a>
                 </li>
-                @endif
+                @endif -->
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
+            <!-- <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
                     <li class="{{ (Request::is('auth/login') ? 'active' : '') }}"><a href="{{ url('auth/login') }}"><i
                                     class="fa fa-sign-in"></i> Login</a></li>
@@ -58,7 +58,7 @@
                         </ul>
                     </li>
                 @endif
-            </ul>
+            </ul> -->
         </div>
     </div>
 </nav>
