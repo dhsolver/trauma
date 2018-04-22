@@ -1,0 +1,11 @@
+.form-register {
+    padding: 30px 30px;
+
+    .form-group {
+        margin-bottom: 30px;
+
+        > label {
+            display: none;
+        }
+    }
+}

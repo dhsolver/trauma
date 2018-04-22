@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title') Home :: @parent @endsection
+@section('title') Home @endsection
 @section('content')
 <div class="page-home">
     <div class="row equal-height bg-white">
