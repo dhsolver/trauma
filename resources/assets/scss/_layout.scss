@@ -11,49 +11,6 @@
     }
 }
 
-.navbar-primary {
-    background-color: $blue;
-    background-image: none;
-    font-size: 16px;
-    border-radius: 0;
-    border: none;
-    margin-bottom: 0;
-
-    .navbar-nav > li > a {
-        color: $white;
-        text-shadow: none;
-
-        &:hover,
-        &:focus {
-            background-color: $white;
-            color: $blue;
-        }
-    }
-
-    .navbar-nav > .open > a,
-    .navbar-nav > .active > a {
-        background-image: none;
-        background-color: $white;
-        color: $blue;
-        box-shadow: none;
-
-        &:hover,
-        &:focus {
-            background-color: $white;
-        }
-    }
-
-    .navbar-brand {
-        color: $white;
-        text-shadow: none;
-
-        &:hover,
-        &:focus {
-            color: $white;
-        }
-    }
-}
-
 .container {
     padding-left: 30px;
     padding-right: 30px;
@@ -88,15 +45,6 @@
 }
 
 @media (min-width: 768px) {
-    .navbar-primary {
-        > .container {
-            > .navbar-collapse {
-                padding-left: 0;
-                padding-right: 0;
-            }
-        }
-    }
-
     .row.equal-height {
         display: -webkit-flex;
         display:  -webkit-box;
