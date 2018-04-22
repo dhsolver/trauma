@@ -15,7 +15,7 @@
             <div class="col-sm-6">
                 <div class="content-box">
                     <h4>Contact Us</h4>
-                    <a href="mailto:mike.walker@traumaanalytics.com">mike.walker@traumaanalytics.com</a>
+                    <a href="mailto:mike.walker@traumaanalytics.com">support@traumaanalytics.com</a>
                 </div>
             </div>
         </div>
