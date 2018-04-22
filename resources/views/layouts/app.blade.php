@@ -14,7 +14,7 @@
         <meta name="description"
               content="Use Trauma Analytics to improve your learning experience."/>
     @show
-
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <link href="{{ asset('css/site.css') }}" rel="stylesheet">
 		<link href="{{ asset('css/index.css') }}" rel="stylesheet">
 
