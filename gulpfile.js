@@ -69,7 +69,6 @@ gulp.task('default', function () {
         // Merge Site CSSs.
         mix.styles([
             paths.bootstrap + '/css/bootstrap.css',
-            paths.bootstrap + '/css/bootstrap-theme.css',
             paths.fontawesome + '/css/font-awesome.css',
             paths.colorbox + '/example3/colorbox.css',
             paths.justifiedGallery + '/css/justifiedGallery.css',
@@ -87,7 +86,6 @@ gulp.task('default', function () {
         // Merge Admin CSSs.
         mix.styles([
             paths.bootstrap + '/css/bootstrap.css',
-            paths.bootstrap + '/css/bootstrap-theme.css',
             paths.fontawesome + '/css/font-awesome.css',
             paths.colorbox + '/example3/colorbox.css',
             paths.dataTables + '/css/dataTables.bootstrap.css',
