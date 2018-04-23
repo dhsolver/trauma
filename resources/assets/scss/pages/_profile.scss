@@ -1,5 +1,5 @@
 .form-profile {
-    padding: 30px 30px;
+    padding: 20px 30px;
 
     .form-subheader {
         color: $blue;
@@ -13,5 +13,9 @@
                 display: none;
             }
         }
+    }
+
+    .img-avatar {
+        margin-bottom: 12px;
     }
 }

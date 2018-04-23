@@ -29,6 +29,7 @@ Route::controllers([
 Route::group(['middleware' => 'auth'], function() {
     Route::get('profile', 'ProfileController@viewProfile');
     Route::post('profile', 'ProfileController@saveProfile');
+    Route::post('profile/avatar', 'ProfileController@saveAvatar');
 
 });
 

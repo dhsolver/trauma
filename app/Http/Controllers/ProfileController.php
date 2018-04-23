@@ -64,8 +64,30 @@ class ProfileController extends Controller {
         $user->state_license = $request['state_license'];
         $user->save();
 
-        $request->session()->flash('status', 'Profile has been updated!');
+        $request->session()->flash('profileUpdated', 'Profile has been updated!');
         // return redirect()->route('profile');
+        return redirect()->action('ProfileController@viewProfile');
+    }
+
+    public function saveAvatar(Request $request) {
+        $this->validate($request, [
+            'avatar' => 'required|image',
+        ]);
+
+        $user = Auth::user();
+
+        $avatar = '';
+        $file = $request->file('avatar');
+        $filename = $file->getClientOriginalName();
+        $extension = $file -> getClientOriginalExtension();
+        $avatar = sha1($filename . time()) . '.' . $extension;
+        $destinationPath = public_path() . '/images/users/'.$user->id.'/';
+        $request->file('avatar')->move($destinationPath, $avatar);
+
+        $user->avatar = $avatar;
+        $user->save();
+
+        $request->session()->flash('avatarUpdated', 'Profile photo has been updated!');
         return redirect()->action('ProfileController@viewProfile');
     }
 }

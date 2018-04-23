@@ -4,13 +4,39 @@
 
 {{-- Content --}}
 @section('content')
+<div class="page-profile">
     <div class="container-fluid">
         <div class="row">
             <div class="content-box">
-            {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class'=> 'form-profile')) !!}
-                @if (Session::has('status'))
+            {!! Form::open(array('url' => url('profile/avatar'), 'method' => 'post', 'class' => 'form-profile', 'enctype' => 'multipart/form-data')) !!}
+                @if (Session::has('avatarUpdated'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
+                        {{ session('avatarUpdated') }}
+                    </div>
+                @endif
+                <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
+                    <div class="row">
+                        <div class="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 text-center">
+                            @if ($user->avatar)
+                                <img class="img img-avatar" alt="{{$user->avatar}}" src="{!! url('images/users/'.$user->id.'/'.$user->avatar) !!}"/>
+                            @else
+                                <img  class="img img-avatar" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
+                            @endif
+                            <input id="avatar" name="avatar" type="file" class="form-control" value="Upload"/>
+                            <span class="help-block">{{ $errors->first('avatar', ':message') }}</span>
+
+                            <button type="submit" class="btn btn-primary">
+                                Upload Photo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {!! Form::close() !!}
+
+            {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class' => 'form-profile')) !!}
+                @if (Session::has('profileUpdated'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('profileUpdated') }}
                     </div>
                 @endif
 
@@ -227,4 +253,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
