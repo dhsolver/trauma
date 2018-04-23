@@ -23,13 +23,6 @@
                         <span class="help-block">{{ $errors->first('last_name', ':message') }}</span>
                     </div>
                 </div>
-                <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
-                    {!! Form::label('username', 'Username', array('class' => 'control-label')) !!}
-                    <div class="controls">
-                        {!! Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Username *')) !!}
-                        <span class="help-block">{{ $errors->first('username', ':message') }}</span>
-                    </div>
-                </div>
                 <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                     {!! Form::label('email', trans('site/user.e_mail'), array('class' => 'control-label')) !!}
                     <div class="controls">

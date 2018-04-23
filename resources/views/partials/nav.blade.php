@@ -42,7 +42,7 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-expanded="false"><i class="fa fa-user"></i> {{ Auth::user()->name }} <i
+                           aria-expanded="false"><i class="fa fa-user"></i> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} <i
                                     class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
                             @if(Auth::check())
@@ -50,8 +50,8 @@
                                     <li>
                                         <a href="{{ url('admin/dashboard') }}"><i class="fa fa-tachometer"></i> Admin</a>
                                     </li>
+                                    <li role="presentation" class="divider"></li>
                                 @endif
-                                <li role="presentation" class="divider"></li>
                             @endif
                             <li>
                                 <a href="{{ url('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
