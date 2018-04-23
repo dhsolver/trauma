@@ -13,9 +13,17 @@
                 display: none;
             }
         }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .img-avatar {
         margin-bottom: 12px;
+    }
+
+    &:not(:first-child) {
+        margin-top: -20px;
     }
 }
