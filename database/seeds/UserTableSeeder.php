@@ -8,8 +8,8 @@ class UserTableSeeder extends Seeder {
 	{
 
 		\App\User::create([
-			'name' => 'Admin User',
-			'username' => 'admin_user',
+			'first_name' => 'Admin',
+			'last_name' => 'User',
 			'email' => 'admin@admin.com',
 			'password' => bcrypt('admin'),
 			'confirmed' => 1,
@@ -18,8 +18,8 @@ class UserTableSeeder extends Seeder {
 		]);
 
 		\App\User::create([
-			'name' => 'Test User',
-			'username' => 'test_user',
+			'first_name' => 'Test',
+			'last_name' => 'User',
 			'email' => 'user@user.com',
 			'password' => bcrypt('user'),
 			'confirmed' => 1,

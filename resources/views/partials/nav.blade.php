@@ -45,14 +45,17 @@
                            aria-expanded="false"><i class="fa fa-user"></i> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} <i
                                     class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ url('profile') }}">My Profile</a>
+                            </li>
                             @if(Auth::check())
                                 @if(Auth::user()->admin==1)
                                     <li>
                                         <a href="{{ url('admin/dashboard') }}"><i class="fa fa-tachometer"></i> Admin</a>
                                     </li>
-                                    <li role="presentation" class="divider"></li>
                                 @endif
                             @endif
+                            <li role="presentation" class="divider"></li>
                             <li>
                                 <a href="{{ url('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
                             </li>

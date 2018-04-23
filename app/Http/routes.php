@@ -25,6 +25,13 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+/***************    User routes  **********************************/
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('profile', 'ProfileController@viewProfile');
+    Route::post('profile', 'ProfileController@saveProfile');
+
+});
+
 /***************    Admin routes  **********************************/
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 

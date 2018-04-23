@@ -70,6 +70,12 @@ form {
             color: $blue;
         }
     }
+
+    .has-error {
+        .form-control {
+            box-shadow: none;
+        }
+    }
 }
 
 a {
