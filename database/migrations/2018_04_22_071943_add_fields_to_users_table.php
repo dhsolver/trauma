@@ -31,7 +31,7 @@ class AddFieldsToUsersTable extends Migration
             $table->string('hospital_address3');
             $table->string('hospital_city');
             $table->string('hospital_state');
-            $table->string('hospital_zip');
+            $table->string('hospital_zipcode');
             $table->string('ssn');
             $table->string('credentials');
             $table->string('state_license');

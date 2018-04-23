@@ -79,7 +79,7 @@
                         <span class="help-block">{{ $errors->first('unit', ':message') }}</span>
                     </div>
                 </div>
-                <div class="form-group {{ $errors->has('city') ? 'has-error' : '' }}">
+                <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
                             {!! Form::label('city', 'City', array('class' => 'control-label')) !!}
@@ -91,7 +91,7 @@
                         <div class="col-sm-3">
                             {!! Form::label('state', 'State', array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::text('state', null, array('class' => 'form-control', 'placeholder' => 'City')) !!}
+                                {!! Form::text('state', null, array('class' => 'form-control', 'placeholder' => 'State')) !!}
                                 <span class="help-block">{{ $errors->first('state', ':message') }}</span>
                             </div>
                         </div>
@@ -164,32 +164,31 @@
                         <span class="help-block">{{ $errors->first('hospital_address3', ':message') }}</span>
                     </div>
                 </div>
-                <div class="form-group {{ $errors->has('city') ? 'has-error' : '' }}">
+                <div class="form-group">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 {{ $errors->has('hospital_city') ? 'has-error' : '' }}">
                             {!! Form::label('hospital_city', 'City *', array('class' => 'control-label')) !!}
-                    <div class="controls">
-                        {!! Form::text('hospital_city', null, array('class' => 'form-control', 'placeholder' => 'City *')) !!}
-                        <span class="help-block">{{ $errors->first('hospital_city', ':message') }}</span>
-                    </div>
+                            <div class="controls">
+                                {!! Form::text('hospital_city', null, array('class' => 'form-control', 'placeholder' => 'City *')) !!}
+                                <span class="help-block">{{ $errors->first('hospital_city', ':message') }}</span>
+                            </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-3 {{ $errors->has('hospital_state') ? 'has-error' : '' }}">
                             {!! Form::label('hospital_state', 'State *', array('class' => 'control-label')) !!}
                             <div class="controls">
                                 {!! Form::text('hospital_state', null, array('class' => 'form-control', 'placeholder' => 'State *')) !!}
                                 <span class="help-block">{{ $errors->first('hospital_state', ':message') }}</span>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            {!! Form::label('hospital_zip', 'Zip Code *', array('class' => 'control-label')) !!}
+                        <div class="col-sm-3 {{ $errors->has('hospital_zipcode') ? 'has-error' : '' }}">
+                            {!! Form::label('hospital_zipcode', 'Zip Code *', array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::text('hospital_zip', null, array('class' => 'form-control', 'placeholder' => 'Zip Code *')) !!}
-                                <span class="help-block">{{ $errors->first('hospital_zip', ':message') }}</span>
+                                {!! Form::text('hospital_zipcode', null, array('class' => 'form-control', 'placeholder' => 'Zip Code *')) !!}
+                                <span class="help-block">{{ $errors->first('hospital_zipcode', ':message') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <h3 class="form-subheader">Required for Continuing Education (CE)</h3>
                 <div class="form-group {{ $errors->has('ssn') ? 'has-error' : '' }}">
