@@ -20,12 +20,16 @@
                             @if ($user->avatar)
                                 <img class="img img-avatar" alt="{{$user->avatar}}" src="{!! url('images/users/'.$user->id.'/'.$user->avatar) !!}"/>
                             @else
-                                <img  class="img img-avatar" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
+                                <img class="img img-avatar" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
                             @endif
-                            <input id="avatar" name="avatar" type="file" class="form-control" value="Upload"/>
+                            <span class='label label-info' id="upload-file-info"></span>
+                            <label class="btn btn-primary" for="avatar">
+                                <input id="avatar" name="avatar" type="file" value="Upload" style="display:none"
+                                onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-avatar-submit').show();">
+                                Choose Photo
+                            </label>
                             <span class="help-block">{{ $errors->first('avatar', ':message') }}</span>
-
-                            <button type="submit" class="btn btn-primary">
+                            <button id="upload-avatar-submit" type="submit" class="btn btn-primary" style="display:none">
                                 Upload Photo
                             </button>
                         </div>

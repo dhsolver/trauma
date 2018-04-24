@@ -82,7 +82,7 @@ class ProfileController extends Controller {
         $extension = $file -> getClientOriginalExtension();
         $avatar = sha1($filename . time()) . '.' . $extension;
         $destinationPath = public_path() . '/images/users/'.$user->id.'/';
-        $request->file('avatar')->move($destinationPath, $avatar);
+        $file->move($destinationPath, $avatar);
 
         $user->avatar = $avatar;
         $user->save();
