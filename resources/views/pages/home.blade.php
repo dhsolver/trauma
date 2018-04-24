@@ -2,6 +2,11 @@
 @section('title') Home @endsection
 @section('content')
 <div class="page-home">
+    @if (Session::has('status'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('status') }}
+        </div>
+    @endif
     <div class="row equal-height bg-white">
         <div class="col-sm-4">
             <div class="content-box text-center">

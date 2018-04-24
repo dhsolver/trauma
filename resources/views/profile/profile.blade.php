@@ -11,7 +11,7 @@
             {!! Form::open(array('url' => url('profile/avatar'), 'method' => 'post', 'class' => 'form-profile', 'enctype' => 'multipart/form-data')) !!}
                 @if (Session::has('avatarUpdated'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('avatarUpdated') }}
+                        {{ Session::get('avatarUpdated') }}
                     </div>
                 @endif
                 <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
@@ -36,7 +36,7 @@
             {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class' => 'form-profile')) !!}
                 @if (Session::has('profileUpdated'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('profileUpdated') }}
+                        {{ Session::get('profileUpdated') }}
                     </div>
                 @endif
 

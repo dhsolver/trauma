@@ -74,6 +74,10 @@ form {
     .has-error {
         .form-control {
             box-shadow: none;
+
+            &:focus {
+                box-shadow: none;
+            }
         }
     }
 }
@@ -83,4 +87,8 @@ a {
     &:focus {
         text-decoration: none;
     }
+}
+
+.panel {
+    padding: 30px;
 }
