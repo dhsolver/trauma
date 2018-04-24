@@ -8,7 +8,7 @@
     <h2 class="page-title">
         Courses
         <div class="pull-right">
-            <a href="{!! url('admin/course/create') !!}"
+            <a href="{!! url('admin/courses/create') !!}"
                class="btn btn-sm btn-primary">Create New Course</a>
         </div>
     </h2>

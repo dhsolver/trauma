@@ -65,7 +65,6 @@ class ProfileController extends Controller {
         $user->save();
 
         $request->session()->flash('profileUpdated', 'Profile has been updated!');
-        // return redirect()->route('profile');
         return redirect()->action('ProfileController@viewProfile');
     }
 

@@ -8,12 +8,6 @@
     .form-group {
         margin-bottom: 30px;
 
-        label.control-label {
-            &:not(.shown) {
-                display: none;
-            }
-        }
-
         &:last-child {
             margin-bottom: 0;
         }

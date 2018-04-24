@@ -42,3 +42,14 @@
         }
     }
 }
+
+.form-course {
+    .form-group {
+        margin-bottom: 30px;
+    }
+
+    textarea:focus {
+        border-top-style: dotted;
+        border-top-width: 1px;
+    }
+}

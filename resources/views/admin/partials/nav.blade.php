@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -19,7 +19,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <!-- <li>
-                    <a href="{{ url('') }}"><i class="fa fa-backward"></i> Go to frontend</a>
+                    <a href="{{ url('profile') }}">Profile</a>
                 </li> -->
                 <li>
                     <a href="{{ url('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>

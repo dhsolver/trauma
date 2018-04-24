@@ -40,8 +40,7 @@ img {
 }
 
 form {
-    input[type=text],
-    input[type=password] {
+    .form-control {
         border-radius: 0;
         border-width: 0 0 1px 0;
         border-style: solid;
@@ -61,6 +60,12 @@ form {
 
     .form-group {
         margin-bottom: 20px;
+
+        label.control-label {
+            &:not(.shown) {
+                display: none;
+            }
+        }
     }
 
     a {
