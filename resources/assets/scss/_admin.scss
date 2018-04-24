@@ -1,0 +1,44 @@
+.container-admin {
+    font-size: 16px;
+    /*max-width: 1170px;*/
+
+    .content-box {
+        padding: 30px;
+    }
+    .page-title {
+        color: $blue;
+    }
+
+    .btn {
+        &.btn-sm {
+            font-size: 20px;
+        }
+    }
+
+    .table-container {
+        padding: 15px;
+        background-color: $grey;
+        margin-bottom: 15px;
+
+        table {
+            background-color: transparent;
+            border-collapse: separate;
+            border-spacing: 0 1em;
+            margin-bottom: 0;
+
+            tr {
+                background-color: $white;
+
+                td {
+                    border: none;
+                    vertical-align: middle;
+                }
+            }
+
+            .btn {
+                font-size: 16px;
+                padding: 4px 12px;
+            }
+        }
+    }
+}

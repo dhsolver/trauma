@@ -14,60 +14,28 @@
         <meta name="description"
               content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei."/>
     @show
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/admin.js') }}"></script>
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/index.css') }}" rel="stylesheet">
+
+        <script src="{{ asset('js/admin.js') }}"></script>
     @yield('styles')
 </head>
 <body>
-<div id="wrapper">
-    @include('admin.partials.nav')
-    <div id="page-wrapper">
-        @yield('main')
+
+@include('partials.header')
+
+@include('admin.partials.nav')
+
+<div class="page-container">
+    <div class="container container-admin">
+        <div class="content-box">
+            @yield('main')
+        </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    @if(isset($type))
-    var oTable;
-    $(document).ready(function () {
-        oTable = $('#table').DataTable({
-            "oLanguage": {
-                "sProcessing": "{{ trans('table.processing') }}",
-                "sLengthMenu": "{{ trans('table.showmenu') }}",
-                "sZeroRecords": "{{ trans('table.noresult') }}",
-                "sInfo": "{{ trans('table.show') }}",
-                "sEmptyTable": "{{ trans('table.emptytable') }}",
-                "sInfoEmpty": "{{ trans('table.view') }}",
-                "sInfoFiltered": "{{ trans('table.filter') }}",
-                "sInfoPostFix": "",
-                "sSearch": "{{ trans('table.search') }}:",
-                "sUrl": "",
-                "oPaginate": {
-                    "sFirst": "{{ trans('table.start') }}",
-                    "sPrevious": "{{ trans('table.prev') }}",
-                    "sNext": "{{ trans('table.next') }}",
-                    "sLast": "{{ trans('table.last') }}"
-                }
-            },
-            "processing": true,
-            "serverSide": true,
-            "order": [],
-            "ajax": "{{ url('admin/'.$type.'/data') }}",
-            "pagingType": "full_numbers",
-            "fnDrawCallback": function (oSettings) {
-                $(".iframe").colorbox({
-                    iframe: true,
-                    width: "80%",
-                    height: "80%",
-                    onClosed: function () {
-                        oTable.ajax.reload();
-                    }
-                });
-            }
-        });
-    });
-    @endif
-</script>
-@yield('scripts')
+@include('partials.footer')
+
 </body>
 </html>

@@ -39,6 +39,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     # Admin Dashboard
     Route::get('dashboard', 'Admin\DashboardController@index');
 
+    Route::resource('courses', 'Admin\CourseController');
+
     # Language
     Route::get('language/data', 'Admin\LanguageController@data');
     Route::get('language/{language}/show', 'Admin\LanguageController@show');

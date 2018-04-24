@@ -94,7 +94,6 @@ gulp.task('default', function () {
             paths.summernote + '/summernote.css',
             paths.select2 + '/css/select2.css',
             paths.jqueryui + '/themes/base/minified/jquery-ui.min.css',
-            'sb-admin-2.css',
         ], 'public/css/admin.css');
 
         // Merge Admin scripts.
@@ -113,7 +112,6 @@ gulp.task('default', function () {
             'bootstrap-dataTables-paging.js',
             'dataTables.bootstrap.js',
             'datatables.fnReloadAjax.js',
-            'sb-admin-2.js',
         ], 'public/js/admin.js');
     });
 });
