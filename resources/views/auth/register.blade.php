@@ -45,9 +45,9 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('birthday') ? 'has-error' : '' }}">
-                    {!! Form::label('birthday', 'Birthday', array('class' => 'control-label')) !!}
+                    {!! Form::label('birthday', 'Date of Birth', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('birthday', null, array('class' => 'form-control', 'placeholder' => 'Date of Birthday *')) !!}
+                        {!! Form::text('birthday', null, array('class' => 'form-control', 'placeholder' => 'Date of Birth *')) !!}
                         <span class="help-block">{{ $errors->first('birthday', ':message') }}</span>
                     </div>
                 </div>
@@ -66,9 +66,9 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('unit') ? 'has-error' : '' }}">
-                    {!! Form::label('unit', 'Unit', array('class' => 'control-label')) !!}
+                    {!! Form::label('unit', 'Apt/Unit', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('unit', null, array('class' => 'form-control', 'placeholder' => 'Unit')) !!}
+                        {!! Form::text('unit', null, array('class' => 'form-control', 'placeholder' => 'Apt/Unit')) !!}
                         <span class="help-block">{{ $errors->first('unit', ':message') }}</span>
                     </div>
                 </div>
@@ -100,9 +100,9 @@
 
                 <h3 class="form-subheader">Hospital/Trauma Center Information</h3>
                 <div class="form-group {{ $errors->has('hospital_name') ? 'has-error' : '' }}">
-                    {!! Form::label('hospital_name', 'Hospital/Trauma Center Name', array('class' => 'control-label')) !!}
+                    {!! Form::label('hospital_name', 'Hospital/Trauma Center Name *', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('hospital_name', null, array('class' => 'form-control', 'placeholder' => 'Hospital/Trauma Center Name')) !!}
+                        {!! Form::text('hospital_name', null, array('class' => 'form-control', 'placeholder' => 'Hospital/Trauma Center Name *')) !!}
                         <span class="help-block">{{ $errors->first('hospital_name', ':message') }}</span>
                     </div>
                 </div>

@@ -24,8 +24,8 @@
                 @else
                     <img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
                 @endif
-                <div><span class='label label-info' id="upload-file-info"></span></div>
-                <label class="btn btn-primary" for="course-photo">
+                <div class="m-b-5"><span class='label label-info' id="upload-file-info"></span></div>
+                <label class="btn btn-sm btn-primary" for="course-photo">
                     <input id="course-photo" name="photo" type="file" value="Upload" style="display:none"
                     onchange="$('#upload-file-info').html(this.files[0].name)">
                     Choose Photo

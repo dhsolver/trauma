@@ -16,22 +16,26 @@
                 @endif
                 <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
                     <div class="row">
-                        <div class="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 text-center">
+                        <div class="col-sm-4 text-center">
                             @if ($user->avatar)
-                                <img class="img img-avatar" alt="{{$user->avatar}}" src="{!! url('images/users/'.$user->id.'/'.$user->avatar) !!}"/>
+                                <img class="img img-avatar img-circle" alt="{{$user->avatar}}" src="{!! url('images/users/'.$user->id.'/'.$user->avatar) !!}"/>
                             @else
-                                <img class="img img-avatar" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
+                                <img class="img img-avatar img-circle" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
                             @endif
-                            <div><span class='label label-info' id="upload-file-info"></span></div>
-                            <label class="btn btn-primary" for="avatar">
+                            <div class="m-b-5"><span class='label label-info' id="upload-file-info"></span></div>
+                            <label class="btn btn-sm btn-primary" for="avatar">
                                 <input id="avatar" name="avatar" type="file" value="Upload" style="display:none"
                                 onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-avatar-submit').show();">
                                 Choose Photo
                             </label>
                             <span class="help-block">{{ $errors->first('avatar', ':message') }}</span>
-                            <button id="upload-avatar-submit" type="submit" class="btn btn-primary" style="display:none">
+                            <button id="upload-avatar-submit" type="submit" class="btn btn-sm btn-primary" style="display:none">
                                 Upload Photo
                             </button>
+                        </div>
+                        <div class="col-sm-offset-1 col-sm-7 hidden-xs">
+                            <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
+                            #{{ $user->id }}
                         </div>
                     </div>
                 </div>
@@ -81,9 +85,9 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('birthday') ? 'has-error' : '' }}">
-                    {!! Form::label('birthday', 'Birthday', array('class' => 'control-label')) !!}
+                    {!! Form::label('birthday', 'Date of Birth', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('birthday', $user->birthday, array('class' => 'form-control', 'placeholder' => 'Date of Birthday *')) !!}
+                        {!! Form::text('birthday', $user->birthday, array('class' => 'form-control', 'placeholder' => 'Date of Birth *')) !!}
                         <span class="help-block">{{ $errors->first('birthday', ':message') }}</span>
                     </div>
                 </div>
@@ -102,9 +106,9 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('unit') ? 'has-error' : '' }}">
-                    {!! Form::label('unit', 'Unit', array('class' => 'control-label')) !!}
+                    {!! Form::label('unit', 'Apt/Unit', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('unit', $user->unit, array('class' => 'form-control', 'placeholder' => 'Unit')) !!}
+                        {!! Form::text('unit', $user->unit, array('class' => 'form-control', 'placeholder' => 'Apt/Unit')) !!}
                         <span class="help-block">{{ $errors->first('unit', ':message') }}</span>
                     </div>
                 </div>
@@ -136,9 +140,9 @@
 
                 <h3 class="form-subheader">Hospital/Trauma Center Information</h3>
                 <div class="form-group {{ $errors->has('hospital_name') ? 'has-error' : '' }}">
-                    {!! Form::label('hospital_name', 'Hospital/Trauma Center Name', array('class' => 'control-label')) !!}
+                    {!! Form::label('hospital_name', 'Hospital/Trauma Center Name *', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('hospital_name', $user->hospital_name, array('class' => 'form-control', 'placeholder' => 'Hospital/Trauma Center Name')) !!}
+                        {!! Form::text('hospital_name', $user->hospital_name, array('class' => 'form-control', 'placeholder' => 'Hospital/Trauma Center Name *')) !!}
                         <span class="help-block">{{ $errors->first('hospital_name', ':message') }}</span>
                     </div>
                 </div>

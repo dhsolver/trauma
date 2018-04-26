@@ -48,8 +48,6 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:6',
             'birthday' => 'required|max:25',
             'phone' => 'required|max:50',
-            'address' => 'required|max:255',
-            'unit' => 'required|max:50',
             'hospital_name' => 'required|max:255',
             'hospital_level' => 'required|max:50',
             'hospital_address1' => 'required|max:255',

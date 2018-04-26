@@ -16,6 +16,10 @@ img {
     margin-top: 30px;
 }
 
+.m-b-5 {
+    margin-bottom: 5px;
+}
+
 .btn {
     border-radius: 0;
     border: none;
@@ -26,6 +30,10 @@ img {
     &:active {
         box-shadow: none;
         outline: none;
+    }
+
+    &.btn-sm {
+        font-size: 16px;
     }
 }
 
