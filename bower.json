@@ -27,6 +27,7 @@
     "datatables-responsive": "~1.0.3",
     "select2": ">=3.5.4",
     "summernote": ">=0.6.16",
-    "Justified-Gallery": "3.6.0"
+    "Justified-Gallery": "3.6.0",
+    "bootstrap-datepicker": "~1.8.0"
   }
 }

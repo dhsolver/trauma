@@ -27,6 +27,7 @@ gulp.task('default', function () {
     var paths = {
         'jquery': vendors + '/jquery/dist',
         'bootstrap': vendors + '/bootstrap/dist',
+        'bootstrapDatepicker': vendors + '/bootstrap-datepicker/dist',
         'fontawesome': vendors + '/font-awesome',
         'colorbox': vendors + '/jquery-colorbox',
         'dataTables': vendors + '/datatables/media',
@@ -37,7 +38,7 @@ gulp.task('default', function () {
         'summernote': vendors + '/summernote/dist',
         'select2': vendors + '/select2/dist',
         'jqueryui':  vendors + '/jquery-ui',
-        'justifiedGallery':  vendors + '/Justified-Gallery/dist/'
+        'justifiedGallery':  vendors + '/Justified-Gallery/dist/',
     };
 
     elixir.config.sourcemaps = false;
@@ -72,6 +73,7 @@ gulp.task('default', function () {
             paths.fontawesome + '/css/font-awesome.css',
             paths.colorbox + '/example3/colorbox.css',
             paths.justifiedGallery + '/css/justifiedGallery.css',
+            paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css'
             // '/../scss/index.css'
         ], 'public/css/site.css');
 
@@ -80,7 +82,9 @@ gulp.task('default', function () {
             paths.jquery + '/jquery.js',
             paths.bootstrap + '/js/bootstrap.js',
             paths.colorbox + '/jquery.colorbox.js',
-            paths.justifiedGallery + '/js/jquery.justifiedGallery.js'
+            paths.justifiedGallery + '/js/jquery.justifiedGallery.js',
+            paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
+            'index.js'
         ], 'public/js/site.js');
 
         // Merge Admin CSSs.
@@ -94,6 +98,7 @@ gulp.task('default', function () {
             paths.summernote + '/summernote.css',
             paths.select2 + '/css/select2.css',
             paths.jqueryui + '/themes/base/minified/jquery-ui.min.css',
+            paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css'
         ], 'public/css/admin.css');
 
         // Merge Admin scripts.
@@ -109,6 +114,7 @@ gulp.task('default', function () {
             paths.metisMenu + '/metisMenu.js',
             paths.summernote + '/summernote.js',
             paths.select2 + '/js/select2.js',
+            paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
             'bootstrap-dataTables-paging.js',
             'dataTables.bootstrap.js',
             'datatables.fnReloadAjax.js',
