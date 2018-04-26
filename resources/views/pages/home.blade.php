@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title') Home @endsection
+@section('title')Home @endsection
 @section('content')
 <div class="page-home">
     @if (Session::has('status'))

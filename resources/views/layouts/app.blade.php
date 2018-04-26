@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@section('title') @show - Trauma Analytics</title>
+    <title>@section('title')@show- Trauma Analytics</title>
     @section('meta_keywords')
         <meta name="keywords" content="your, awesome, keywords, here"/>
     @show @section('meta_author')

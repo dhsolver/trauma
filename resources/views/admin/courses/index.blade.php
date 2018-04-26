@@ -1,7 +1,7 @@
 @extends('admin.layouts.default')
 
 {{-- Web site Title --}}
-@section('title') Courses @endsection
+@section('title')Courses @endsection
 
 {{-- Content --}}
 @section('main')

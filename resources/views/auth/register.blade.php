@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Register @endsection
+@section('title')Register @endsection
 
 {{-- Content --}}
 @section('content')

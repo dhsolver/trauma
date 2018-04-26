@@ -5,14 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@section('title') Administration @show</title>
+    <title>@section('title')@show- Administration</title>
     @section('meta_keywords')
-        <meta name="keywords" content="your, awesome, keywords, here"/>
+        <meta name="keywords" content="Trauma Analytics admin page"/>
     @show @section('meta_author')
-        <meta name="author" content="Jon Doe"/>
-    @show @section('meta_description')
-        <meta name="description"
-              content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei."/>
+        <meta name="author" content="Sean Madhavan"/>
     @show
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
