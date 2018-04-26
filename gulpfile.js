@@ -118,6 +118,7 @@ gulp.task('default', function () {
             'bootstrap-dataTables-paging.js',
             'dataTables.bootstrap.js',
             'datatables.fnReloadAjax.js',
+            'admin.js'
         ], 'public/js/admin.js');
     });
 });

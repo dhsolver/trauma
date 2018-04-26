@@ -61608,3 +61608,9 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallba
         }
     }, oSettings );
 };
+$(function() {
+	$('.form-input-date').datepicker({
+		format: "mm/dd/yyyy",
+		autoclose: true
+	});
+});

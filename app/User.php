@@ -26,7 +26,6 @@ class User extends Model implements AuthenticatableContract,
 
     public function getBirthdayAttribute($value)
     {
-
         $time = strtotime($value);
         return date("m/d/Y", $time);
     }

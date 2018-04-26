@@ -31,4 +31,16 @@ class Course extends Model implements SluggableInterface {
     {
         return nl2br($this->content);
     }
+
+
+    public function getDateAttribute($value)
+    {
+        $time = strtotime($value);
+        return date("m/d/Y", $time);
+    }
+
+    public function setDateAttribute($value)
+    {
+        $this->attributes['date'] = date("Y-m-d", strtotime($value) );
+    }
 }

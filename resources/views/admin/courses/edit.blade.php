@@ -52,7 +52,7 @@
     <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
         {!! Form::label('date', 'Date', array('class' => 'control-label')) !!}
         <div class="controls">
-            {!! Form::text('date', $course->date, array('class' => 'form-control', 'placeholder' => 'Date *')) !!}
+            {!! Form::text('date', $course->date, array('class' => 'form-control form-input-date', 'placeholder' => 'Date *')) !!}
             <span class="help-block">{{ $errors->first('date', ':message') }}</span>
         </div>
     </div>
