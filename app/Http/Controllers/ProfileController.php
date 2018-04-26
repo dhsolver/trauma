@@ -6,14 +6,10 @@ use Auth;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller {
-    public function index()
-    {
-
-    }
-
     public function viewProfile()
     {
         $user = Auth::user();
+
         return view('profile.profile', compact('user'));
     }
 

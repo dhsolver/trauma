@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\Jobs\SendWelcomeEmail;
 
 class AuthController extends Controller
 {
@@ -65,7 +66,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -91,5 +92,9 @@ class AuthController extends Controller
             'credentials' => $data['credentials'],
             'state_license' => $data['state_license'],
         ]);
+
+        $this->dispatch(new SendWelcomeEmail($user));
+
+        return $user;
     }
 }
