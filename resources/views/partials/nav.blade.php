@@ -50,8 +50,9 @@
                             </li>
                             @if(Auth::check())
                                 @if(Auth::user()->admin==1)
+                                    <li role="presentation" class="divider"></li>
                                     <li>
-                                        <a href="{{ url('admin/dashboard') }}"><i class="fa fa-tachometer"></i> Admin</a>
+                                        <a href="{{ url('admin/dashboard') }}">Admin Dashboard</a>
                                     </li>
                                 @endif
                             @endif

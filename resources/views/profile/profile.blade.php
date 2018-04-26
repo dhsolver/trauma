@@ -22,7 +22,7 @@
                             @else
                                 <img class="img img-avatar" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
                             @endif
-                            <span class='label label-info' id="upload-file-info"></span>
+                            <div><span class='label label-info' id="upload-file-info"></span></div>
                             <label class="btn btn-primary" for="avatar">
                                 <input id="avatar" name="avatar" type="file" value="Upload" style="display:none"
                                 onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-avatar-submit').show();">

@@ -16,7 +16,9 @@ class CourseController extends AdminController {
     }
 
     public function index() {
-        return view('admin.courses.index');
+        $courses = Course::orderBy('date', 'desc')->get();
+
+        return view('admin.courses.index', compact('courses'));
     }
 
     public function create() {
@@ -26,7 +28,6 @@ class CourseController extends AdminController {
     public function store(CourseRequest $request)
     {
         $course = new Course($request->except('photo'));
-        // $article -> user_id = Auth::id();
 
         $photo = '';
         if($request->hasFile('photo'))
@@ -45,6 +46,39 @@ class CourseController extends AdminController {
             $request->file('photo')->move($destinationPath, $photo);
         }
 
+        session()->flash('courseMessage', 'Course has been created!');
+        return redirect()->action('Admin\CourseController@index');
+    }
+
+    public function edit(Course $course)
+    {
+        // $languages = Language::lists('name', 'id')->toArray();
+        return view('admin.courses.edit', compact('course'));
+    }
+
+    public function update(CourseRequest $request, Course $course)
+    {
+        $photo = '';
+        if($request->hasFile('photo'))
+        {
+            $file = $request->file('photo');
+            $filename = $file->getClientOriginalName();
+            $extension = $file -> getClientOriginalExtension();
+            $photo = sha1($filename . time()) . '.' . $extension;
+            $destinationPath = public_path() . '/images/courses/'.$course->id.'/';
+            $request->file('photo')->move($destinationPath, $photo);
+        }
+        $course->photo = $photo;
+        $course->update($request->except('photo'));
+
+        session()->flash('courseMessage', 'Course has been updated!');
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function delete(Course $course)
+    {
+        $course->delete();
+        session()->flash('courseMessage', 'Course has been deleted!');
         return redirect()->action('Admin\CourseController@index');
     }
 }

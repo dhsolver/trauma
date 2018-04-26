@@ -213,8 +213,8 @@
                                 By registering, you state that you agree to our <a href="/terms" class="btn-link">Terms & Policies</a>.
                             </small>
                         </div>
-                        <div class="col-md-4 text-right">
-                            <button type="submit" class="btn btn-primary pull-right">
+                        <div class="col-sm-4 text-right">
+                            <button type="submit" class="btn btn-primary">
                                 Register
                             </button>
                         </div>

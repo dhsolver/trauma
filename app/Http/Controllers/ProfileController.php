@@ -64,7 +64,7 @@ class ProfileController extends Controller {
         $user->state_license = $request['state_license'];
         $user->save();
 
-        $request->session()->flash('profileUpdated', 'Profile has been updated!');
+        session()->flash('profileUpdated', 'Profile has been updated!');
         return redirect()->action('ProfileController@viewProfile');
     }
 
@@ -86,7 +86,7 @@ class ProfileController extends Controller {
         $user->avatar = $avatar;
         $user->save();
 
-        $request->session()->flash('avatarUpdated', 'Profile photo has been updated!');
+        session()->flash('avatarUpdated', 'Profile photo has been updated!');
         return redirect()->action('ProfileController@viewProfile');
     }
 }

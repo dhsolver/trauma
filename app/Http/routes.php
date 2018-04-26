@@ -7,6 +7,7 @@ Route::model('language', 'App\Language');
 Route::model('photoalbum', 'App\PhotoAlbum');
 Route::model('photo', 'App\Photo');
 Route::model('user', 'App\User');
+Route::model('course', 'App\Course');
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
 
@@ -39,7 +40,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     # Admin Dashboard
     Route::get('dashboard', 'Admin\DashboardController@index');
 
-    Route::resource('courses', 'Admin\CourseController');
+    Route::get('courses/', 'Admin\CourseController@index');
+    Route::get('courses/create', 'Admin\CourseController@create');
+    Route::post('courses', 'Admin\CourseController@store');
+    Route::get('courses/{course}/edit', 'Admin\CourseController@edit');
+    Route::put('courses/{course}', 'Admin\CourseController@update');
+    Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
+    // Route::resource('courses', 'Admin\CourseController');
 
     # Language
     Route::get('language/data', 'Admin\LanguageController@data');

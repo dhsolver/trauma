@@ -12,41 +12,23 @@
                class="btn btn-sm btn-primary">Create New Course</a>
         </div>
     </h2>
-
+    @if (Session::has('courseMessage'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('courseMessage') }}
+        </div>
+    @endif
     <div class="table-responsive table-container">
         <table class="table table-hover">
+            @foreach ($courses as $course)
             <tr>
-                <td>Learning Algorithms</td>
-                <td>Apr 30, New York City</td>
+                <td>{{ $course->title }}</td>
+                <td>{{ $course->date }}, {{ $course->location }}</td>
                 <td>John Doe, Alex Smith</td>
                 <td class="text-right">
-                    <a href="{!! url('admin/course/edit/1') !!}" class="btn btn-primary">Edit</a>
+                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}" class="btn btn-primary">Edit</a>
                 </td>
             </tr>
-            <tr>
-                <td>Learning Algorithms</td>
-                <td>Apr 30, New York City<br>alsdf fajs l</td>
-                <td>John Doe, Alex Smith</td>
-                <td class="text-right">
-                    <a href="{!! url('admin/course/edit/1') !!}" class="btn btn-primary">Edit</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Learning Algorithms</td>
-                <td>Apr 30, New York City</td>
-                <td>John Doe, Alex Smith</td>
-                <td class="text-right">
-                    <a href="{!! url('admin/course/edit/1') !!}" class="btn btn-primary">Edit</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Learning Algorithms</td>
-                <td>Apr 30, New York City</td>
-                <td>John Doe, Alex Smith</td>
-                <td class="text-right">
-                    <a href="{!! url('admin/course/edit/1') !!}" class="btn btn-primary">Edit</a>
-                </td>
-            </tr>
+            @endforeach
         </table>
     </div>
 @endsection
