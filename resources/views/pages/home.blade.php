@@ -17,7 +17,7 @@
         <div class="col-sm-4">
             <div class="content-box text-center">
                 <img src="/images/computer_w_coding.png" alt="computer coding screen" />
-                <h3 class="title">Specialized Injury Coding Solutions</h3>
+                <h3 class="title"><a href="/docs/TraumaInjuryCodingCourseBrochure.pdf" target="_blank">Specialized Injury Coding Solutions</a></h3>
             </div>
         </div>
         <div class="col-sm-4">
