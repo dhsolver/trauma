@@ -68,3 +68,13 @@
         margin-bottom: 12px;
     }
 }
+
+.form-horizontal {
+    .checkbox {
+        font-size: 18px;
+        &.inline {
+            display: inline-block;
+            margin-right: 18px;
+        }
+    }
+}

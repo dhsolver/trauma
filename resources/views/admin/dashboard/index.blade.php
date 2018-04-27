@@ -22,10 +22,13 @@
                 <td>{{ $user->birthday }}</td>
                 <td class="text-right">
                     <a href="{!! url('admin/users/'.$user->id.'/approve') !!}" class="btn btn-success" onclick="return confirm('Are you sure to approve this user?')">Approve</a>
-                    <a href="{!! url('admin/users/'.$user->id.'/reject') !!}" class="btn btn-danger" onclick="return confirm('Are you sure to reject this user?')">Reject</a>
+                    <a href="{!! url('admin/users/'.$user->id.'/deny') !!}" class="btn btn-danger" onclick="return confirm('Are you sure to deny this user?')">Deny</a>
                 </td>
             </tr>
             @endforeach
         </table>
+        @if (!count($pendingUsers))
+        <h4>No pending users.</h4>
+        @endif
     </div>
 @endsection

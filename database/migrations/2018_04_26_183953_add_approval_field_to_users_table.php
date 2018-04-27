@@ -14,7 +14,7 @@ class AddApprovalFieldToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->enum('approval', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('approval', ['pending', 'approved', 'denied'])->default('pending');
         });
     }
 

@@ -54,7 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     // Route::get('courses/create', 'Admin\CourseController@create');
     // Route::post('courses', 'Admin\CourseController@store');
     Route::get('users/{user}/approve', 'Admin\UserController@approve');
-    Route::get('users/{user}/reject', 'Admin\UserController@reject');
+    Route::get('users/{user}/deny', 'Admin\UserController@deny');
     // Route::put('courses/{course}', 'Admin\CourseController@update');
     // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
 

@@ -37,7 +37,7 @@
                             <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
                             #{{ $user->id }}
 
-                            @if (!$user->admin && $user->role === 'student')
+                            @if (!$user->admin)
                             <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
                             @endif
 

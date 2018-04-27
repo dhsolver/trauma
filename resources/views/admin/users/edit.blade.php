@@ -28,7 +28,7 @@
                 <div class="col-sm-offset-1 col-sm-7 hidden-xs">
                     <h3>Full Name: {{ $user->first_name }} {{ $user->last_name }}</h3>
                     <div class="user-info">ID: #{{ $user->id }}</div>
-                    @if (!$user->admin && $user->role === 'student')
+                    @if (!$user->admin)
                     <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
                     @endif
 
@@ -37,8 +37,8 @@
                         Approval Status:
                         @if ($user->approval === 'approved')
                         <label class="label label-success">Approved</label>
-                        @elseif ($user->approval === 'rejected')
-                        <label class="label label-danger">Rejected</label>
+                        @elseif ($user->approval === 'denied')
+                        <label class="label label-danger">Denied</label>
                         @elseif ($user->approval === 'pending')
                         <label class="label label-default">Pending</label>
                         @endif
@@ -256,9 +256,9 @@
                         Approve
                     </a>
                     @endif
-                    @if ($user->approval != 'rejected')
-                    <a href="{{ url('admin/users/'.$user->id.'/reject') }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">
-                        Reject
+                    @if ($user->approval != 'denied')
+                    <a href="{{ url('admin/users/'.$user->id.'/deny') }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                        Deny
                     </a>
                     @endif
                     @endif
