@@ -7,9 +7,6 @@
 @section('main')
     <h2 class="page-title">
         Users
-        <div class="pull-right">
-            <a href="{!! url('admin/users/create') !!}" class="btn btn-sm btn-primary">Invite a User</a>
-        </div>
     </h2>
 
     @if (Session::has('userMessage'))
@@ -109,9 +106,6 @@
 
     <h3 class="section-title">
         Search Results
-        <!-- <div class="pull-right">
-            <a href="{!! url('admin/users/create') !!}" class="btn btn-sm btn-primary">Invite a User</a>
-        </div> -->
     </h3>
     <div class="table-responsive table-container">
         <table class="table table-hover">
@@ -127,16 +121,40 @@
                 </td>
                 <td>
                     @if ($user->role !== 'admin')
-                    <label class="label {{ $user->approval === 'denied' ? 'label-danger' : 'label-info' }}">{{ ucfirst($user->approval) }}</label>@endif
+                    <label class="label {{ $user->approval === 'denied' ? 'label-danger' : ($user->approval === 'pending' ? 'label-default' : 'label-success') }}">{{ ucfirst($user->approval) }}</label>
+                    @endif
                 </td>
-                <!-- <td class="text-right">
-                    <a href="{!! url('admin/users/'.$user->id.'/edit') !!}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
-                </td> -->
             </tr>
             @endforeach
         </table>
         @if (!count($users))
         <h4>No users found.</h4>
         @endif
+    </div>
+
+    <h3 class="section-title">
+        Faculties & Administrators
+        <div class="pull-right">
+            <a href="{!! url('admin/users/create') !!}" class="btn btn-sm btn-primary">Invite a Faculty</a>
+        </div>
+    </h3>
+    <div class="table-responsive table-container">
+        <table class="table table-hover">
+            @foreach ($managers as $user)
+            <tr>
+                <td><a href="{!! url('admin/users/'.$user->id.'/edit') !!}">#{{ $user->id }}</a></td>
+                <td><a href="{!! url('admin/users/'.$user->id.'/edit') !!}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    <label class="label {{ $user->role == 'admin' ? 'label-danger' : ($user->role === 'faculty' ? 'label-info' : 'label-primary') }}">{{ ucfirst($user->role) }}</label>
+                </td>
+                <td>
+                    @if ($user->role !== 'admin')
+                    <label class="label {{ $user->approval === 'denied' ? 'label-danger' : ($user->approval === 'pending' ? 'label-default' : 'label-success') }}">{{ ucfirst($user->approval) }}</label>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </table>
     </div>
 @endsection

@@ -28,10 +28,7 @@
                 <div class="col-sm-offset-1 col-sm-7 hidden-xs">
                     <h3>Full Name: {{ $user->first_name }} {{ $user->last_name }}</h3>
                     <div class="user-info">ID: #{{ $user->id }}</div>
-                    @if (!$user->admin)
                     <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
-                    @endif
-
                     @if (!$user->admin && $user->role === 'student')
                     <div class="user-info">
                         Approval Status:
@@ -250,7 +247,7 @@
             <div class="row">
                 <div class="col-sm-8">
 
-                    @if ($user->role === 'student')
+                    @if ($user->role !== 'admin')
                     @if ($user->approval != 'approved')
                     <a href="{{ url('admin/users/'.$user->id.'/approve') }}" class="btn btn-success" onclick="return confirm('Are you sure?')">
                         Approve

@@ -13,36 +13,25 @@ class UserController extends AdminController
 
     public function index(Request $request)
     {
-        $id = $request->id;
-        $email = $request->email;
-        $first_name = $request->first_name;
-        $last_name = $request->last_name;
-        $approval = $request->approval;
-        $role = $request->role;
-
-        if (empty($id)) {
+        if (empty($request->id)) {
             $users = User::where('id', '>', 0);
         } else {
-            $users = User::where('id', $id);
+            $users = User::where('id', $request->id);
         }
 
-        if (!empty($email)) $users = $users->where('email', 'like', "%$email%");
-        if (!empty($first_name)) $users = $users->where('first_name', 'like', "%$first_name%");
-        if (!empty($approval)) $users = $users->whereIn('approval', array_values($approval));
-        if (!empty($role)) $users = $users->whereIn('role', array_values($role));
+        if (!empty($request->email)) $users = $users->where('email', 'like', "%$request->email%");
+        if (!empty($request->first_name)) $users = $users->where('first_name', 'like', "%$request->first_name%");
+        if (!empty($request->last_name)) $users = $users->where('last_name', 'like', "%$request->last_name%");
+        if (!empty($request->approval)) $users = $users->whereIn('approval', array_values($request->approval));
+        if (!empty($request->role)) $users = $users->whereIn('role', array_values($request->role));
 
         $users = $users->orderBy('role', 'asc')->get();
-        // $students = User::where('role', 'student')
-        //     ->where('admin', 0)
-        //     ->where('approval', 'approved')
-        //     ->get();
 
-        // $faculties = User::where('role', 'faculty')
-        //     ->where('admin', 0)
-        //     ->where('approval', 'approved')
-        //     ->get();
+        $managers = User::whereIn('role', ['faculty', 'admin'])
+            ->orderBy('role', 'asc')
+            ->get();
 
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('users', 'managers'));
     }
 
     public function approve(User $user)
