@@ -27,6 +27,11 @@ class UserController extends AdminController
 
         $users = $users->orderBy('role', 'asc')->get();
 
+        if ($request->export) {
+            echo $this->handleUsersCSV($users);
+            die;
+        }
+
         $managers = User::whereIn('role', ['faculty', 'admin'])
             ->orderBy('role', 'asc')
             ->get();
@@ -73,5 +78,40 @@ class UserController extends AdminController
 
         session()->flash('userMessage', 'User has been updated!');
         return redirect()->action('Admin\UserController@edit', $user);
+    }
+
+    private function download_send_headers($filename) {
+        // disable caching
+        $now = gmdate("D, d M Y H:i:s");
+        header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+        header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+        header("Last-Modified: {$now} GMT");
+
+        // force download
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        // disposition / encoding on response body
+        header("Content-Disposition: attachment;filename={$filename}");
+        header("Content-Transfer-Encoding: binary");
+    }
+
+    private function handleUsersCSV($users) {
+        $this->download_send_headers('users.csv');
+
+        ob_start();
+
+        // create a file pointer connected to the output stream
+        $output = fopen('php://output', 'w');
+
+        // output the column headings
+        fputcsv($output, array('ID', 'First Name', 'Last Name', 'Email', 'Date of Birth', 'Account Type', 'Status'));
+        foreach ($users as $user) {
+            fputcsv($output, array($user->id, $user->first_name, $user->last_name, $user->email, $user->birthday, $user->role, $user->approval));
+        }
+
+        fclose($output);
+        return ob_get_clean();
     }
 }

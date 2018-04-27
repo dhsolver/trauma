@@ -246,7 +246,6 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-8">
-
                     @if ($user->role !== 'admin')
                     @if ($user->approval != 'approved')
                     <a href="{{ url('admin/users/'.$user->id.'/approve') }}" class="btn btn-success" onclick="return confirm('Are you sure?')">

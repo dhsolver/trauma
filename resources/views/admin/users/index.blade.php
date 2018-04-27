@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    {!! Form::open(array('url' => url('admin/users'), 'method' => 'get', 'class' => 'form-users-search')) !!}
+    {!! Form::open(array('url' => url('admin/users'), 'method' => 'get', 'id' => 'form-users-search')) !!}
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-6">
@@ -106,6 +106,9 @@
 
     <h3 class="section-title">
         Search Results
+        <div class="pull-right">
+            <button class="btn btn-sm btn-primary" id="users-search-export">Export To CSV</button>
+        </div>
     </h3>
     <div class="table-responsive table-container">
         <table class="table table-hover">
@@ -128,7 +131,7 @@
             @endforeach
         </table>
         @if (!count($users))
-        <h4>No users found.</h4>
+        <h4>No records found for given search.</h4>
         @endif
     </div>
 
