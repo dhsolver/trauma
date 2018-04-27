@@ -1,11 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminController;
-use App\Article;
-use App\ArticleCategory;
 use App\User;
-use App\Photo;
-use App\PhotoAlbum;
 
 class DashboardController extends AdminController {
 
@@ -15,9 +11,13 @@ class DashboardController extends AdminController {
         view()->share('type', '');
     }
 
-	public function index()
-	{
-        // $users = User::count();
-		return view('admin.dashboard.index');
-	}
+    public function index()
+    {
+        $pendingUsers = User::where('role', 'student')
+            ->where('admin', 0)
+            ->where('approval', 'pending')
+            ->get();
+
+        return view('admin.dashboard.index', compact('pendingUsers'));
+    }
 }

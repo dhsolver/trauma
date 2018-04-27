@@ -36,6 +36,23 @@
                         <div class="col-sm-offset-1 col-sm-7 hidden-xs">
                             <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
                             #{{ $user->id }}
+
+                            @if (!$user->admin && $user->role === 'student')
+                            <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
+                            @endif
+
+                            @if (!$user->admin && $user->role === 'student')
+                            <div class="user-info">
+                                Approval Status:
+                                @if ($user->approval === 'approved')
+                                <label class="label label-success">Approved</label>
+                                @elseif ($user->approval === 'rejected')
+                                <label class="label label-danger">Rejected</label>
+                                @elseif ($user->approval === 'pending')
+                                <label class="label label-default">Pending</label>
+                                @endif
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -251,7 +268,7 @@
                         <div class="col-sm-8">
                         </div>
                         <div class="col-md-4 text-right">
-                            <button type="submit" class="btn btn-primary pull-right">
+                            <button type="submit" class="btn btn-primary">
                                 Update Profile
                             </button>
                         </div>

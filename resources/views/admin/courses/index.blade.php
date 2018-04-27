@@ -8,8 +8,7 @@
     <h2 class="page-title">
         Courses
         <div class="pull-right">
-            <a href="{!! url('admin/courses/create') !!}"
-               class="btn btn-sm btn-primary">Create New Course</a>
+            <a href="{!! url('admin/courses/create') !!}" class="btn btn-sm btn-primary">Create New Course</a>
         </div>
     </h2>
     @if (Session::has('courseMessage'))

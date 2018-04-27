@@ -15,7 +15,7 @@
         Edit Course
     </h2>
 
-    {!! Form::model($course, array('url' => url('admin/courses').'/'.$course->id, 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
+    {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
     <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
         <div class="row">
             <div class="col-xs-offset-2 col-xs-8 col-sm-offset-3 col-sm-6 text-center">

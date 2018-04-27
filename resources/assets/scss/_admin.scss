@@ -1,12 +1,23 @@
 .container-admin {
     font-size: 16px;
-    /*max-width: 1170px;*/
 
     .content-box {
         padding: 30px;
     }
+
     .page-title {
         color: $blue;
+    }
+
+    .section-title {
+        color: $blue;
+    }
+
+    .page-title,
+    .section-title {
+        .btn {
+            line-height: inherit;
+        }
     }
 
     .btn {

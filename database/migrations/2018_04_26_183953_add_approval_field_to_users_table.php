@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddApprovedFieldToUsersTable extends Migration
+class AddApprovalFieldToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddApprovedFieldToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->unsignedInteger('approval_status')->default(0);
+            $table->enum('approval', ['pending', 'approved', 'rejected'])->default('pending');
         });
     }
 
@@ -27,7 +27,7 @@ class AddApprovedFieldToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('approval_status');
+            $table->dropColumn('approval');
         });
     }
 }

@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/admin/dashboard">Trauma Analytics</a>
+            <a class="navbar-brand" href="/admin/dashboard">Trauma Admin</a>
         </div>
 
         <div class="collapse navbar-collapse" id="main-navbar">
@@ -16,7 +16,11 @@
                     <a href="{{url('admin/courses')}}"><i class="fa fa-language"></i> Courses</a>
                 </li>
             </ul>
-
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/users') ? 'active' : '') }}">
+                    <a href="{{url('admin/users')}}"><i class="fa fa-users"></i> Users</a>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!-- <li>
                     <a href="{{ url('profile') }}">Profile</a>

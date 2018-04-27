@@ -46,7 +46,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('courses/{course}/edit', 'Admin\CourseController@edit');
     Route::put('courses/{course}', 'Admin\CourseController@update');
     Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
-    // Route::resource('courses', 'Admin\CourseController');
+
+
+    Route::get('users/', 'Admin\UserController@index');
+    Route::get('users/{user}/edit', 'Admin\UserController@edit');
+    Route::put('users/{user}', 'Admin\UserController@update');
+    // Route::get('courses/create', 'Admin\CourseController@create');
+    // Route::post('courses', 'Admin\CourseController@store');
+    Route::get('users/{user}/approve', 'Admin\UserController@approve');
+    Route::get('users/{user}/reject', 'Admin\UserController@reject');
+    // Route::put('courses/{course}', 'Admin\CourseController@update');
+    // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
+
 
     # Language
     Route::get('language/data', 'Admin\LanguageController@data');
@@ -86,9 +97,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::resource('photo', 'Admin\PhotoController');
 
     # Users
-    Route::get('user/data', 'Admin\UserController@data');
-    Route::get('user/{user}/show', 'Admin\UserController@show');
-    Route::get('user/{user}/edit', 'Admin\UserController@edit');
-    Route::get('user/{user}/delete', 'Admin\UserController@delete');
-    Route::resource('user', 'Admin\UserController');
+    // Route::get('user/data', 'Admin\UserController@data');
+    // Route::get('user/{user}/show', 'Admin\UserController@show');
+    // Route::get('user/{user}/edit', 'Admin\UserController@edit');
+    // Route::get('user/{user}/delete', 'Admin\UserController@delete');
+    // Route::resource('user', 'Admin\UserController');
 });

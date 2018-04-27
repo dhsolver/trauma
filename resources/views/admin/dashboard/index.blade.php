@@ -5,32 +5,27 @@
 
 {{-- Content --}}
 @section('main')
-    <h3>
-        Admin Dashboard
-    </h3>
-    <div class="row">
-        <div class="col-md-3">
-            <!-- <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="glyphicon glyphicon-bullhorn fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{2}}</div>
-                            <div>{{ trans("admin/articlecategory.articlecategories") }}!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{url('admin/articlecategory')}}">
-                    <div class="panel-footer">
-                        <span class="pull-left">{{ trans("admin/admin.view_detail") }}</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+    <h3 class="section-title">Pending Users</h3>
 
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div> -->
+    @if (Session::has('userMessage'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('userMessage') }}
         </div>
+    @endif
+
+    <div class="table-responsive table-container">
+        <table class="table table-hover">
+            @foreach ($pendingUsers as $user)
+            <tr>
+                <td><a href="{!! url('admin/users/'.$user->id.'/edit') !!}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->birthday }}</td>
+                <td class="text-right">
+                    <a href="{!! url('admin/users/'.$user->id.'/approve') !!}" class="btn btn-success" onclick="return confirm('Are you sure to approve this user?')">Approve</a>
+                    <a href="{!! url('admin/users/'.$user->id.'/reject') !!}" class="btn btn-danger" onclick="return confirm('Are you sure to reject this user?')">Reject</a>
+                </td>
+            </tr>
+            @endforeach
+        </table>
     </div>
 @endsection
