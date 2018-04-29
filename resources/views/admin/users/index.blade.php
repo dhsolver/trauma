@@ -54,7 +54,6 @@
                 <div class="col-sm-9">
                     <div class="checkbox inline">
                         <label>
-                            <!-- empty(Request::get('approval')) ? true :  -->
                             {!! Form::checkbox('approval[]', 'approved', is_array(Request::get('approval')) && in_array('approved', Request::get('approval'))) !!} Approved
                         </label>
                     </div>

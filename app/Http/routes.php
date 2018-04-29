@@ -51,13 +51,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('users/', 'Admin\UserController@index');
     Route::get('users/{user}/edit', 'Admin\UserController@edit');
     Route::put('users/{user}', 'Admin\UserController@update');
-    // Route::get('courses/create', 'Admin\CourseController@create');
-    // Route::post('courses', 'Admin\CourseController@store');
+    Route::get('users/create', 'Admin\UserController@create');
+    Route::post('users', 'Admin\UserController@store');
     Route::get('users/{user}/approve', 'Admin\UserController@approve');
     Route::get('users/{user}/deny', 'Admin\UserController@deny');
-    // Route::put('courses/{course}', 'Admin\CourseController@update');
-    // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
-
 
     # Language
     Route::get('language/data', 'Admin\LanguageController@data');

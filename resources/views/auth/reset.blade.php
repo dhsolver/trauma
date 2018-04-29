@@ -15,26 +15,26 @@
                             </div>
                         @endif
 
-                        {!! Form::open(array('url' => url('password/reset'), 'method' => 'post', 'files'=> true)) !!}
+                        {!! Form::open(array('url' => url('password/reset'), 'method' => 'post')) !!}
                         {!! Form::hidden('token', $token) !!}
                         <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
                             {!! Form::label('email', "E-Mail Address", array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::text('email', null, array('class' => 'form-control')) !!}
+                                {!! Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Email address')) !!}
                                 <span class="help-block">{{ $errors->first('email', ':message') }}</span>
                             </div>
                         </div>
                         <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
                             {!! Form::label('password', "Password", array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::password('password', array('class' => 'form-control')) !!}
+                                {!! Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) !!}
                                 <span class="help-block">{{ $errors->first('password', ':message') }}</span>
                             </div>
                         </div>
                         <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                             {!! Form::label('password_confirmation', "Confirm Password", array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
+                                {!! Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Password Confirmation')) !!}
                                 <span class="help-block">{{ $errors->first('password_confirmation', ':message') }}</span>
                             </div>
                         </div>

@@ -46,8 +46,8 @@
                                 Approval Status:
                                 @if ($user->approval === 'approved')
                                 <label class="label label-success">Approved</label>
-                                @elseif ($user->approval === 'rejected')
-                                <label class="label label-danger">Rejected</label>
+                                @elseif ($user->approval === 'denied')
+                                <label class="label label-danger">Denied</label>
                                 @elseif ($user->approval === 'pending')
                                 <label class="label label-default">Pending</label>
                                 @endif

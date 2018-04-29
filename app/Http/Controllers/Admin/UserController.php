@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\AdminController;
 use App\User;
+use App\Jobs\SendInvitationEmail;
+use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\UserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends AdminController
 {
@@ -39,6 +41,21 @@ class UserController extends AdminController
         return view('admin.users.index', compact('users', 'managers'));
     }
 
+    public function create() {
+        return view('admin.users.create');
+    }
+
+    public function store(UserRequest $request)
+    {
+        $user = new User($request->all());
+        $user->save();
+
+        $this->dispatch(new SendInvitationEmail($user));
+
+        session()->flash('userMessage', 'User has been created!');
+        return redirect()->action('Admin\UserController@index');
+    }
+
     public function approve(User $user)
     {
         if ($user->role === 'student') {
@@ -47,7 +64,7 @@ class UserController extends AdminController
 
             session()->flash('userMessage', 'User has been approved!');
         }
-        return redirect()->action('Admin\DashboardController@index');
+        return redirect()->action('Admin\UserController@edit', $user);
     }
 
     public function deny(User $user)
@@ -58,9 +75,8 @@ class UserController extends AdminController
 
             session()->flash('userMessage', 'User has been denied!');
         }
-        return redirect()->action('Admin\DashboardController@index');
+        return redirect()->action('Admin\UserController@edit', $user);
     }
-
 
     public function edit(User $user)
     {

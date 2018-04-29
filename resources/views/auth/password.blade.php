@@ -14,11 +14,11 @@
                                 {{ Session::get('status') }}
                             </div>
                         @else
-                            {!! Form::open(array('url' => url('password/email'), 'method' => 'post', 'files'=> true)) !!}
+                            {!! Form::open(array('url' => url('password/email'), 'method' => 'post')) !!}
                             <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
                                 {!! Form::label('email', "E-Mail Address", array('class' => 'control-label')) !!}
                                 <div class="controls">
-                                    {!! Form::text('email', null, array('class' => 'form-control')) !!}
+                                    {!! Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Your email address')) !!}
                                     <span class="help-block">{{ $errors->first('email', ':message') }}</span>
                                 </div>
                             </div>
