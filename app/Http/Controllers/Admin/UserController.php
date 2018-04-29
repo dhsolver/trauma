@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends AdminController
 {

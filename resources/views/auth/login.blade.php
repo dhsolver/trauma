@@ -8,6 +8,12 @@
         <div class="row">
             <div class="content-box">
             {!! Form::open(array('url' => url('auth/login'), 'method' => 'post', 'class'=> 'form-login')) !!}
+                @if (Session::has('authMessage'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('authMessage') }}
+                </div>
+                @endif
+
                 <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }}">
                     {!! Form::label('email', "E-Mail Address", array('class' => 'control-label')) !!}
                     <div class="controls">

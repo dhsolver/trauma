@@ -8,7 +8,6 @@ class DashboardController extends AdminController {
     public function __construct()
     {
         parent::__construct();
-        view()->share('type', '');
     }
 
     public function index()

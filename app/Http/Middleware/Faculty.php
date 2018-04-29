@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Authenticate
+class Faculty
 {
     /**
      * The Guard implementation.
@@ -34,15 +34,15 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->guest()) {
-            if ($request->ajax()) {
-                return response('Unauthorized.', 401);
+        if ($this->auth->check()) {
+            if ($this->auth->user()->role === 'faculty' || $this->auth->user()->role === 'admin') {
+                return $next($request);
             } else {
-                session()->flash('authMessage', 'You need to login to acess this page.');
-                return redirect()->guest('auth/login');
+                // session()->flash('authMessage', 'You\'re not allowed to access this page.');
+                return redirect('/');
             }
         }
-
-        return $next($request);
+        session()->flash('authMessage', 'You need to login to acess this page.');
+        return redirect('/auth/login');
     }
 }

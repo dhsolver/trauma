@@ -34,19 +34,22 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
-/***************    Admin routes  **********************************/
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
-
+/***************    Faculty routes  **********************************/
+Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     # Admin Dashboard
     Route::get('dashboard', 'Admin\DashboardController@index');
 
+    // Courses routes
     Route::get('courses/', 'Admin\CourseController@index');
     Route::get('courses/create', 'Admin\CourseController@create');
     Route::post('courses', 'Admin\CourseController@store');
     Route::get('courses/{course}/edit', 'Admin\CourseController@edit');
     Route::put('courses/{course}', 'Admin\CourseController@update');
     Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
+});
 
+/***************    Admin routes  **********************************/
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::get('users/', 'Admin\UserController@index');
     Route::get('users/{user}/edit', 'Admin\UserController@edit');

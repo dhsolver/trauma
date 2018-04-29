@@ -36,12 +36,8 @@
                         <div class="col-sm-offset-1 col-sm-7 hidden-xs">
                             <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
                             #{{ $user->id }}
-
-                            @if (!$user->admin)
                             <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
-                            @endif
-
-                            @if (!$user->admin && $user->role === 'student')
+                            @if ($user->role !== 'admin')
                             <div class="user-info">
                                 Approval Status:
                                 @if ($user->approval === 'approved')

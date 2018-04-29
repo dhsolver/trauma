@@ -37,27 +37,22 @@ class Admin implements Middleware {
         $this->response = $response;
     }
     /**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle($request, Closure $next)
-	{
-        if ($this->auth->check())
-        {
-            $admin = 0;
-            if($this->auth->user()->admin==1)
-            {
-                $admin=1;
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if ($this->auth->check()) {
+            if ($this->auth->user()->role == 'admin') {
+                return $next($request);
             }
-            if($admin==0){
-                return $this->response->redirectTo('/');
-            }
-            return $next($request);
+            return redirect('/');
         }
-        return $this->response->redirectTo('/');
-	}
+        session()->flash('authMessage', 'You need to login to acess this page.');
+        return redirect('/auth/login');
+    }
 
 }

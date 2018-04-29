@@ -11,16 +11,18 @@
         </div>
 
         <div class="collapse navbar-collapse" id="main-navbar">
-            <!-- <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('admin/courses') ? 'active' : '') }}">
                     <a href="{{url('admin/courses')}}"><i class="fa fa-language"></i> Courses</a>
                 </li>
-            </ul> -->
+            </ul>
+            @if (Auth::user()->role === 'admin')
             <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('admin/users') ? 'active' : '') }}">
                     <a href="{{url('admin/users')}}"><i class="fa fa-users"></i> Users</a>
                 </li>
             </ul>
+            @endif
             <ul class="nav navbar-nav navbar-right">
                 <!-- <li>
                     <a href="{{ url('profile') }}">Profile</a>

@@ -29,5 +29,8 @@
             </tr>
             @endforeach
         </table>
+        @if (!count($courses))
+        <h4>No courses found.</h4>
+        @endif
     </div>
 @endsection
