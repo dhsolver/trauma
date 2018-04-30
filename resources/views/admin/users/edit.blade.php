@@ -45,6 +45,30 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <div class="row form-horizontal">
+                <div class="col-sm-3">
+                    {!! Form::label('account', 'Account Type', array('class' => 'control-label shown')) !!}
+                </div>
+                <div class="col-sm-9">
+                    <div class="checkbox inline">
+                        <label>
+                            {!! Form::radio('role', 'student', $user->role === 'student' ? true : false) !!} Student
+                        </label>
+                    </div>
+                    <div class="checkbox inline">
+                        <label>
+                            {!! Form::radio('role', 'faculty', $user->role === 'faculty' ? true : false) !!} Faculty
+                        </label>
+                    </div>
+                    <div class="checkbox inline">
+                        <label>
+                            {!! Form::radio('role', 'admin', $user->role === 'admin' ? true : false) !!} Admin
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h3 class="section-title">Personal Information</h3>
         <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
             {!! Form::label('first_name', 'First Name', array('class' => 'control-label')) !!}
