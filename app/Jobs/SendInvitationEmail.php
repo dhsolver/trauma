@@ -35,11 +35,11 @@ class SendInvitationEmail extends Job implements SelfHandling, ShouldQueue
      */
     public function handle(Mailer $mailer)
     {
-        $credentials = ['email' => $this->user->email];
-
         $mailer->send('emails.invited', ['user' => $this->user], function ($m) {
-            $m->to($this->user->email, $this->user->first_name . ' ' . $this->user->last_name)->subject('Welcome to Trauma Analytics');
+            $m->to($this->user->email, $this->user->first_name . ' ' . $this->user->last_name)->subject('You\'re invited to join Trauma Analytics');
         });
+
+        $credentials = ['email' => $this->user->email];
 
         $response = Password::sendResetLink($credentials, function (Message $message) {
             $message->subject('Set your Trauma Analytics password');

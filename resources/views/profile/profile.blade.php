@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-sm-offset-1 col-sm-7 hidden-xs">
                             <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
-                            #{{ $user->id }}
+                            User Id: {{ $user->id }}
                             <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
                             @if ($user->role !== 'admin')
                             <div class="user-info">

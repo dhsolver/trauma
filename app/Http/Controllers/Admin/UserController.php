@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Jobs\SendInvitationEmail;
+use App\Jobs\SendApprovedEmail;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\UserRequest;
 use Illuminate\Http\Request;
@@ -60,18 +61,20 @@ class UserController extends AdminController
 
     public function approve(User $user)
     {
-        if ($user->role === 'student') {
+        if ($user->approval !== 'approved') {
             $user->approval = 'approved';
             $user->save();
 
+            $this->dispatch(new SendApprovedEmail($user));
             session()->flash('userMessage', 'User has been approved!');
         }
+
         return redirect()->action('Admin\UserController@edit', $user);
     }
 
     public function deny(User $user)
     {
-        if ($user->role === 'student') {
+        if ($user->role !== 'denied') {
             $user->approval = 'denied';
             $user->save();
 
