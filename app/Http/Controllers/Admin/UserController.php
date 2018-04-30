@@ -127,9 +127,62 @@ class UserController extends AdminController
         $output = fopen('php://output', 'w');
 
         // output the column headings
-        fputcsv($output, array('ID', 'First Name', 'Last Name', 'Email', 'Date of Birth', 'Account Type', 'Status'));
+        fputcsv($output, array('ID',
+            'First Name',
+            'Last Name',
+            'Email',
+            'Account Type',
+            'Status',
+            'Date of Birth',
+            'Phone',
+            'Address',
+            'Apt/Unit',
+            'City',
+            'State',
+            'Zip Code',
+            'Hospital/Trauma Center Name',
+            'Trauma Center Level',
+            'NTDB/NTDS #',
+            'TQIP #',
+            'Address 1',
+            'Address 2',
+            'Address 3',
+            'City',
+            'State',
+            'Zip Code',
+            'Last 4 of SSN',
+            'Credentials',
+            'State License #',
+        ));
         foreach ($users as $user) {
-            fputcsv($output, array($user->id, $user->first_name, $user->last_name, $user->email, $user->birthday, $user->role, $user->approval));
+            fputcsv($output, array(
+                $user->id,
+                $user->first_name,
+                $user->last_name,
+                $user->email,
+                $user->role,
+                $user->approval,
+                $user->birthday,
+                $user->phone,
+                $user->address,
+                $user->unit,
+                $user->city,
+                $user->state,
+                $user->zipcode,
+                $user->hospital_name,
+                $user->hospital_level,
+                $user->hospital_ntdb,
+                $user->hospital_tqip,
+                $user->hospital_address1,
+                $user->hospital_address2,
+                $user->hospital_address3,
+                $user->hospital_city,
+                $user->hospital_state,
+                $user->hospital_zipcode,
+                $user->ssn,
+                $user->credentials,
+                $user->state_license,
+            ));
         }
 
         fclose($output);
