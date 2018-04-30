@@ -9,6 +9,12 @@
         Create New Course
     </h2>
 
+    @if (Session::has('message'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    @endif
+
     {!! Form::open(array('url' => url('admin/courses'), 'method' => 'post', 'class' => 'form-course', 'files' => true)) !!}
     <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
         <div class="row">

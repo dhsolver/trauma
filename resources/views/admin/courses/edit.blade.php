@@ -5,15 +5,20 @@
 
 {{-- Content --}}
 @section('main')
+    <h2 class="page-title">
+        Edit Course
+    </h2>
+
     @if (Session::has('courseMessage'))
         <div class="alert alert-success" role="alert">
             {{ Session::get('courseMessage') }}
         </div>
     @endif
-
-    <h2 class="page-title">
-        Edit Course
-    </h2>
+    @if (Session::has('message'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    @endif
 
     {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
     <input type="hidden" name="online_only" value="0">

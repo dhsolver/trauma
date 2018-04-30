@@ -9,6 +9,12 @@
         Create User Profile
     </h2>
 
+    @if (Session::has('message'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    @endif
+
     {!! Form::open(array('url' => url('admin/users'), 'method' => 'post', 'class' => 'form-user')) !!}
         <div class="form-group">
             <div class="row form-horizontal">

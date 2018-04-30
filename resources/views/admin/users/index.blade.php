@@ -15,6 +15,12 @@
         </div>
     @endif
 
+    @if (Session::has('message'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    @endif
+
     {!! Form::open(array('url' => url('admin/users'), 'method' => 'get', 'id' => 'form-users-search')) !!}
         <div class="form-group">
             <div class="row">

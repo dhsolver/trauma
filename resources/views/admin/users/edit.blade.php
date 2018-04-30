@@ -14,6 +14,11 @@
             {{ Session::get('userMessage') }}
         </div>
     @endif
+    @if (Session::has('message'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    @endif
 
     {!! Form::model($user, array('url' => url('admin/users/'.$user->id), 'method' => 'put', 'class' => 'form-user')) !!}
         <div class="form-group">
