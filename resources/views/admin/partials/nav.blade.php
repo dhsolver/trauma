@@ -12,13 +12,13 @@
 
         <div class="collapse navbar-collapse" id="main-navbar">
             <ul class="nav navbar-nav">
-                <li class="{{ (Request::is('admin/courses') ? 'active' : '') }}">
+                <li class="{{ (Request::is('admin/courses', 'admin/courses/*') ? 'active' : '') }}">
                     <a href="{{url('admin/courses')}}"><i class="fa fa-language"></i> Courses</a>
                 </li>
             </ul>
             @if (Auth::user()->role === 'admin')
             <ul class="nav navbar-nav">
-                <li class="{{ (Request::is('admin/users') ? 'active' : '') }}">
+                <li class="{{ (Request::is('admin/users', 'admin/users/*') ? 'active' : '') }}">
                     <a href="{{url('admin/users')}}"><i class="fa fa-users"></i> Users</a>
                 </li>
             </ul>
