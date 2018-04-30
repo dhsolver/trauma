@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Course;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -15,8 +15,16 @@ class CourseController extends AdminController {
     {
     }
 
-    public function index() {
-        $courses = Course::orderBy('title')
+    public function index(Request $request) {
+
+        if (empty($request->title)) {
+            $courses = Course::where('id', '>', 0);
+        } else {
+            $courses = Course::where('title', 'like', "%$request->title%");
+        }
+        if (!empty($request->objective)) $courses = $courses->where('objective', 'like', "%$request->objective%");
+
+        $courses = $courses->orderBy('title', 'asc')
             ->get();
 
         return view('admin.courses.index', compact('courses'));
