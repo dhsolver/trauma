@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 text-center">
                 <img class="img img-photo" alt="no photo" src="{!! url('images/no_photo.png') !!}"/>
-                <span class='label label-info' id="upload-file-info"></span>
+                <div><span class='label label-info' id="upload-file-info"></span></div>
                 <label class="btn btn-primary" for="course-photo">
                     <input id="course-photo" name="photo" type="file" value="Upload" style="display:none"
                     onchange="$('#upload-file-info').html(this.files[0].name)">
@@ -39,11 +39,29 @@
             <span class="help-block">{{ $errors->first('location', ':message') }}</span>
         </div>
     </div>
-    <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
-        {!! Form::label('date', 'Date', array('class' => 'control-label')) !!}
-        <div class="controls">
-            {!! Form::text('date', null, array('class' => 'form-control form-input-date', 'placeholder' => 'Date *')) !!}
-            <span class="help-block">{{ $errors->first('date', ':message') }}</span>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="checkbox inline">
+                    <label>
+                        {!! Form::checkbox('online_only', true, null, array('class' => 'check-online-only')) !!} Online Only
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-4 {{ $errors->has('date_start') ? 'has-error' : '' }}">
+                {!! Form::label('date_start', 'Start Date', array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('date_start', null, array('class' => 'form-control form-input-date', 'placeholder' => 'Start Date *')) !!}
+                    <span class="help-block">{{ $errors->first('date_start', ':message') }}</span>
+                </div>
+            </div>
+            <div class="col-sm-4 {{ $errors->has('date_end') ? 'has-error' : '' }}">
+                {!! Form::label('date_end', 'End Date', array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('date_end', null, array('class' => 'form-control form-input-date', 'placeholder' => 'End Date *')) !!}
+                    <span class="help-block">{{ $errors->first('date_end', ':message') }}</span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">

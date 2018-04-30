@@ -20,8 +20,9 @@
         <table class="table table-hover">
             @foreach ($courses as $course)
             <tr>
-                <td>{{ $course->title }}</td>
-                <td>{{ $course->date }}, {{ $course->location }}</td>
+                <td><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a></td>
+                <td>{{ $course->online_only ? 'Online' : $course->date_start . '-' . $course->date_end }}</td>
+                <td>{{ $course->location }}</td>
                 <td>John Doe, Alex Smith</td>
                 <td class="text-right">
                     <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}" class="btn btn-primary">Edit</a>

@@ -16,6 +16,7 @@
     </h2>
 
     {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
+    <input type="hidden" name="online_only" value="0">
     <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
         <div class="row">
             <div class="col-xs-offset-2 col-xs-8 col-sm-offset-3 col-sm-6 text-center">
@@ -49,11 +50,29 @@
             <span class="help-block">{{ $errors->first('location', ':message') }}</span>
         </div>
     </div>
-    <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
-        {!! Form::label('date', 'Date', array('class' => 'control-label')) !!}
-        <div class="controls">
-            {!! Form::text('date', $course->date, array('class' => 'form-control form-input-date', 'placeholder' => 'Date *')) !!}
-            <span class="help-block">{{ $errors->first('date', ':message') }}</span>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="checkbox inline">
+                    <label>
+                        {!! Form::checkbox('online_only', true, null, array('class' => 'check-online-only')) !!} Online Only
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-4 {{ $errors->has('date_start') ? 'has-error' : '' }}">
+                {!! Form::label('date_start', 'Start Date', array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('date_start', $course->online_only ? null : $course->date_start, array('class' => 'form-control form-input-date', 'placeholder' => 'Start Date *')) !!}
+                    <span class="help-block">{{ $errors->first('date_start', ':message') }}</span>
+                </div>
+            </div>
+            <div class="col-sm-4 {{ $errors->has('date_end') ? 'has-error' : '' }}">
+                {!! Form::label('date_end', 'End Date', array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('date_end', $course->online_only ? null : $course->date_end, array('class' => 'form-control form-input-date', 'placeholder' => 'End Date *')) !!}
+                    <span class="help-block">{{ $errors->first('date_end', ':message') }}</span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">

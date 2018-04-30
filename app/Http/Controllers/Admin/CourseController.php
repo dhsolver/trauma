@@ -16,7 +16,8 @@ class CourseController extends AdminController {
     }
 
     public function index() {
-        $courses = Course::orderBy('date', 'desc')->get();
+        $courses = Course::orderBy('title')
+            ->get();
 
         return view('admin.courses.index', compact('courses'));
     }
@@ -27,7 +28,7 @@ class CourseController extends AdminController {
 
     public function store(CourseRequest $request)
     {
-        $course = new Course($request->except('photo'));
+        $course = new Course($request->except('photo', 'online_only'));
 
         $photo = '';
         if($request->hasFile('photo'))
@@ -38,6 +39,11 @@ class CourseController extends AdminController {
             $photo = sha1($filename . time()) . '.' . $extension;
         }
         $course->photo = $photo;
+        if ($request->online_only == '1') {
+            $course->online_only = true;
+        } else {
+            $course->online_only = false;
+        }
         $course->save();
 
         if($request->hasFile('photo'))
@@ -52,7 +58,6 @@ class CourseController extends AdminController {
 
     public function edit(Course $course)
     {
-        // $languages = Language::lists('name', 'id')->toArray();
         return view('admin.courses.edit', compact('course'));
     }
 
@@ -69,7 +74,17 @@ class CourseController extends AdminController {
             $request->file('photo')->move($destinationPath, $photo);
         }
         $course->photo = $photo;
-        $course->update($request->except('photo'));
+        $course->update($request->except('photo', 'online_only'));
+        if ($request->online_only == '1') {
+            $course->online_only = true;
+        } else {
+            $course->online_only = false;
+            if ($course->date_start > $course->date_end) {
+                return redirect()->action('Admin\CourseController@edit', $course)
+                            ->withInput();
+            }
+        }
+        $course->save();
 
         session()->flash('courseMessage', 'Course has been updated!');
         return redirect()->action('Admin\CourseController@edit', $course);

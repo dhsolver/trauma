@@ -14,10 +14,17 @@ class CourseRequest extends FormRequest {
         return [
             'title' => 'required|min:3',
             'location' => 'required|max:255',
-            'date' => 'required|max:50',
             'overview' => 'required|min:20',
             'objective' => 'required|min:20',
-            'objective' => 'required|min:20',
+            'date_start' => 'required_unless:online_only,1',
+            'date_end' => 'required_unless:online_only,1',
+        ];
+    }
+
+    public function messages() {
+        return [
+            'date_start.required_unless' => 'Please enter the start date.',
+            'date_end.required_unless' => 'Please enter the end date.',
         ];
     }
 

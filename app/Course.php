@@ -32,15 +32,43 @@ class Course extends Model implements SluggableInterface {
         return nl2br($this->content);
     }
 
-
-    public function getDateAttribute($value)
+    public function getDateStartAttribute($value)
     {
+        if ($value == null) return null;
         $time = strtotime($value);
         return date("m/d/Y", $time);
     }
 
-    public function setDateAttribute($value)
+    public function setDateStartAttribute($value)
     {
-        $this->attributes['date'] = date("Y-m-d", strtotime($value) );
+        if ($value == null) {
+            $this->attributes['date_start'] = null;
+        } else {
+            $this->attributes['date_start'] = date("Y-m-d", strtotime($value) );
+        }
+    }
+
+    public function getDateEndAttribute($value)
+    {
+        if ($value == null) return null;
+        $time = strtotime($value);
+        return date("m/d/Y", $time);
+    }
+
+    public function setDateEndAttribute($value)
+    {
+        if ($value == null) {
+            $this->attributes['date_end'] = null;
+        } else{
+            $this->attributes['date_end'] = date("Y-m-d", strtotime($value) );
+        }
+    }
+
+    public function setOnlineOnlyAttribute($value) {
+        $this->attributes['online_only'] = $value;
+        if ($this->attributes['online_only'] == true) {
+            $this->attributes['date_start'] = null;
+            $this->attributes['date_end'] = null;
+        }
     }
 }
