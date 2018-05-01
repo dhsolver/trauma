@@ -22,6 +22,8 @@
 
     {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
     <input type="hidden" name="online_only" value="0">
+    <input type="hidden" name="published" value="0">
+
     <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
         <div class="row">
             <div class="col-xs-offset-2 col-xs-8 col-sm-offset-3 col-sm-6 text-center">
@@ -60,7 +62,7 @@
             <div class="col-sm-3">
                 <div class="checkbox inline">
                     <label>
-                        {!! Form::checkbox('online_only', true, null, array('class' => 'check-online-only')) !!} Online Only
+                        {!! Form::checkbox('online_only', true, $course->online_only, array('class' => 'check-online-only')) !!} Online Only
                     </label>
                 </div>
             </div>
@@ -83,29 +85,36 @@
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
         {!! Form::label('overview', 'Overview', array('class' => 'control-label')) !!}
         <div class="controls">
-            {!! Form::textarea('overview', $course->overview, array('class' => 'form-control', 'placeholder' => 'Overview *', 'rows' => '5')) !!}
+            {!! Form::textarea('overview', $course->overview, array('class' => 'form-control', 'placeholder' => 'Overview *', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('overview', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('objective') ? 'has-error' : '' }}">
         {!! Form::label('objective', 'Objective', array('class' => 'control-label')) !!}
         <div class="controls">
-            {!! Form::textarea('objective', $course->objective, array('class' => 'form-control', 'placeholder' => 'Objective *', 'rows' => '5')) !!}
+            {!! Form::textarea('objective', $course->objective, array('class' => 'form-control', 'placeholder' => 'Objective *', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('objective', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('prerequisites') ? 'has-error' : '' }}">
         {!! Form::label('prerequisites', 'Pre-requisites', array('class' => 'control-label')) !!}
         <div class="controls">
-            {!! Form::textarea('prerequisites', $course->prerequisites, array('class' => 'form-control', 'placeholder' => 'Pre-requisites', 'rows' => '5')) !!}
+            {!! Form::textarea('prerequisites', $course->prerequisites, array('class' => 'form-control', 'placeholder' => 'Pre-requisites', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('prerequisites', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('resources') ? 'has-error' : '' }}">
         {!! Form::label('resources', 'Resources', array('class' => 'control-label')) !!}
         <div class="controls">
-            {!! Form::textarea('resources',  $course->resources, array('class' => 'form-control', 'placeholder' => 'Textbook or Additonal Resources', 'rows' => '5')) !!}
+            {!! Form::textarea('resources',  $course->resources, array('class' => 'form-control', 'placeholder' => 'Textbook or Additonal Resources', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('resources', ':message') }}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="checkbox inline">
+            <label>
+                {!! Form::checkbox('published', true, $course->published) !!} Published
+            </label>
         </div>
     </div>
 
