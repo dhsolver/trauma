@@ -69,7 +69,7 @@ class UserController extends AdminController
             session()->flash('userMessage', 'User has been approved!');
         }
 
-        return redirect()->action('Admin\UserController@edit', $user);
+        return redirect()->back();
     }
 
     public function deny(User $user)
@@ -80,7 +80,7 @@ class UserController extends AdminController
 
             session()->flash('userMessage', 'User has been denied!');
         }
-        return redirect()->action('Admin\UserController@edit', $user);
+        return redirect()->back();
     }
 
     public function edit(User $user)
