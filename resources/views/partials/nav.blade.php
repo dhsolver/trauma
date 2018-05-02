@@ -49,7 +49,7 @@
                                 <a href="{{ url('profile') }}">My Profile</a>
                             </li>
                             @if(Auth::check())
-                                @if(Auth::user()->role=='admin')
+                                @if(Auth::user()->role=='admin' or Auth::user()->role === 'faculty')
                                     <li role="presentation" class="divider"></li>
                                     <li>
                                         <a href="{{ url('admin/dashboard') }}">Admin Dashboard</a>

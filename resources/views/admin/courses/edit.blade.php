@@ -102,28 +102,28 @@
     </div>
 
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
-        {!! Form::label('overview', 'Overview', array('class' => 'control-label')) !!}
+        {!! Form::label('overview', 'Overview', array('class' => 'control-label shown')) !!}
         <div class="controls">
             {!! Form::textarea('overview', $course->overview, array('class' => 'form-control', 'placeholder' => 'Overview *', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('overview', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('objective') ? 'has-error' : '' }}">
-        {!! Form::label('objective', 'Objective', array('class' => 'control-label')) !!}
+        {!! Form::label('objective', 'Objective', array('class' => 'control-label shown')) !!}
         <div class="controls">
             {!! Form::textarea('objective', $course->objective, array('class' => 'form-control', 'placeholder' => 'Objective *', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('objective', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('prerequisites') ? 'has-error' : '' }}">
-        {!! Form::label('prerequisites', 'Pre-requisites', array('class' => 'control-label')) !!}
+        {!! Form::label('prerequisites', 'Pre-requisites', array('class' => 'control-label shown')) !!}
         <div class="controls">
             {!! Form::textarea('prerequisites', $course->prerequisites, array('class' => 'form-control', 'placeholder' => 'Pre-requisites', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('prerequisites', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('resources') ? 'has-error' : '' }}">
-        {!! Form::label('resources', 'Resources', array('class' => 'control-label')) !!}
+        {!! Form::label('resources', 'Resources', array('class' => 'control-label shown')) !!}
         <div class="controls">
             {!! Form::textarea('resources',  $course->resources, array('class' => 'form-control', 'placeholder' => 'Textbook or Additonal Resources', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('resources', ':message') }}</span>
