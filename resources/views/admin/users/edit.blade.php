@@ -31,8 +31,8 @@
                     @endif
                 </div>
                 <div class="col-sm-offset-1 col-sm-7 hidden-xs">
-                    <h3>Full Name: {{ $user->first_name }} {{ $user->last_name }}</h3>
-                    <div class="user-info">ID: #{{ $user->id }}</div>
+                    <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
+                    <div class="user-info">User Id: #{{ $user->id }}</div>
                     <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
                     @if (!$user->admin && $user->role === 'student')
                     <div class="user-info">
