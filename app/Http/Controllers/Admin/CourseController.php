@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Course;
+use App\User;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ class CourseController extends AdminController {
         $courses = $courses->orderBy('title', 'asc')
             ->get();
 
-        return view('admin.courses.index', compact('courses'));
+        $users = User::all()->keyBy('id')->toArray();
+        return view('admin.courses.index', compact('courses', 'users'));
     }
 
     public function create() {
@@ -66,7 +68,12 @@ class CourseController extends AdminController {
 
     public function edit(Course $course)
     {
-        return view('admin.courses.edit', compact('course'));
+        $faculties = User::where('role', 'faculty')
+            ->orderBy('first_name', 'asc')
+            ->orderBy('last_name', 'asc')
+            ->get();
+
+        return view('admin.courses.edit', compact('course', 'faculties'));
     }
 
     public function update(CourseRequest $request, Course $course)
@@ -82,6 +89,7 @@ class CourseController extends AdminController {
             $request->file('photo')->move($destinationPath, $photo);
         }
         $course->photo = $photo;
+
         $course->update($request->except('photo', 'online_only'));
         if ($request->online_only == '1') {
             $course->online_only = true;
@@ -89,9 +97,14 @@ class CourseController extends AdminController {
             $course->online_only = false;
             if ($course->date_start > $course->date_end) {
                 return redirect()->action('Admin\CourseController@edit', $course)
+                            ->withMessage('Please enter correct dates')
                             ->withInput();
             }
         }
+
+        // handle empty instructors list
+        if (empty($request->instructors)) $course->instructors = [];
+
         $course->save();
 
         session()->flash('courseMessage', 'Course has been updated!');

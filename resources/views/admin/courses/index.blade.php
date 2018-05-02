@@ -59,7 +59,16 @@
                 <td><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a></td>
                 <td>{{ $course->online_only ? 'Online' : $course->date_start . '-' . $course->date_end }}</td>
                 <td>{{ $course->location }}</td>
-                <td>John Doe, Alex Smith</td>
+                <td>
+                    @if (is_array($course->instructors) && count($course->instructors) > 0)
+                        @for ($i = 0; $i < count($course->instructors); $i++)
+                        {{ $users[$course->instructors[$i]]['first_name'] }} {{ $users[$course->instructors[$i]]['last_name'] }}
+                            @if ($i < count($course->instructors)-1)<br> @endif
+                        @endfor
+                    @else
+                        -
+                    @endif
+                </td>
                 <td class="text-right">
                     <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}" class="btn btn-primary">Edit</a>
                 </td>

@@ -82,6 +82,25 @@
             </div>
         </div>
     </div>
+
+    <h3 class="section-title">
+        Instructors
+        @if (Auth::user()->role === 'admin')
+        <div class="pull-right">
+            <a href="{!! url('admin/users/create') !!}" class="btn btn-sm btn-primary">Invite a Faculty</a>
+        </div>
+        @endif
+    </h3>
+    <div class="form-group">
+        @foreach ($faculties as $faculty)
+        <div class="checkbox inline">
+            <label>
+                {!! Form::checkbox('instructors[]', $faculty->id, is_array($course->instructors) && in_array($faculty->id, $course->instructors)) !!} ID: {{ $faculty->id }}, {{ $faculty->first_name }} {{ $faculty->last_name }} ({{ $faculty->email }})
+            </label>
+        </div>
+        @endforeach
+    </div>
+
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
         {!! Form::label('overview', 'Overview', array('class' => 'control-label')) !!}
         <div class="controls">

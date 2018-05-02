@@ -21,6 +21,10 @@ class Course extends Model implements SluggableInterface {
 
     protected $guarded  = array('id');
 
+    protected $casts = [
+        'instructors' => 'array',
+    ];
+
     /**
      * Returns a formatted post content entry,
      * this ensures that line breaks are returned.
