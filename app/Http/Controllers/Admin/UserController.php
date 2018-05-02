@@ -50,7 +50,6 @@ class UserController extends AdminController
     public function store(UserRequest $request)
     {
         $user = new User($request->all());
-        $user->admin = true;
         $user->save();
 
         $this->dispatch(new SendInvitationEmail($user));
