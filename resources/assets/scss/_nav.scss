@@ -104,6 +104,19 @@
         }
     }
 
+    .navbar-nav .open .dropdown-menu {
+        background-color: $blue;
+
+        & > li > a {
+            color: $white;
+
+            &:hover {
+                color: $blue;
+                background-color: $white;
+            }
+        }
+    }
+
     @media (min-width: 768px) {
         > .container {
             > .navbar-collapse {
