@@ -5,7 +5,33 @@
 
 {{-- Content --}}
 @section('main')
-    <h3 class="section-title">Pending Users</h3>
+
+    <h3 class="section-title">Latest Courses</h3>
+    @if (count($latestCourses) > 0)
+    <div class="row">
+        @foreach ($latestCourses as $course)
+        <div class="col-sm-4">
+            <div class="course">
+                @if ($course->photo)
+                    <img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/>
+                @else
+                    <img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
+                @endif
+                <div class="course__info text-center m-t-10">
+                    <div class="course__title"><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a></div>
+                    <div class="course__location">{{ $course->location }}</div>
+                    <div class="course__date">{{ $course->online_only ? 'Online' : $course->date_start . ' - ' . $course->date_end }}</div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @else
+    <h4>No latest courses.</h4>
+    @endif
+
+    @if (Auth::user()->role === 'admin')
+    <h3 class="section-title m-t-30">Pending Users</h3>
 
     @if (Session::has('userMessage'))
         <div class="alert alert-success" role="alert">
@@ -31,4 +57,5 @@
         <h4>No pending users.</h4>
         @endif
     </div>
+    @endif
 @endsection

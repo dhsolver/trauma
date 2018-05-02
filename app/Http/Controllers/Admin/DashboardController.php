@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\AdminController;
+use App\Course;
 use App\User;
+use App\Http\Controllers\AdminController;
+
 
 class DashboardController extends AdminController {
 
@@ -17,6 +19,12 @@ class DashboardController extends AdminController {
             ->where('approval', 'pending')
             ->get();
 
-        return view('admin.dashboard.index', compact('pendingUsers'));
+
+        $latestCourses = Course::where('published', 1)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('admin.dashboard.index', compact('pendingUsers', 'latestCourses'));
     }
 }

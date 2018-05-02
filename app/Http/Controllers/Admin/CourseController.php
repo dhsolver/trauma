@@ -40,15 +40,14 @@ class CourseController extends AdminController {
     {
         $course = new Course($request->except('photo', 'online_only'));
 
-        $photo = '';
         if($request->hasFile('photo'))
         {
             $file = $request->file('photo');
             $filename = $file->getClientOriginalName();
             $extension = $file -> getClientOriginalExtension();
             $photo = sha1($filename . time()) . '.' . $extension;
+            $course->photo = $photo;
         }
-        $course->photo = $photo;
         if ($request->online_only == '1') {
             $course->online_only = true;
         } else {
@@ -87,8 +86,8 @@ class CourseController extends AdminController {
             $photo = sha1($filename . time()) . '.' . $extension;
             $destinationPath = public_path() . '/images/courses/'.$course->id.'/';
             $request->file('photo')->move($destinationPath, $photo);
+            $course->photo = $photo;
         }
-        $course->photo = $photo;
 
         $course->update($request->except('photo', 'online_only'));
         if ($request->online_only == '1') {
