@@ -17,13 +17,13 @@ class CourseController extends AdminController {
     }
 
     public function index(Request $request) {
-
-        if (empty($request->title)) {
+        if (empty($request->id)) {
             $courses = Course::where('id', '>', 0);
         } else {
-            $courses = Course::where('title', 'like', "%$request->title%");
+            $courses = Course::where('id', $request->id);
         }
-        if (!empty($request->objective)) $courses = $courses->where('objective', 'like', "%$request->objective%");
+        if (!empty($request->title)) $courses = $courses->where('title', 'like', "%$request->title%");
+        if (!empty($request->location)) $courses = $courses->where('location', 'like', "%$request->location%");
 
         $courses = $courses->orderBy('title', 'asc')
             ->get();

@@ -23,6 +23,13 @@
     {!! Form::open(array('url' => url('admin/courses'), 'method' => 'get', 'id' => 'form-courses-search')) !!}
         <div class="form-group">
             <div class="row">
+                <div class="col-sm-2">
+                    {!! Form::label('id', 'Id', array('class' => 'control-label')) !!}
+                    <div class="controls">
+                        {!! Form::text('id', Request::get('id'), array('class' => 'form-control', 'placeholder' => 'Course Id')) !!}
+                        <span class="help-block">{{ $errors->first('id', ':message') }}</span>
+                    </div>
+                </div>
                 <div class="col-sm-4">
                     {!! Form::label('title', 'Title', array('class' => 'control-label')) !!}
                     <div class="controls">
@@ -30,14 +37,14 @@
                         <span class="help-block">{{ $errors->first('title', ':message') }}</span>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    {!! Form::label('objectives', 'Objectives', array('class' => 'control-label')) !!}
+                <div class="col-sm-3">
+                    {!! Form::label('location', 'Objectives', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('objectives', Request::get('objectives'), array('class' => 'form-control', 'placeholder' => 'Objective')) !!}
-                        <span class="help-block">{{ $errors->first('objectives', ':message') }}</span>
+                        {!! Form::text('location', Request::get('location'), array('class' => 'form-control', 'placeholder' => 'Location')) !!}
+                        <span class="help-block">{{ $errors->first('location', ':message') }}</span>
                     </div>
                 </div>
-                <div class="col-sm-4 text-right">
+                <div class="col-sm-3 text-right">
                      <button type="submit" class="btn btn-sm btn-primary">
                         Search Courses
                     </button>
