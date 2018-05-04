@@ -138,11 +138,11 @@
     </h3>
     <div>
         @foreach ($course->modules as $module)
-            <div class="row">
-                <div class="col-sm-8">
+            <div class="row m-t-10">
+                <div class="col-xs-6">
                     <strong>{{ $module->title }}</strong>
                 </div>
-                <div class="col-sm-4 text-right">
+                <div class="col-xs-6 text-right">
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/edit') !!}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/delete') !!}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
