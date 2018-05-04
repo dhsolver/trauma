@@ -46,7 +46,7 @@
                     <div class="col-xs-8 col-sm-10">
                         @if ($document->type === 'url')
                             <a href="{{ $document->url }}">
-                                <i class="fa fa-link"></i> {{ $document->url }}
+                                <i class="fa fa-globe"></i> {{ $document->url }}
                             </a>
                         @else
                             <a href="{{ url('images/courses/'.$course->id.'/modules/'.$courseModule->id.'/'.$document->file) }}" target="_blank">

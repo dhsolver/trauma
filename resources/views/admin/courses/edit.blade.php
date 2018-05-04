@@ -151,7 +151,7 @@
             <div class="row">
                 <div class="col-sm-11 col-sm-offset-1">
                     @if ($document->type === 'url')
-                        <a href="{{ $document->url }}"><i class="fa fa-link"></i> {{ $document->url }}</a>
+                        <a href="{{ $document->url }}"><i class="fa fa-globe"></i> {{ $document->url }}</a>
                     @else
                         <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}"><i class="fa fa-file-o"></i> {{ $document->filename }}</a>
                     @endif
