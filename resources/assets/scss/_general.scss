@@ -39,6 +39,10 @@ img {
     &.btn-sm {
         font-size: 16px;
     }
+
+    &.btn-circle {
+        border-radius: 50%;
+    }
 }
 
 
@@ -83,14 +87,6 @@ form {
     input[type="radio"],
     input[type="checkbox"] {
         margin-top: 8px;
-    }
-
-    a {
-        color: $grey-dark;
-        &:hover,
-        &:focus {
-            color: $blue;
-        }
     }
 
     .has-error {

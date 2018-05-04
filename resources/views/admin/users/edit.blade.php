@@ -274,7 +274,7 @@
 
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-xs-6">
                     @if ($user->role !== 'admin')
                     @if ($user->approval != 'approved')
                     <a href="{{ url('admin/users/'.$user->id.'/approve') }}" class="btn btn-success" onclick="return confirm('Are you sure?')">
@@ -288,7 +288,7 @@
                     @endif
                     @endif
                 </div>
-                <div class="col-md-4 text-right">
+                <div class="col-xs-6 text-right">
                     <button type="submit" class="btn btn-primary">
                         Update Profile
                     </button>

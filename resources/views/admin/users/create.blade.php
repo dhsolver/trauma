@@ -222,9 +222,7 @@
 
         <div class="form-group">
             <div class="row">
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-4 text-right">
+                <div class="col-xs-12 text-right">
                     <button type="submit" class="btn btn-primary">
                         Create a Profile
                     </button>

@@ -15,7 +15,6 @@ class DashboardController extends AdminController {
     public function index()
     {
         $pendingUsers = User::where('role', 'student')
-            ->where('admin', 0)
             ->where('approval', 'pending')
             ->get();
 

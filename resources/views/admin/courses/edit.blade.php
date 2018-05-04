@@ -129,6 +129,40 @@
             <span class="help-block">{{ $errors->first('resources', ':message') }}</span>
         </div>
     </div>
+
+    <h3 class="section-title">
+        Course Modules
+        <div class="pull-right">
+            <a href="{{ url('/admin/courses/'.$course->id.'/modules/create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add</a>
+        </div>
+    </h3>
+    <div>
+        @foreach ($course->modules as $module)
+            <div class="row">
+                <div class="col-sm-8">
+                    <strong>{{ $module->title }}</strong>
+                </div>
+                <div class="col-sm-4 text-right">
+                    <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/edit') !!}" class="btn btn-xs btn-primary">Edit</a>
+                    <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/delete') !!}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                </div>
+            </div>
+            @foreach ($module->documents as $document)
+            <div class="row">
+                <div class="col-sm-11 col-sm-offset-1">
+                    @if ($document->type === 'url')
+                        <a href="{{ $document->url }}"><i class="fa fa-link"></i> {{ $document->url }}</a>
+                    @else
+                        <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}"><i class="fa fa-file-o"></i> {{ $document->filename }}</a>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        @endforeach
+    </div>
+
+    <hr>
+
     <div class="form-group">
         <div class="checkbox inline">
             <label>
@@ -139,16 +173,17 @@
 
     <div class="form-group">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-xs-6">
                 <a class="btn btn-danger" href="{{ url('admin/courses').'/'.$course->id.'/delete' }}" onclick="return confirm('Are you sure?')">
                     Delete Course
                 </a>
             </div>
-            <div class="col-md-4 text-right">
+            <div class="col-xs-6 text-right">
                 <button type="submit" class="btn btn-primary">
                     Update Course
                 </button>
             </div>
         </div>
     </div>
+    {!! Form::close() !!}
 @endsection

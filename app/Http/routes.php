@@ -8,6 +8,8 @@ Route::model('photoalbum', 'App\PhotoAlbum');
 Route::model('photo', 'App\Photo');
 Route::model('user', 'App\User');
 Route::model('course', 'App\Course');
+Route::model('coursemodule', 'App\CourseModule');
+Route::model('coursemoduledocument', 'App\CourseModuleDocument');
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
 
@@ -46,6 +48,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::get('courses/{course}/edit', 'Admin\CourseController@edit');
     Route::put('courses/{course}', 'Admin\CourseController@update');
     Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
+
+    // Course modules routes
+    Route::get('courses/{course}/modules/create', 'Admin\CourseModuleController@create');
+    Route::post('courses/{course}/modules', 'Admin\CourseModuleController@store');
+    Route::get('courses/{course}/modules/{coursemodule}/edit', 'Admin\CourseModuleController@edit');
+    Route::put('courses/{course}/modules/{coursemodule}', 'Admin\CourseModuleController@update');
+    Route::get('courses/{course}/modules/{coursemodule}/delete', 'Admin\CourseModuleController@delete');
+
+
+    Route::post('courses/{course}/modules/{coursemodule}/documents', 'Admin\CourseModuleDocumentController@store');
+    Route::get('courses/{course}/modules/{coursemodule}/documents/{coursemoduledocument}/delete', 'Admin\CourseModuleDocumentController@delete');
 });
 
 /***************    Admin routes  **********************************/

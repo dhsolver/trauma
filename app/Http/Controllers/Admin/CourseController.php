@@ -44,7 +44,7 @@ class CourseController extends AdminController {
         {
             $file = $request->file('photo');
             $filename = $file->getClientOriginalName();
-            $extension = $file -> getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
             $photo = sha1($filename . time()) . '.' . $extension;
             $course->photo = $photo;
         }
@@ -101,7 +101,6 @@ class CourseController extends AdminController {
             }
         }
 
-        // handle empty instructors list
         if (empty($request->instructors)) $course->instructors = [];
 
         $course->save();

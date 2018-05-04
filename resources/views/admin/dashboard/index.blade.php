@@ -13,9 +13,9 @@
         <div class="col-sm-4">
             <div class="course">
                 @if ($course->photo)
-                    <img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/>
+                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}"><img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/></a>
                 @else
-                    <img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
+                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}"><img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/></a>
                 @endif
                 <div class="course__info text-center m-t-10">
                     <div class="course__title"><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a></div>

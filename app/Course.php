@@ -75,4 +75,9 @@ class Course extends Model implements SluggableInterface {
             $this->attributes['date_end'] = null;
         }
     }
+
+    public function modules()
+    {
+        return $this->hasMany('App\CourseModule');
+    }
 }
