@@ -7,8 +7,6 @@ use App\User;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 
 class CourseController extends AdminController {
 

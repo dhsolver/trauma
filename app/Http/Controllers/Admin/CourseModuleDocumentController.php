@@ -81,6 +81,7 @@ class CourseModuleDocumentController extends AdminController {
             'URL has been deleted!' :
             'Document has been deleted!';
         $courseModuleDocument->delete();
+
         session()->flash('courseModuleMessage', $message);
         return redirect()->action('Admin\CourseModuleController@edit', [
             'course' => $course,

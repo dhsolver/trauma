@@ -49,6 +49,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::put('courses/{course}', 'Admin\CourseController@update');
     Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
 
+    Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
+
     // Course modules routes
     Route::get('courses/{course}/modules/create', 'Admin\CourseModuleController@create');
     Route::post('courses/{course}/modules', 'Admin\CourseModuleController@store');

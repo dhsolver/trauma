@@ -39,7 +39,7 @@
         table {
             background-color: transparent;
             border-collapse: separate;
-            border-spacing: 0 1em;
+            border-spacing: 0 0.5em;
             margin-bottom: 0;
 
             tr {
@@ -54,6 +54,10 @@
             .btn {
                 font-size: 16px;
                 padding: 4px 12px;
+            }
+
+            &.table-course-keys {
+                border-spacing: 0 0.1em;
             }
         }
     }

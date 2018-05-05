@@ -163,6 +163,49 @@
 
     <hr>
 
+    <h3 class="section-title">
+        Course Keys
+        <div class="pull-right">
+            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#generateKeyModal">Generate Keys</a>
+        </div>
+    </h3>
+
+    <div class="table-responsive table-container">
+        @if (count($course->keys))
+        <table class="table table-hover table-course-keys">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Created At</th>
+                    <th>Redeemed</th>
+                    <th>Tag</th>
+                </tr>
+            </thead>
+            @foreach ($course->keys as $key)
+            <tr>
+                <td>{{ $key->key }}</td>
+                <td>{{ $key->created_at }}</td>
+                <td>
+                    @if ($key->redeemed)
+                        <label class="label label-success">
+                            {{ $key->redeemedUser->first_name }} {{ $key->redeemedUser->last_name }}
+                            on {{ $key->redeemed_at }}
+                        </label>
+                    @else
+                        <label class="label label-default">Not Redeemed</label>
+                    @endif
+                </td>
+                <td><label class="label label-info">{{ $key->tag }}</label></td>
+            </tr>
+            @endforeach
+        </table>
+        @else
+        <h4>No keys for this course.</h4>
+        @endif
+    </div>
+
+    <hr>
+
     <div class="form-group">
         <div class="checkbox inline">
             <label>
@@ -186,4 +229,87 @@
         </div>
     </div>
     {!! Form::close() !!}
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="generateKeyModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {!! Form::open(array('url' => url('admin/courses/'.$course->id.'/keys'), 'method' => 'post', 'class' => 'form-course-keys')) !!}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Generate Keys</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group count">
+                        {!! Form::label('url', 'Number of keys', array('class' => 'control-label shown')) !!}
+                        <div class="controls">
+                            {!! Form::select('count', [
+                                '1' => '1',
+                                '5' => '5',
+                                '10' => '10',
+                                '20' => '20',
+                                '50' => '50'
+                                ], '1', array('class' => 'form-control')
+                            ) !!}
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group prefix">
+                        {!! Form::label('url', 'Prefix', array('class' => 'control-label')) !!}
+                        <div class="controls">
+                            {!! Form::text('prefix', null, array('class' => 'form-control', 'placeholder' => 'DEMO-, Free10-, etc')) !!}
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group tag">
+                        {!! Form::label('url', 'Tag', array('class' => 'control-label')) !!}
+                        <div class="controls">
+                            {!! Form::text('tag', null, array('class' => 'form-control', 'placeholder' => 'Optional tag')) !!}
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Generate</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+    $(function() {
+        $('form.form-course-keys').submit(function(event) {
+            event.preventDefault();
+
+            var $form = $(this);
+            $form.find('.form-group').removeClass('has-error');
+            $form.find('.form-group .help-block').text('');
+
+            var formData = new FormData(this);
+            var url = $form.attr('action');
+             $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        location.href = data.redirect;
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            }).fail(function(xhr) {
+                var errors = xhr.responseJSON;
+                $.each(Object.keys(errors), function(index, key) {
+                    $form.find('.form-group.' + key).addClass('has-error');
+                    $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
+                });
+            });
+        });
+    });
+</script>
 @endsection

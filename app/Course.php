@@ -80,4 +80,9 @@ class Course extends Model implements SluggableInterface {
     {
         return $this->hasMany('App\CourseModule');
     }
+
+    public function keys()
+    {
+        return $this->hasMany('App\CourseKey');
+    }
 }
