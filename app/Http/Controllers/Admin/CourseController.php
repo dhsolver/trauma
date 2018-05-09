@@ -38,7 +38,7 @@ class CourseController extends AdminController {
     {
         $course = new Course($request->except('photo', 'online_only'));
 
-        if($request->hasFile('photo'))
+        if ($request->hasFile('photo'))
         {
             $file = $request->file('photo');
             $filename = $file->getClientOriginalName();
@@ -53,7 +53,7 @@ class CourseController extends AdminController {
         }
         $course->save();
 
-        if($request->hasFile('photo'))
+        if ($request->hasFile('photo'))
         {
             $destinationPath = public_path() . '/images/courses/'.$course->id.'/';
             $request->file('photo')->move($destinationPath, $photo);
@@ -78,7 +78,7 @@ class CourseController extends AdminController {
     public function update(CourseRequest $request, Course $course)
     {
         $photo = '';
-        if($request->hasFile('photo'))
+        if ($request->hasFile('photo'))
         {
             $file = $request->file('photo');
             $filename = $file->getClientOriginalName();

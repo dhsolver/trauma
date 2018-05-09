@@ -16,12 +16,18 @@ class CourseModuleDocumentController extends AdminController {
 
     public function store(Course $course, CourseModule $courseModule, CourseModuleDocumentRequest $request)
     {
+        if ($request->type == 'file' && !$request->hasFile('document')) {
+            return response()->json([
+                'document' => 'Please upload a document.'
+            ], 422);
+        }
+
         if (empty($request->id)) {
             $courseModuleDocument = new CourseModuleDocument($request->except('document'));
             $courseModuleDocument->course_module_id = $courseModule->id;
             $courseModuleDocument->embedded = $request->has('embedded');
 
-            if($request->hasFile('document'))
+            if ($request->hasFile('document'))
             {
                 $file = $request->file('document');
                 $filename = $file->getClientOriginalName();
@@ -45,7 +51,7 @@ class CourseModuleDocumentController extends AdminController {
             $courseModuleDocument->update($request->except('document'));
             $courseModuleDocument->embedded = $request->has('embedded');
 
-            if($request->hasFile('document'))
+            if ($request->hasFile('document'))
             {
                 $file = $request->file('document');
                 $filename = $file->getClientOriginalName();
