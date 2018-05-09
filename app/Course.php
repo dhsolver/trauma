@@ -85,4 +85,9 @@ class Course extends Model implements SluggableInterface {
     {
         return $this->hasMany('App\CourseKey');
     }
+
+    public function documents()
+    {
+        return $this->hasMany('App\CourseDocument');
+    }
 }

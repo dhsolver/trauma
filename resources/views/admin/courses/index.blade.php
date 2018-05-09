@@ -63,8 +63,11 @@
         <table class="table table-hover">
             @foreach ($courses as $course)
             <tr>
-                <td><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a></td>
-                <td>{{ $course->online_only ? 'Online' : $course->date_start . '-' . $course->date_end }}</td>
+                <td><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">#{{ $course->id }}</a></td>
+                <td>
+                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a><br>
+                    {{ $course->online_only ? 'Online' : $course->date_start . '-' . $course->date_end }}
+                </td>
                 <td>{{ $course->location }}</td>
                 <td>
                     @if (is_array($course->instructors) && count($course->instructors) > 0)

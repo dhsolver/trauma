@@ -26,7 +26,7 @@
 
     <div class="form-group">
         <div class="row">
-            <div class="col-xs-12 text-right">
+            <div class="col-sm-12 text-right">
                 <button type="submit" class="btn btn-primary">
                     Save
                 </button>

@@ -8,10 +8,10 @@
 
     <h3 class="section-title">Latest Courses</h3>
     @if (count($latestCourses) > 0)
-    <div class="row">
+    <div class="row equal-height">
         @foreach ($latestCourses as $course)
         <div class="col-sm-4">
-            <div class="course">
+            <div class="course text-center">
                 @if ($course->photo)
                     <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}"><img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/></a>
                 @else

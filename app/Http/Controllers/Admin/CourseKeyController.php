@@ -9,7 +9,7 @@ use App\Http\Requests\Admin\CourseKeyGenerateRequest;
 
 class CourseKeyController extends AdminController {
 
-    private function generateRandomString($length = 6) {
+    private function generateRandomString($length = 20) {
         return substr(str_shuffle(
                 str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)))
             ), 1, $length

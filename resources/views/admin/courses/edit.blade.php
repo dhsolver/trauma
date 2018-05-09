@@ -44,7 +44,7 @@
     </div>
 
     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-        {!! Form::label('title', 'Title', array('class' => 'control-label')) !!}
+        {!! Form::label('title', 'Course Id: #'.$course->id, array('class' => 'control-label shown')) !!}
         <div class="controls">
             {!! Form::text('title', $course->title, array('class' => 'form-control', 'placeholder' => 'Title *')) !!}
             <span class="help-block">{{ $errors->first('title', ':message') }}</span>
@@ -91,58 +91,126 @@
         </div>
         @endif
     </h3>
+
+    <div class="table-responsive table-container">
+        @if (is_array($course->instructors) && count($course->instructors))
+        <table class="table table-hover table-course-keys">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            @foreach ($course->instructors as $faculty_id)
+            <?php $faculty = $faculties[$faculty_id]; ?>
+            <tr>
+                <td>{{ $faculty['id'] }}</td>
+                <td>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }}</td>
+                <td>{{ $faculty['email'] }}</td>
+            </tr>
+            @endforeach
+        </table>
+        @else
+        <h4>No instructors assigned.</h4>
+        @endif
+    </div>
+
     <div class="form-group">
-        @foreach ($faculties as $faculty)
-        <div class="checkbox inline">
-            <label>
-                {!! Form::checkbox('instructors[]', $faculty->id, is_array($course->instructors) && in_array($faculty->id, $course->instructors)) !!} ID: {{ $faculty->id }}, {{ $faculty->first_name }} {{ $faculty->last_name }} ({{ $faculty->email }})
-            </label>
+        {!! Form::label('instructors', 'Instructors', array('class' => 'control-label shown')) !!}
+        <div class="controls">
+            <select class="form-control" name="instructors[]" multiple="">
+                @foreach ($faculties as $faculty)
+                <option value="{{ $faculty['id'] }}" @if ($course->instructors && in_array($faculty['id'], $course->instructors)) selected @endif>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</option>
+                @endforeach
+            </select>
         </div>
-        @endforeach
     </div>
 
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
         {!! Form::label('overview', 'Overview', array('class' => 'control-label shown')) !!}
         <div class="controls">
-            {!! Form::textarea('overview', $course->overview, array('class' => 'form-control', 'placeholder' => 'Overview *', 'rows' => '3')) !!}
+            {!! Form::textarea('overview', $course->overview, array('class' => 'form-control', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('overview', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('objective') ? 'has-error' : '' }}">
         {!! Form::label('objective', 'Objective', array('class' => 'control-label shown')) !!}
         <div class="controls">
-            {!! Form::textarea('objective', $course->objective, array('class' => 'form-control', 'placeholder' => 'Objective *', 'rows' => '3')) !!}
+            {!! Form::textarea('objective', $course->objective, array('class' => 'form-control', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('objective', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('prerequisites') ? 'has-error' : '' }}">
         {!! Form::label('prerequisites', 'Pre-requisites', array('class' => 'control-label shown')) !!}
         <div class="controls">
-            {!! Form::textarea('prerequisites', $course->prerequisites, array('class' => 'form-control', 'placeholder' => 'Pre-requisites', 'rows' => '3')) !!}
+            {!! Form::textarea('prerequisites', $course->prerequisites, array('class' => 'form-control', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('prerequisites', ':message') }}</span>
         </div>
     </div>
     <div class="form-group {{ $errors->has('resources') ? 'has-error' : '' }}">
         {!! Form::label('resources', 'Resources', array('class' => 'control-label shown')) !!}
         <div class="controls">
-            {!! Form::textarea('resources',  $course->resources, array('class' => 'form-control', 'placeholder' => 'Textbook or Additonal Resources', 'rows' => '3')) !!}
+            {!! Form::textarea('resources',  $course->resources, array('class' => 'form-control', 'rows' => '3')) !!}
             <span class="help-block">{{ $errors->first('resources', ':message') }}</span>
+        </div>
+    </div>
+    <div class="form-group {{ $errors->has('continuing_education') ? 'has-error' : '' }}">
+        {!! Form::label('continuing_education', 'Continuing Education (CE)', array('class' => 'control-label shown')) !!}
+        <div class="controls">
+            {!! Form::textarea('continuing_education',  $course->continuing_education, array('class' => 'form-control', 'rows' => '3')) !!}
+            <span class="help-block">{{ $errors->first('continuing_education', ':message') }}</span>
         </div>
     </div>
 
     <h3 class="section-title">
-        Course Modules
+        Course Administrative Documents
         <div class="pull-right">
-            <a href="{{ url('/admin/courses/'.$course->id.'/modules/create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add</a>
+            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#documentModal">
+                <i class="fa fa-plus"></i> Add
+            </a>
         </div>
     </h3>
     <div>
+        @if (count($course->documents))
+            @foreach ($course->documents as $document)
+            <div class="row">
+                <div class="col-xs-10">
+                    <a href="{{ url('images/courses/'.$course->id.'/documents/'.$document->file) }}" target="_blank" class="text-break">
+                        <i class="fa fa-file-o"></i> {{ $document->filename }}
+                    </a>
+                </div>
+                <div class="col-xs-2 text-right">
+                    <a class="btn btn-xs btn-circle  btn-danger" href="{{ url('admin/courses/'.$course->id.'/documents/'.$document->id.'/delete') }}" onclick="return confirm('Are you sure?')">
+                        <i class="fa fa-close"></i>
+                    </a>
+                </div>
+            </div>
+            @endforeach
+        </table>
+        @else
+            <h4>No administrative documents added.</h4>
+        @endif
+    </div>
+
+    <hr>
+
+    <h3 class="section-title">
+        Course Modules
+        <div class="pull-right">
+            <a href="{{ url('/admin/courses/'.$course->id.'/modules/create')}}" class="btn btn-sm btn-primary">
+                <i class="fa fa-plus"></i> Add
+            </a>
+        </div>
+    </h3>
+    <div>
+        @if (count($course->modules))
         @foreach ($course->modules as $module)
             <div class="row m-t-10">
-                <div class="col-xs-6">
+                <div class="col-xxs-6">
                     <strong>{{ $module->title }}</strong>
                 </div>
-                <div class="col-xs-6 text-right">
+                <div class="col-xxs-6 text-right">
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/edit') !!}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/delete') !!}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
@@ -151,14 +219,17 @@
             <div class="row">
                 <div class="col-sm-11 col-sm-offset-1">
                     @if ($document->type === 'url')
-                        <a href="{{ $document->url }}"><i class="fa fa-globe"></i> {{ $document->url }}</a>
+                        <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa fa-globe"></i> {{ $document->url }}</a>
                     @else
-                        <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}"><i class="fa fa-file-o"></i> {{ $document->filename }}</a>
+                        <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}" target="_blank" class="text-break"><i class="fa fa-file-o"></i> {{ $document->filename }}</a>
                     @endif
                 </div>
             </div>
             @endforeach
         @endforeach
+        @else
+            <h4>No course modules added.</h4>
+        @endif
     </div>
 
     <hr>
@@ -216,12 +287,21 @@
 
     <div class="form-group">
         <div class="row">
-            <div class="col-xs-6">
-                <a class="btn btn-danger" href="{{ url('admin/courses').'/'.$course->id.'/delete' }}" onclick="return confirm('Are you sure?')">
+            <div class="col-xxs-6">
+                <!-- <a class="btn btn-danger" href="{{ url('admin/courses').'/'.$course->id.'/delete' }}" onclick="return confirm('Are you sure?')">
                     Delete Course
+                </a> -->
+                @if (!$course->enabled)
+                <a class="btn btn-primary" href="{{ url('admin/courses').'/'.$course->id.'/enable' }}" onclick="return confirm('Are you sure?')">
+                    Enable
                 </a>
+                @else
+                <a class="btn btn-danger" href="{{ url('admin/courses').'/'.$course->id.'/disable' }}" onclick="return confirm('Are you sure?')">
+                    Disable
+                </a>
+                @endif
             </div>
-            <div class="col-xs-6 text-right">
+            <div class="col-xxs-6 text-right">
                 <button type="submit" class="btn btn-primary">
                     Update Course
                 </button>
@@ -276,12 +356,71 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="documentModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {!! Form::open(array('url' => url('admin/courses/'.$course->id.'/documents'), 'method' => 'post', 'files' => true, 'class' => 'form-course-doc')) !!}
+                <input type="hidden" name="id" value="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Document Info</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group document">
+                        <div><span class='label label-info' id="document-file-info"></span></div>
+                        <label class="btn btn-sm btn-primary" for="course-document">
+                            <input id="course-document" name="document" type="file" value="Upload" style="display:none"
+                            onchange="$('#document-file-info').html(this.files[0].name)">
+                            Choose a File
+                        </label>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
     $(function() {
         $('form.form-course-keys').submit(function(event) {
+            event.preventDefault();
+
+            var $form = $(this);
+            $form.find('.form-group').removeClass('has-error');
+            $form.find('.form-group .help-block').text('');
+
+            var formData = new FormData(this);
+            var url = $form.attr('action');
+             $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        location.href = data.redirect;
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            }).fail(function(xhr) {
+                var errors = xhr.responseJSON;
+                $.each(Object.keys(errors), function(index, key) {
+                    $form.find('.form-group.' + key).addClass('has-error');
+                    $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
+                });
+            });
+        });
+
+        $('form.form-course-doc').submit(function(event) {
             event.preventDefault();
 
             var $form = $(this);

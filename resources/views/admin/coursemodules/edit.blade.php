@@ -45,11 +45,11 @@
                     </div>
                     <div class="col-xs-8 col-sm-10">
                         @if ($document->type === 'url')
-                            <a href="{{ $document->url }}">
+                            <a href="{{ $document->url }}" target="_blank" class="text-break">
                                 <i class="fa fa-globe"></i> {{ $document->url }}
                             </a>
                         @else
-                            <a href="{{ url('images/courses/'.$course->id.'/modules/'.$courseModule->id.'/'.$document->file) }}" target="_blank">
+                            <a href="{{ url('images/courses/'.$course->id.'/modules/'.$courseModule->id.'/'.$document->file) }}" target="_blank" class="text-break">
                                 <i class="fa fa-file-o"></i> {{ $document->filename }}
                             </a>
                         @endif

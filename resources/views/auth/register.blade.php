@@ -192,7 +192,7 @@
                     </div>
                 </div>
                 <div class="form-group {{ $errors->has('credentials') ? 'has-error' : '' }}">
-                    {!! Form::label('credentials', 'Credentials (RN, MD, EMT, CMISS, etc)', array('class' => 'control-label')) !!}
+                    {!! Form::label('credentials', 'Credentials (RN, MD, EMT, CAISS, etc)', array('class' => 'control-label')) !!}
                     <div class="controls">
                         {!! Form::text('credentials', null, array('class' => 'form-control', 'placeholder' => 'Credentials (RN, MD, EMT, CMISS, etc)')) !!}
                         <span class="help-block">{{ $errors->first('credentials', ':message') }}</span>

@@ -68,7 +68,9 @@ class CourseController extends AdminController {
         $faculties = User::where('role', 'faculty')
             ->orderBy('first_name', 'asc')
             ->orderBy('last_name', 'asc')
-            ->get();
+            ->get()
+            ->keyBy('id')
+            ->toArray();
 
         return view('admin.courses.edit', compact('course', 'faculties'));
     }
@@ -112,5 +114,21 @@ class CourseController extends AdminController {
         $course->delete();
         session()->flash('courseMessage', 'Course has been deleted!');
         return redirect()->action('Admin\CourseController@index');
+    }
+
+    public function disable(Course $course)
+    {
+        $course->enabled = false;
+        $course->save();
+        session()->flash('courseMessage', 'Course has been disabled!');
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function enable(Course $course)
+    {
+        $course->enabled = true;
+        $course->save();
+        session()->flash('courseMessage', 'Course has been enabled!');
+        return redirect()->action('Admin\CourseController@edit', $course);
     }
 }

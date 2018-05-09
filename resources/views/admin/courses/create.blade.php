@@ -98,10 +98,17 @@
             <span class="help-block">{{ $errors->first('resources', ':message') }}</span>
         </div>
     </div>
+    <div class="form-group {{ $errors->has('continuing_education') ? 'has-error' : '' }}">
+        {!! Form::label('continuing_education', 'Continuing Education (CE)', array('class' => 'control-label')) !!}
+        <div class="controls">
+            {!! Form::textarea('continuing_education', null, array('class' => 'form-control', 'placeholder' => 'Continuing Education (CE)', 'rows' => '3')) !!}
+            <span class="help-block">{{ $errors->first('continuing_education', ':message') }}</span>
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="row">
-            <div class="col-xs-12 text-right">
+            <div class="col-sm-12 text-right">
                 <button type="submit" class="btn btn-primary">
                     Create Course
                 </button>

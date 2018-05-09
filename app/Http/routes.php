@@ -8,6 +8,7 @@ Route::model('photoalbum', 'App\PhotoAlbum');
 Route::model('photo', 'App\Photo');
 Route::model('user', 'App\User');
 Route::model('course', 'App\Course');
+Route::model('coursedocument', 'App\CourseDocument');
 Route::model('coursemodule', 'App\CourseModule');
 Route::model('coursemoduledocument', 'App\CourseModuleDocument');
 Route::pattern('id', '[0-9]+');
@@ -48,8 +49,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::get('courses/{course}/edit', 'Admin\CourseController@edit');
     Route::put('courses/{course}', 'Admin\CourseController@update');
     Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
+    Route::get('courses/{course}/disable', 'Admin\CourseController@disable');
+    Route::get('courses/{course}/enable', 'Admin\CourseController@enable');
 
     Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
+
+    Route::post('courses/{course}/documents', 'Admin\CourseDocumentController@store');
+    Route::get('courses/{course}/documents/{coursedocument}/delete', 'Admin\CourseDocumentController@delete');
 
     // Course modules routes
     Route::get('courses/{course}/modules/create', 'Admin\CourseModuleController@create');
