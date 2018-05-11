@@ -236,7 +236,7 @@
 
     <h3 class="section-title">
         Course Keys
-        <div class="pull-right">
+        <div class="pull-right text-right">
             <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#generateKeyModal">
                 Generate Keys
             </a>

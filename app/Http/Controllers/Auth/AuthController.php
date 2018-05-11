@@ -66,6 +66,8 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        $this->redirectTo = '/profile';
+
         $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
