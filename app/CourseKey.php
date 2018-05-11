@@ -10,14 +10,14 @@ class CourseKey extends Model {
 
     public function getCreatedAtAttribute($value)
     {
-        if ($value == null) return null;
+        if (empty($value)) return null;
         $time = strtotime($value);
         return date("m/d/Y", $time);
     }
 
     public function getRedeemedAtAttribute($value)
     {
-        if ($value == null) return null;
+        if (empty($value)) return null;
         $time = strtotime($value);
         return date("m/d/Y", $time);
     }

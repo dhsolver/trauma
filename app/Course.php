@@ -38,14 +38,14 @@ class Course extends Model implements SluggableInterface {
 
     public function getDateStartAttribute($value)
     {
-        if ($value == null) return null;
+        if (empty($value)) return null;
         $time = strtotime($value);
         return date("m/d/Y", $time);
     }
 
     public function setDateStartAttribute($value)
     {
-        if ($value == null) {
+        if (empty($value)) {
             $this->attributes['date_start'] = null;
         } else {
             $this->attributes['date_start'] = date("Y-m-d", strtotime($value) );
@@ -54,14 +54,14 @@ class Course extends Model implements SluggableInterface {
 
     public function getDateEndAttribute($value)
     {
-        if ($value == null) return null;
+        if (empty($value)) return null;
         $time = strtotime($value);
         return date("m/d/Y", $time);
     }
 
     public function setDateEndAttribute($value)
     {
-        if ($value == null) {
+        if (empty($value)) {
             $this->attributes['date_end'] = null;
         } else{
             $this->attributes['date_end'] = date("Y-m-d", strtotime($value) );
@@ -74,6 +74,14 @@ class Course extends Model implements SluggableInterface {
             $this->attributes['date_start'] = null;
             $this->attributes['date_end'] = null;
         }
+    }
+
+    public function getPhotoPathAttribute() {
+        $id = $this->attributes['id'];
+        $photo = $this->attributes['photo'];
+        if (empty($id) || empty($photo)) return null;
+
+        return "images/courses/$id/$photo";
     }
 
     public function modules()

@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CourseController extends AdminController {
 
@@ -130,5 +131,59 @@ class CourseController extends AdminController {
         $course->save();
         session()->flash('courseMessage', 'Course has been enabled!');
         return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    private function copyPublicFile($path, $newPath)
+    {
+        if (empty($newPath)) return;
+        $fullPath = public_path($newPath);
+        if (!File::exists(dirname($fullPath))) {
+            File::makeDirectory(dirname($fullPath), 0755, true, true);
+        }
+        File::copy(public_path($path), $fullPath);
+    }
+
+    /*
+    // $this->copyChildren($course, $newCourse, 'modules');
+    private function copyChildren($object, $newObject, $relation)
+    {
+        $object->load($relation);
+        foreach ($course->getRelations() as $relation => $items){
+            foreach ($items as $item){
+                unset($item->id);
+                $newObject->{$relation}()->create($item->toArray());
+            }
+
+        }
+    }*/
+
+    public function copy(Course $course)
+    {
+        $newCourse = $course->replicate();
+        $newCourse->title = 'Copy - '.$newCourse->title;
+        $newCourse->continuing_education = '';
+        $newCourse->published = false;
+
+        $newCourse->push();
+        $this->copyPublicFile($course->photo_path, $newCourse->photo_path);
+
+        foreach ($course->modules as $module => $courseModule) {
+            $newCourseModule = $courseModule->replicate();
+            $newCourseModule->course_id = $newCourse->id;
+            $newCourseModule->push();
+
+            foreach ($courseModule->documents as $document => $courseModuleDocument) {
+                $newCourseModuleDocument = $courseModuleDocument->replicate();
+                $newCourseModuleDocument->course_module_id = $newCourseModule->id;
+                $newCourseModuleDocument->push();
+
+                if ($newCourseModuleDocument->type == 'file') {
+                    $this->copyPublicFile($courseModuleDocument->file_path, $newCourseModuleDocument->file_path);
+                }
+            }
+        }
+
+        session()->flash('courseMessage', 'Course has been copied!');
+        return redirect()->action('Admin\CourseController@edit', $newCourse);
     }
 }

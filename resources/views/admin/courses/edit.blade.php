@@ -292,11 +292,19 @@
                     Delete Course
                 </a> -->
                 @if (!$course->enabled)
-                <a class="btn btn-primary" href="{{ url('admin/courses').'/'.$course->id.'/enable' }}" onclick="return confirm('Are you sure?')">
+                <a
+                    class="btn btn-primary"
+                    href="{{ url('admin/courses').'/'.$course->id.'/enable' }}"
+                    onclick="return confirm('Are you sure?')"
+                >
                     Enable
                 </a>
                 @else
-                <a class="btn btn-danger" href="{{ url('admin/courses').'/'.$course->id.'/disable' }}" onclick="return confirm('Are you sure?')">
+                <a
+                    class="btn btn-danger"
+                    href="{{ url('admin/courses').'/'.$course->id.'/disable' }}"
+                    onclick="return confirm('Are you sure?')"
+                >
                     Disable
                 </a>
                 @endif

@@ -80,7 +80,20 @@
                     @endif
                 </td>
                 <td class="text-right">
-                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}" class="btn btn-primary">Edit</a>
+                    <a
+                        href="{!! url('admin/courses/'.$course->id.'/edit') !!}"
+                        class="btn btn-primary"
+                    >
+                         <i class="fa fa-pencil"></i> Edit
+                    </a>
+                    <a
+                        class="btn btn-primary"
+                        href="{{ url('admin/courses').'/'.$course->id.'/copy' }}"
+                        onclick="return confirm('Are you sure?')"
+                    >
+                        <i class="fa fa-copy"></i> Copy
+                    </a>
+
                 </td>
             </tr>
             @endforeach

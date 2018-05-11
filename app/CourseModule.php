@@ -10,6 +10,10 @@ class CourseModule extends Model {
 
     public $timestamps = false;
 
+    public function course() {
+        return $this->belongsTo('App\Course');
+    }
+
     public function documents()
     {
         return $this->hasMany('App\CourseModuleDocument');
