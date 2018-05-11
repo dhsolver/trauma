@@ -54,6 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::get('courses/{course}/copy', 'Admin\CourseController@copy');
 
     Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
+    Route::get('courses/{course}/keys/export', 'Admin\CourseKeyController@export');
 
     Route::post('courses/{course}/documents', 'Admin\CourseDocumentController@store');
     Route::get('courses/{course}/documents/{coursedocument}/delete', 'Admin\CourseDocumentController@delete');

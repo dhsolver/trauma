@@ -112,7 +112,9 @@
     <h3 class="section-title">
         Search Results
         <div class="pull-right">
-            <button class="btn btn-sm btn-primary" id="users-search-export">Export To CSV</button>
+            <button class="btn btn-sm btn-primary" id="users-search-export">
+                <i class="fa fa-download"></i> Export To CSV
+            </button>
         </div>
     </h3>
     <div class="table-responsive table-container">
