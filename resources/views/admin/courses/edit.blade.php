@@ -255,6 +255,7 @@
                     <th>Created At</th>
                     <th>Redeemed</th>
                     <th>Tag</th>
+                    <th></th>
                 </tr>
             </thead>
             @foreach ($course->keys as $key)
@@ -272,6 +273,21 @@
                     @endif
                 </td>
                 <td><label class="label label-info">{{ $key->tag }}</label></td>
+                <td class="text-center">
+                    @if (!$key->redeemed)
+                        @if ($key->enabled)
+                        <a href="{{ url('admin/courses/'.$course->id.'/keys/'.$key->id.'/disable') }}"
+                            class="btn btn-xs btn-danger">
+                            Disable
+                        </a>
+                        @else
+                        <a href="{{ url('admin/courses/'.$course->id.'/keys/'.$key->id.'/enable') }}"
+                            class="btn btn-xs btn-success">
+                            Enable
+                        </a>
+                        @endif
+                    @endif
+                </td>
             </tr>
             @endforeach
         </table>

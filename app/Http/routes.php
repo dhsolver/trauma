@@ -8,6 +8,7 @@ Route::model('photoalbum', 'App\PhotoAlbum');
 Route::model('photo', 'App\Photo');
 Route::model('user', 'App\User');
 Route::model('course', 'App\Course');
+Route::model('coursekey', 'App\CourseKey');
 Route::model('coursedocument', 'App\CourseDocument');
 Route::model('coursemodule', 'App\CourseModule');
 Route::model('coursemoduledocument', 'App\CourseModuleDocument');
@@ -55,6 +56,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
 
     Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
     Route::get('courses/{course}/keys/export', 'Admin\CourseKeyController@export');
+    Route::get('courses/{course}/keys/{coursekey}/disable', 'Admin\CourseKeyController@disable');
+    Route::get('courses/{course}/keys/{coursekey}/enable', 'Admin\CourseKeyController@enable');
 
     Route::post('courses/{course}/documents', 'Admin\CourseDocumentController@store');
     Route::get('courses/{course}/documents/{coursedocument}/delete', 'Admin\CourseDocumentController@delete');

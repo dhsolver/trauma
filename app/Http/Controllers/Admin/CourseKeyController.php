@@ -27,7 +27,7 @@ class CourseKeyController extends AdminController {
             $key->save();
         }
 
-        session()->flash('courseMessage', "$request->count key(s) have bene generated.");
+        session()->flash('courseMessage', "$request->count key(s) have been generated.");
 
         return response()->json([
             'success' => true,
@@ -71,6 +71,7 @@ class CourseKeyController extends AdminController {
             'Full Name',
             'Email',
             'Redeemed At',
+            'Enabled',
         ));
         foreach ($course->keys as $key) {
             fputcsv($output, array(
@@ -80,11 +81,33 @@ class CourseKeyController extends AdminController {
                 $key->redeemed ? $key->redeemedUser->first_name.' '.$key->redeemedUser->last_name : '',
                 $key->redeemed ? $key->redeemedUser->email : '',
                 $key->redeemed ? $key->redeemed_at : '',
+                $key->enabled ? 'Yes' : 'No',
             ));
         }
 
         fclose($output);
         echo ob_get_clean();
         die;
+    }
+
+    public function disable(Course $course, CourseKey $courseKey)
+    {
+        // if (!$courseKey->redeemed) {
+        $courseKey->enabled = false;
+        $courseKey->save();
+
+        session()->flash('courseMessage', "Course key has been disabled.");
+        // }
+
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function enable(Course $course, CourseKey $courseKey)
+    {
+        $courseKey->enabled = true;
+        $courseKey->save();
+        session()->flash('courseMessage', "Course key has been enabled.");
+
+        return redirect()->action('Admin\CourseController@edit', $course);
     }
 }
