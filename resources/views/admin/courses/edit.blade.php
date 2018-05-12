@@ -240,7 +240,7 @@
             <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#generateKeyModal">
                 Generate Keys
             </a>
-            <a href={{ url('admin/courses/'.$course->id.'/keys/export') }} class="btn btn-sm btn-primary">
+            <a href="{{ url('admin/courses/'.$course->id.'/keys/export') }}" class="btn btn-sm btn-primary">
                 <i class="fa fa-download"></i> Export to CSV
             </a>
         </div>

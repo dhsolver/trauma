@@ -25,6 +25,10 @@ Route::get('article/{slug}', 'ArticlesController@show');
 Route::get('video/{id}', 'VideoController@show');
 Route::get('photo/{id}', 'PhotoController@show');
 
+Route::get('courses', 'CourseController@index');
+Route::get('course/{slug}', 'CourseController@show');
+
+
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
@@ -35,7 +39,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('profile', 'ProfileController@viewProfile');
     Route::post('profile', 'ProfileController@saveProfile');
     Route::post('profile/avatar', 'ProfileController@saveAvatar');
-
 });
 
 /***************    Faculty routes  **********************************/

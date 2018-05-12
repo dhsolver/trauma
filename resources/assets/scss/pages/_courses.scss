@@ -1,0 +1,58 @@
+.page-courses {
+    .content-box {
+        padding-bottom: 30px;
+    }
+
+    .course {
+        /*background-color: $g;*/
+        border: 6px solid $grey;
+
+        &__info {
+            padding-bottom: 16px;
+            font-size: 16px;
+
+            hr {
+                margin-top: 4px;
+                margin-bottom: 4px;
+                border-top: 1px dashed $grey-dark;
+                width: 60%;
+            }
+        }
+
+        &__title {
+            margin-top: 16px;
+        }
+    }
+
+
+    @media (max-width: 767px) {
+        .course {
+            margin-bottom: 15px;
+
+            .img-course {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.page-course {
+    .course-info {
+        margin-top: 12px;
+        text-align: center;
+
+        label {
+            color: $blue;
+        }
+
+        p, ul {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    /*@media (min-width: 767px) {
+
+    }*/
+}
