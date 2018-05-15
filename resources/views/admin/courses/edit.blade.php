@@ -312,6 +312,7 @@
                 <!-- <a class="btn btn-danger" href="{{ url('admin/courses').'/'.$course->id.'/delete' }}" onclick="return confirm('Are you sure?')">
                     Delete Course
                 </a> -->
+                @if (Auth::user()->role === 'admin')
                 @if (!$course->enabled)
                 <a
                     class="btn btn-primary"
@@ -328,6 +329,7 @@
                 >
                     Disable
                 </a>
+                @endif
                 @endif
             </div>
             <div class="col-xxs-6 text-right">
@@ -399,9 +401,9 @@
                     <div class="form-group document">
                         <div><span class='label label-info' id="document-file-info"></span></div>
                         <label class="btn btn-sm btn-primary" for="course-document">
-                            <input id="course-document" name="document" type="file" value="Upload" style="display:none"
-                            onchange="$('#document-file-info').html(this.files[0].name)">
-                            Choose a File
+                            <input id="course-document" name="documents[]" type="file" multiple="multiple" value="Upload" style="display:none"
+                            onchange="$('#document-file-info').html(getFileNames(this.files))">
+                            Choose Files
                         </label>
                         <span class="help-block"></span>
                     </div>
@@ -418,6 +420,10 @@
 
 @section('scripts')
 <script type="text/javascript">
+    function getFileNames(files) {
+        return Array.from(files).map(file => file.name).join(', ')
+    }
+
     $(function() {
         $('form.form-course-keys').submit(function(event) {
             event.preventDefault();

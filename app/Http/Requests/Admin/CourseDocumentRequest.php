@@ -12,7 +12,7 @@ class CourseDocumentRequest extends FormRequest {
     public function rules()
     {
         return [
-            'document' => 'required',
+            'documents' => 'required',
         ];
     }
 

@@ -20,6 +20,7 @@ class DashboardController extends AdminController {
 
 
         $latestCourses = Course::where('published', 1)
+            ->where('enabled', 1)
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();

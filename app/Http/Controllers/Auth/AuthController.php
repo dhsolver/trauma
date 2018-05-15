@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Jobs\SendWelcomeEmail;
@@ -24,14 +27,43 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    protected $auth;
+
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Guard $auth)
     {
+        $this->auth = $auth;
+
         $this->middleware('guest', ['except' => 'getLogout']);
+    }
+
+    public function postLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email', 'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        if ($this->auth->attempt($credentials)) {
+            if (Auth::user()->approval === 'denied') {
+                Auth::logout();
+                session()->flash('authMessage', 'This account has been locked.
+                    Please contact <a href="mailto:support@traumaanalytics.com" class="text-danger">support@traumaanalytics.com</a>.');
+                return redirect($this->loginPath())
+                    ->withInput($request->only('email'));
+            }
+            return redirect()->intended($this->redirectPath());
+        }
+
+        return redirect($this->loginPath())
+            ->withInput($request->only('email'))
+            ->withErrors([
+                'email' => $this->getFailedLoginMessage(),
+            ]);
     }
 
     /**

@@ -16,20 +16,18 @@ class CourseModuleDocumentController extends AdminController {
 
     public function store(Course $course, CourseModule $courseModule, CourseModuleDocumentRequest $request)
     {
-        if ($request->type == 'file' && !$request->hasFile('document')) {
-            return response()->json([
-                'document' => 'Please upload a document.'
-            ], 422);
-        }
-
         if (empty($request->id)) {
-            $courseModuleDocument = new CourseModuleDocument($request->except('document'));
-            $courseModuleDocument->course_module_id = $courseModule->id;
-            $courseModuleDocument->embedded = $request->has('embedded');
+            if ($request->type == 'file' && !$request->hasFile('documents')) {
+                return response()->json([
+                    'document' => 'Please upload a document.'
+                ], 422);
+            }
 
-            if ($request->hasFile('document'))
-            {
-                $file = $request->file('document');
+            foreach ($request->file('documents') as $file) {
+                $courseModuleDocument = new CourseModuleDocument($request->except('documents'));
+                $courseModuleDocument->course_module_id = $courseModule->id;
+                $courseModuleDocument->embedded = $request->has('embedded');
+
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $savepath = sha1($filename.time()).'.'.$extension;
@@ -38,9 +36,9 @@ class CourseModuleDocumentController extends AdminController {
 
                 $courseModuleDocument->filename = $filename;
                 $courseModuleDocument->file = $savepath;
-            }
 
-            $courseModuleDocument->save();
+                $courseModuleDocument->save();
+            }
 
             session()->flash('courseModuleMessage',
                 $courseModuleDocument->type === 'url' ?
@@ -48,12 +46,12 @@ class CourseModuleDocumentController extends AdminController {
             );
         } else {
             $courseModuleDocument = CourseModuleDocument::find($request->id);
-            $courseModuleDocument->update($request->except('document'));
+            $courseModuleDocument->update($request->except('documents'));
             $courseModuleDocument->embedded = $request->has('embedded');
 
-            if ($request->hasFile('document'))
+            if ($request->hasFile('documents'))
             {
-                $file = $request->file('document');
+                $file = $request->file('documents');
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $savepath = sha1($filename.time()).'.'.$extension;

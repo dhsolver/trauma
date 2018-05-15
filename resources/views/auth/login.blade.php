@@ -10,7 +10,7 @@
             {!! Form::open(array('url' => url('auth/login'), 'method' => 'post', 'class'=> 'form-login')) !!}
                 @if (Session::has('authMessage'))
                     <div class="alert alert-danger" role="alert">
-                        {{ Session::get('authMessage') }}
+                        {!! Session::get('authMessage') !!}
                     </div>
                 @endif
 

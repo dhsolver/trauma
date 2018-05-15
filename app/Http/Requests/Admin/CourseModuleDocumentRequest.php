@@ -13,15 +13,13 @@ class CourseModuleDocumentRequest extends FormRequest {
     {
         return [
             'type' => 'in:url,file',
-            'url' => 'required_if:type,url|min:3',
-            // 'document' => 'required_if:type,file',
+            'url' => 'required_if:type,url',
         ];
     }
 
     public function messages() {
         return [
             'url.required_if' => 'Please enter the url.',
-            // 'document.required_if' => 'Please choose a file.',
         ];
     }
 

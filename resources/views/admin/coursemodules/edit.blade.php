@@ -137,8 +137,8 @@
                     <div class="form-group document">
                         <div><span class='label label-info' id="upload-file-info"></span></div>
                         <label class="btn btn-sm btn-primary" for="module-document">
-                            <input id="module-document" name="document" type="file" value="Upload" style="display:none"
-                            onchange="$('#upload-file-info').html(this.files[0].name)">
+                            <input id="module-document" name="documents[]" type="file" value="Upload" style="display:none"
+                            onchange="$('#upload-file-info').html(getFileNames(this.files))">
                             Choose a File
                         </label>
                         <span class="help-block"></span>
@@ -163,6 +163,10 @@
 
 @section('scripts')
 <script type="text/javascript">
+    function getFileNames(files) {
+        return Array.from(files).map(file => file.name).join(', ')
+    }
+
     $(function() {
         $('.form-course-module .documents .btn-edit-doc').click(function(event) {
             var $formGroup = $(this).closest('.form-group');
@@ -181,6 +185,7 @@
                 var filename= $formGroup.data('filename');
                 var embedded= $formGroup.data('embedded');
                 $modal.find('input[name="id"]').val(id);
+                $modal.find('input[type="file"]').removeAttr('multiple');
                 $modal.find('#upload-file-info').text(filename);
                 $modal.find('input[name="embedded"]').prop('checked', embedded);
             }
@@ -193,6 +198,7 @@
             $modal.find('form input[name="id"]').val('');
             $modal.find('form input[type="text"]').val('');
             $modal.find('form input[type="file"]').val('');
+            $modal.find('input[type="file"]').attr('multiple', 'multiple');
             $modal.find('form input[type="checkbox"]').prop('checked', false);
             $modal.find('#upload-file-info').text('');
         });

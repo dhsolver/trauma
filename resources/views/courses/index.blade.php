@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title')Courses Catalog @endsection
+@section('title')Course Catalog @endsection
 @section('content')
 <div class="page-courses">
     <div class="content-box">

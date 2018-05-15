@@ -163,6 +163,7 @@ class CourseController extends AdminController {
         $newCourse->title = 'Copy - '.$newCourse->title;
         $newCourse->continuing_education = '';
         $newCourse->published = false;
+        $newCourse->enabled = true;
 
         $newCourse->push();
         $this->copyPublicFile($course->photo_path, $newCourse->photo_path);

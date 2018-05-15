@@ -25,8 +25,11 @@ class CourseModuleController extends AdminController {
         $courseModule->course_id = $course->id;
         $courseModule->save();
 
-        session()->flash('courseMessage', 'Course module has been created!');
-        return redirect()->action('Admin\CourseController@edit', $course);
+        session()->flash('courseModuleMessage', 'Course module has been created!');
+        return redirect()->action('Admin\CourseModuleController@edit', [
+            'course' => $course,
+            'courseModule' => $courseModule
+        ]);
     }
 
     public function edit(Course $course, CourseModule $courseModule)
@@ -38,7 +41,7 @@ class CourseModuleController extends AdminController {
     {
         $courseModule->update($request->all());
 
-        session()->flash('courseMessage', 'Course module has been updated!');
+        session()->flash('courseModuleMessage', 'Course module has been updated!');
         return redirect()->action('Admin\CourseModuleController@edit', [
             'course' => $course,
             'courseModule' => $courseModule

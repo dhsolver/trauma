@@ -25,10 +25,6 @@ Route::get('article/{slug}', 'ArticlesController@show');
 Route::get('video/{id}', 'VideoController@show');
 Route::get('photo/{id}', 'PhotoController@show');
 
-Route::get('courses', 'CourseController@index');
-Route::get('course/{slug}', 'CourseController@show');
-
-
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
@@ -39,6 +35,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('profile', 'ProfileController@viewProfile');
     Route::post('profile', 'ProfileController@saveProfile');
     Route::post('profile/avatar', 'ProfileController@saveAvatar');
+
+    Route::get('courses', 'CourseController@index');
+    Route::get('course/{slug}', 'CourseController@show');
 });
 
 /***************    Faculty routes  **********************************/
@@ -52,9 +51,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::post('courses', 'Admin\CourseController@store');
     Route::get('courses/{course}/edit', 'Admin\CourseController@edit');
     Route::put('courses/{course}', 'Admin\CourseController@update');
-    Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
-    Route::get('courses/{course}/disable', 'Admin\CourseController@disable');
-    Route::get('courses/{course}/enable', 'Admin\CourseController@enable');
     Route::get('courses/{course}/copy', 'Admin\CourseController@copy');
 
     Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
@@ -87,6 +83,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::post('users', 'Admin\UserController@store');
     Route::get('users/{user}/approve', 'Admin\UserController@approve');
     Route::get('users/{user}/deny', 'Admin\UserController@deny');
+
+    // Courses routes
+    // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
+    Route::get('courses/{course}/disable', 'Admin\CourseController@disable');
+    Route::get('courses/{course}/enable', 'Admin\CourseController@enable');
 
     # Language
     Route::get('language/data', 'Admin\LanguageController@data');

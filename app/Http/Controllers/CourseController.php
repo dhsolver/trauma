@@ -16,6 +16,7 @@ class CourseController extends Controller {
             ->toArray();
 
         $latestCourses = Course::where('published', 1)
+            ->where('enabled', 1)
             ->orderBy('created_at', 'desc')
             ->get();
 

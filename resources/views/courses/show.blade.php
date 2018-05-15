@@ -101,11 +101,13 @@
         <div class="course-info">
             <label>Course Modules</label>
             @if (count($course->modules))
-                <ul>
+                <div>
+                <ul class="course-modules">
                 @foreach ($course->modules as $module)
                     <li>{{ $module->title }}</li>
                 @endforeach
                 </ul>
+                </div>
             @else
                 <p>No course module</p>
             @endif
@@ -121,10 +123,10 @@
                     Login
                 </a>
             @else
-                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#registerWithKeyModal">
+                <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#registerWithKeyModal">
                     <i class="fa fa-key"></i> Register with key
                 </a>
-                <a href="#" class="btn btn-primary">
+                <a href="#" class="btn btn-primary m-b-5">
                     <i class="fa fa-paypal"></i> Buy with Paypal
                 </a>
             @endif

@@ -25,9 +25,11 @@
                 <li class="{{ (Request::is('education') ? 'active' : '') }}">
                     <a href="{{ url('education') }}">Education</a>
                 </li>
+                @if (!Auth::guest() && Auth::user()->approval == 'approved')
                 <li class="{{ (Request::is('courses') ? 'active' : '') }}">
-                    <a href="{{ url('courses') }}">Courses Catalog</a>
+                    <a href="{{ url('courses') }}">Course Catalog</a>
                 </li>
+                @endif
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
