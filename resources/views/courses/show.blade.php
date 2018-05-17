@@ -110,7 +110,7 @@
         <hr>
         <div class="course-info course-register">
             <!-- <label>Register</label> -->
-            @if (empty($registered))
+            @if (empty($registration))
                 @if (Auth::guest())
                     <p class="text-info">You need to login to register for this course</p>
                     <a href="{{ url('auth/login') }}" class="btn btn-primary">
@@ -127,7 +127,7 @@
             @else
                 <p class="text-info">You have already registered for this course.</p>
                 <a href="{{ url('course/'.$course->slug.'/browse') }}" class="btn btn-primary m-b-5">
-                    Browse Course Modules
+                    <i class="fa fa-search"></i> Browse Course Modules
                 </a>
             @endif
         </div>

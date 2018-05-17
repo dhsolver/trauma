@@ -91,7 +91,8 @@
                                     <a
                                         href="{{ $document->full_url }}"
                                         target="_blank"
-                                        class="text-break"
+                                        class="course-document text-break"
+                                        data-document-id="{{ $document->id }}"
                                     >
                                         <i class="fa {{ $document->icon_class }}"></i> {{ $document->url }}
                                     </a>
@@ -99,24 +100,27 @@
                                     @if ($document->is_image)
                                     <a
                                         href="{{ url($document->full_url) }}"
-                                        class="html5lightbox"
+                                        class="course-document html5lightbox text-break"
                                         title="{{ $document->filename }}"
+                                        data-document-id="{{ $document->id }}"
                                     >
                                         <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
                                     </a>
                                     @elseif ($document->is_video)
                                     <a
                                         href="{{ url($document->full_url) }}"
-                                        class="html5lightbox"
+                                        class="course-document html5lightbox text-break"
                                         title="{{ $document->filename }}"
+                                        data-document-id="{{ $document->id }}"
                                     >
                                         <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
                                     </a>
                                     @elseif ($document->is_document)
                                     <a
                                         href="https://docs.google.com/gview?url={{ $document->full_url }}&embedded=true"
-                                        class="html5lightbox"
+                                        class="course-document html5lightbox text-break"
                                         title="{{ $document->filename }}"
+                                        data-document-id="{{ $document->id }}"
                                     >
                                         <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
                                     </a>
@@ -124,7 +128,8 @@
                                     <a
                                         href="{{ $document->full_url }}"
                                         target="_blank"
-                                        class="text-break"
+                                        class="course-document text-break"
+                                        data-document-id="{{ $document->id }}"
                                     >
                                         <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
                                     </a>
@@ -139,8 +144,17 @@
                 </div>
             </div>
         </div>
+
+        <hr>
+        <div class="course-complete text-center @if (count($course->getModuleDocuments()) > count($registration->progress)) hidden @endif">
+            <p>You seem to have reached at the end of this course</p>
+            <a href="{{ url('course/'.$course->id.'/finish') }}" class="btn btn-primary m-b-5">
+                <i class="fa fa-check"></i> Yes, I've finished this course
+            </a>
+        </div>
     </div>
 </div>
+
 @endsection
 
 @section('styles')
@@ -149,5 +163,17 @@
 @section('scripts')
 <script src="/js/html5lightbox/html5lightbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+    $(function() {
+        var courseUrl = "{{ url('course/'.$course->id) }}";
+        $('.course-document').click(function(e) {
+            var documentId = $(this).data('document-id');
+            var trackUrl = courseUrl + '/module/documents/' + documentId + '/track';
+            $.get(trackUrl, function (data) {
+                if (data.progress == data.total) {
+                    $('.course-complete').removeClass('hidden');
+                }
+            });
+        });
+    });
 </script>
 @endsection

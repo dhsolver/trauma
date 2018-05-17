@@ -3,6 +3,7 @@
 use App\User;
 use App\Course;
 use App\CourseKey;
+use App\CourseModuleDocument;
 use App\UsersCoursesRegistration;
 use App\Http\Requests\CourseRegisterRequest;
 use Illuminate\Support\Facades\DB;
@@ -42,11 +43,11 @@ class CourseController extends Controller {
         }
 
         $user = Auth::user();
-        $registered = UsersCoursesRegistration::where('user_id', $user->id)
+        $registration = UsersCoursesRegistration::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->first();
 
-        return view('courses.show', compact('course', 'faculties', 'registered'));
+        return view('courses.show', compact('course', 'faculties', 'registration'));
     }
 
     public function register(Course $course, CourseRegisterRequest $request)
@@ -113,20 +114,58 @@ class CourseController extends Controller {
         }
 
         $user = Auth::user();
-        $registered = UsersCoursesRegistration::where('user_id', $user->id)
+        $registration = UsersCoursesRegistration::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->first();
 
-        if (empty($registered)) {
-            session()->flash('courseMessage', 'You need to register for the course to brwose.');
-            return response()->json([
-                'success' => true,
-                'redirect' => action('CourseController@show', [
-                    'course' => $course,
-                ])
-            ]);
+        if (empty($registration)) {
+            session()->flash('courseMessage', 'You need to register for the course to browse.');
+            return redirect()->action('CourseController@show', $course);
         }
 
-        return view('courses.browse', compact('course', 'faculties', 'registered'));
+        return view('courses.browse', compact('course', 'faculties', 'registration'));
+    }
+
+    public function trackProgress(Course $course, CourseModuleDocument $courseModuleDocument)
+    {
+        $user = Auth::user();
+        $registration = UsersCoursesRegistration::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->first();
+
+        $currentProgress = $registration->progress;
+        $documentId = $courseModuleDocument->id;
+
+        if (empty($currentProgress) || !is_array($currentProgress)) {
+            $registration->progress = [];
+        }
+
+        if (!in_array($documentId, $registration->progress)) {
+            $currentProgress[] = $documentId;
+        }
+
+        $registration->progress = $currentProgress;
+        $registration->save();
+
+        return response()->json([
+            'document' => $courseModuleDocument,
+            'progress' => count($registration->progress),
+            'total' => count($course->getModuleDocuments())
+        ], 200);
+    }
+
+    public function finish(Course $course)
+    {
+        $user = Auth::user();
+        $registration = UsersCoursesRegistration::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->first();
+        if (!$registration->completed_at) {
+            $registration->completed_at = Carbon::now()->toDateTimeString();
+            $registration->save();
+            session()->flash('courseMessage', 'Congratulations for finishing this course!');
+        }
+
+        return redirect()->action('CourseController@show', $course->slug);
     }
 }

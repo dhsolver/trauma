@@ -9,6 +9,10 @@ class UsersCoursesRegistration extends Model {
     protected $guarded  = array('id');
     public $timestamps = false;
 
+    protected $casts = [
+        'progress' => 'array',
+    ];
+
     public function getRegisteredAtAttribute($value)
     {
         if (empty($value)) return null;

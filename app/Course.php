@@ -98,4 +98,12 @@ class Course extends Model implements SluggableInterface {
     {
         return $this->hasMany('App\CourseDocument');
     }
+
+    public function getModuleDocuments() {
+        $moduleDocuments = [];
+        foreach($this->modules as $module) {
+            $moduleDocuments = array_merge($moduleDocuments, $module->documents->toArray());
+        }
+        return $moduleDocuments;
+    }
 }
