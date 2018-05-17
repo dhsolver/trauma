@@ -219,9 +219,9 @@
             <div class="row">
                 <div class="col-sm-11 col-sm-offset-1">
                     @if ($document->type === 'url')
-                        <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa fa-globe"></i> {{ $document->url }}</a>
+                        <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->url }}</a>
                     @else
-                        <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}" target="_blank" class="text-break"><i class="fa fa-file-o"></i> {{ $document->filename }}</a>
+                        <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}</a>
                     @endif
                 </div>
             </div>

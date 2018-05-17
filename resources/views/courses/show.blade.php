@@ -1,19 +1,13 @@
 @extends('layouts.app')
-@section('title'){{ $course->title }} Catalog @endsection
+@section('title'){{ $course->title }} @endsection
 @section('content')
 <div class="page-course">
     <div class="content-box">
-<!--     @if (Session::has('courseMessage'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('courseMessage') }}
-        </div>
-    @endif
-    @if (Session::has('message'))
-        <div class="alert alert-danger" role="alert">
-            {{ Session::get('message') }}
-        </div>
-    @endif
- -->
+        @if (Session::has('courseMessage'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('courseMessage') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-sm-6 text-center">
                 @if ($course->photo)
@@ -24,7 +18,7 @@
             </div>
             <div class="col-sm-6">
                 <h1 class="page-title text-primary">
-                    {{ $course->title }}
+                    <a href="{{ url('course/'.$course->slug) }}">{{ $course->title }}</a>
                 </h1>
                 <div class="row">
                     <div class="col-xs-3">
@@ -115,19 +109,25 @@
 
         <hr>
         <div class="course-info course-register">
-            <label><!-- Register --></label>
-            <br>
-            @if (Auth::guest())
-                <p class="text-info">You need to login to register for this course</p>
-                <a href="{{ url('auth/login') }}" class="btn btn-primary">
-                    Login
-                </a>
+            <!-- <label>Register</label> -->
+            @if (empty($registered))
+                @if (Auth::guest())
+                    <p class="text-info">You need to login to register for this course</p>
+                    <a href="{{ url('auth/login') }}" class="btn btn-primary">
+                        Login
+                    </a>
+                @else
+                    <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#registerWithKeyModal">
+                        <i class="fa fa-key"></i> Register with key
+                    </a>
+                    <a href="#" class="btn btn-primary m-b-5">
+                        <i class="fa fa-paypal"></i> Buy with Paypal
+                    </a>
+                @endif
             @else
-                <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#registerWithKeyModal">
-                    <i class="fa fa-key"></i> Register with key
-                </a>
-                <a href="#" class="btn btn-primary m-b-5">
-                    <i class="fa fa-paypal"></i> Buy with Paypal
+                <p class="text-info">You have already registered for this course.</p>
+                <a href="{{ url('course/'.$course->slug.'/browse') }}" class="btn btn-primary m-b-5">
+                    Browse Course Modules
                 </a>
             @endif
         </div>
@@ -138,7 +138,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="registerWithKeyModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            {!! Form::open(array('url' => url('courses/'.$course->id.'/register'), 'method' => 'post', 'class' => 'form-register-key')) !!}
+            {!! Form::open(array('url' => url('course/'.$course->id.'/register'), 'method' => 'post', 'class' => 'form-register-key')) !!}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Enter your key</h4>
@@ -165,7 +165,35 @@
 @section('scripts')
 <script type="text/javascript">
     $(function() {
-        console.log('document ready!');
+        $('.form-register-key').submit(function(event) {
+            event.preventDefault();
+
+            var $form = $(this);
+            $form.find('.form-group').removeClass('has-error');
+            $form.find('.form-group .help-block').text('');
+
+            var formData = new FormData(this);
+            var url = $form.attr('action');
+             $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        location.href = data.redirect;
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            }).fail(function(xhr) {
+                var errors = xhr.responseJSON;
+                $.each(Object.keys(errors), function(index, key) {
+                    $form.find('.form-group.' + key).addClass('has-error');
+                    $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
+                });
+            });
+        });
     });
 </script>
 @endsection

@@ -84,7 +84,8 @@ gulp.task('default', function () {
             paths.colorbox + '/jquery.colorbox.js',
             paths.justifiedGallery + '/js/jquery.justifiedGallery.js',
             paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
-            'index.js'
+            // 'html5lightbox.js',
+            'index.js',
         ], 'public/js/site.js');
 
         // Merge Admin CSSs.
@@ -98,7 +99,7 @@ gulp.task('default', function () {
             paths.summernote + '/summernote.css',
             paths.select2 + '/css/select2.css',
             paths.jqueryui + '/themes/base/minified/jquery-ui.min.css',
-            paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css'
+            paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css',
         ], 'public/css/admin.css');
 
         // Merge Admin scripts.
@@ -118,7 +119,7 @@ gulp.task('default', function () {
             'bootstrap-dataTables-paging.js',
             'dataTables.bootstrap.js',
             'datatables.fnReloadAjax.js',
-            'admin.js'
+            'admin.js',
         ], 'public/js/admin.js');
     });
 });

@@ -54,9 +54,16 @@
             display: inline-block;
             text-align: left;
         }
+
+        ul.course-module-documents {
+            padding-left: 12px;
+            list-style-type: none;
+        }
+
+        .nav-stacked {
+            li > a {
+                padding: 5px 12px;
+            }
+        }
     }
-
-    /*@media (min-width: 767px) {
-
-    }*/
 }

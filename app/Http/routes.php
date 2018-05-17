@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('courses', 'CourseController@index');
     Route::get('course/{slug}', 'CourseController@show');
+    Route::post('course/{course}/register', 'CourseController@register');
+    Route::get('course/{slug}/browse', 'CourseController@browse');
 });
 
 /***************    Faculty routes  **********************************/

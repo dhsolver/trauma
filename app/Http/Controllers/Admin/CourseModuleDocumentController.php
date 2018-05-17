@@ -23,20 +23,26 @@ class CourseModuleDocumentController extends AdminController {
                 ], 422);
             }
 
-            foreach ($request->file('documents') as $file) {
-                $courseModuleDocument = new CourseModuleDocument($request->except('documents'));
+            if ($request->hasFile('documents')) {
+                foreach ($request->file('documents') as $file) {
+                    $courseModuleDocument = new CourseModuleDocument($request->except('documents'));
+                    $courseModuleDocument->course_module_id = $courseModule->id;
+                    $courseModuleDocument->embedded = $request->has('embedded');
+
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $savepath = sha1($filename.time()).'.'.$extension;
+                    $destinationPath = public_path() . '/images/courses/'.$course->id.'/modules/'.$courseModule->id.'/';
+                    $file->move($destinationPath, $savepath);
+
+                    $courseModuleDocument->filename = $filename;
+                    $courseModuleDocument->file = $savepath;
+
+                    $courseModuleDocument->save();
+                }
+            } else {
+                $courseModuleDocument = new CourseModuleDocument($request->all());
                 $courseModuleDocument->course_module_id = $courseModule->id;
-                $courseModuleDocument->embedded = $request->has('embedded');
-
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $savepath = sha1($filename.time()).'.'.$extension;
-                $destinationPath = public_path() . '/images/courses/'.$course->id.'/modules/'.$courseModule->id.'/';
-                $file->move($destinationPath, $savepath);
-
-                $courseModuleDocument->filename = $filename;
-                $courseModuleDocument->file = $savepath;
-
                 $courseModuleDocument->save();
             }
 
