@@ -297,6 +297,51 @@
     </div>
 
     <hr>
+    <h3 class="section-title">
+        Registered Students
+        <div class="pull-right text-right">
+            <a href="{{ url('admin/courses/'.$course->id.'/students/export') }}" class="btn btn-sm btn-primary">
+                <i class="fa fa-download"></i> Export to CSV
+            </a>
+        </div>
+    </h3>
+
+    <div class="table-responsive table-container">
+        @if (count($course->registrations))
+        <table class="table table-hover table-course-keys">
+            <thead>
+                <tr>
+                    <th>Student Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Channel</th>
+                    <th>Registered At</th>
+                    <th>Completed At</th>
+                </tr>
+            </thead>
+            @foreach ($course->registrations as $registration)
+            <tr>
+                <td>#{{ $registration->user->id }}</td>
+                <td>{{ $registration->user->first_name }} {{ $registration->user->last_name }}</td>
+                <td>{{ $registration->user->email }}</td>
+                <td>
+                    @if ($registration->method === 'key')
+                        <i class="fa fa-key"></i> Course Key
+                    @elseif ($registration->method === 'paypal')
+                        <i class="fa fa-paypal"></i> Paypal
+                    @endif
+                </td>
+                <td>{{ $registration->registered_at }}</td>
+                <td>{{ $registration->completed_at }}</td>
+            </tr>
+            @endforeach
+        </table>
+        @else
+        <h4>No registered students for this course.</h4>
+        @endif
+    </div>
+
+    <hr>
 
     <div class="form-group">
         <div class="checkbox inline">

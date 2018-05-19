@@ -41,9 +41,17 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-expanded="false"><i class="fa fa-user"></i> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} <i
-                                    class="fa fa-caret-down"></i></a>
+                           aria-expanded="false">
+                           <i class="fa fa-user"></i> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                           <i class="fa fa-caret-down"></i>
+                        </a>
                         <ul class="dropdown-menu" role="menu">
+                            @if(Auth::user()->role === 'student')
+                            <li>
+                                <a href="{{ url('my-courses') }}">My Courses</a>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            @endif
                             <li>
                                 <a href="{{ url('profile') }}">My Profile</a>
                             </li>

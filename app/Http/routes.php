@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('course/{slug}/browse', 'CourseController@browse');
     Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
     Route::get('course/{course}/finish', 'CourseController@finish');
+
+    Route::get('my-courses', 'CourseController@myCourses');
 });
 
 /***************    Faculty routes  **********************************/
@@ -62,6 +64,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::get('courses/{course}/keys/{coursekey}/disable', 'Admin\CourseKeyController@disable');
     Route::get('courses/{course}/keys/{coursekey}/enable', 'Admin\CourseKeyController@enable');
 
+
+    Route::get('courses/{course}/students/export', 'Admin\CourseController@exportStudents');
+
     Route::post('courses/{course}/documents', 'Admin\CourseDocumentController@store');
     Route::get('courses/{course}/documents/{coursedocument}/delete', 'Admin\CourseDocumentController@delete');
 
@@ -71,7 +76,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::get('courses/{course}/modules/{coursemodule}/edit', 'Admin\CourseModuleController@edit');
     Route::put('courses/{course}/modules/{coursemodule}', 'Admin\CourseModuleController@update');
     Route::get('courses/{course}/modules/{coursemodule}/delete', 'Admin\CourseModuleController@delete');
-
 
     Route::post('courses/{course}/modules/{coursemodule}/documents', 'Admin\CourseModuleDocumentController@store');
     Route::get('courses/{course}/modules/{coursemodule}/documents/{coursemoduledocument}/delete', 'Admin\CourseModuleDocumentController@delete');

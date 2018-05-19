@@ -119,8 +119,8 @@ class CourseController extends Controller {
             ->first();
 
         if (empty($registration)) {
-            session()->flash('courseMessage', 'You need to register for the course to browse.');
-            return redirect()->action('CourseController@show', $course);
+            session()->flash('courseError', 'You need to register for the course to browse.');
+            return redirect()->action('CourseController@show', $course->slug);
         }
 
         return view('courses.browse', compact('course', 'faculties', 'registration'));
@@ -167,5 +167,20 @@ class CourseController extends Controller {
         }
 
         return redirect()->action('CourseController@show', $course->slug);
+    }
+
+    public function myCourses()
+    {
+        $user = Auth::user();
+        $registrations = $user->registrations;
+
+        $faculties = User::where('role', 'faculty')
+            ->orderBy('first_name', 'asc')
+            ->orderBy('last_name', 'asc')
+            ->get()
+            ->keyBy('id')
+            ->toArray();
+
+        return view('courses.my-courses', compact('registrations', 'faculties'));
     }
 }

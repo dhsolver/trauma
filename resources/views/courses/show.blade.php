@@ -8,6 +8,13 @@
                 {{ Session::get('courseMessage') }}
             </div>
         @endif
+
+        @if (Session::has('courseError'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('courseError') }}
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-sm-6 text-center">
                 @if ($course->photo)
@@ -120,12 +127,19 @@
                     <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#registerWithKeyModal">
                         <i class="fa fa-key"></i> Register with key
                     </a>
-                    <a href="#" class="btn btn-primary m-b-5">
+                    <!-- <a href="#" class="btn btn-primary m-b-5">
                         <i class="fa fa-paypal"></i> Buy with Paypal
-                    </a>
+                    </a> -->
                 @endif
             @else
-                <p class="text-info">You have already registered for this course.</p>
+                <p class="text-info">
+                    <i class="fa fa-check"></i> You have registered for this course.
+                </p>
+                @if ($registration->completed_at)
+                <p class="text-info">
+                    <i class="fa fa-check"></i> You have finished the course.
+                </p>
+                @endif
                 <a href="{{ url('course/'.$course->slug.'/browse') }}" class="btn btn-primary m-b-5">
                     <i class="fa fa-search"></i> Browse Course Modules
                 </a>

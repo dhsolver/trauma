@@ -65,8 +65,4 @@ class CourseModuleDocument extends Model {
         $extension = $this->file_extension;
         return in_array($extension, ['mp4', 'ogv', 'webm']);
     }
-
-// <iframe src="https://docs.google.com/gview?url=https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx&embedded=true" frameborder="0">
-// </iframe>
-
 }

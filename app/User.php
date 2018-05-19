@@ -34,4 +34,9 @@ class User extends Model implements AuthenticatableContract,
     {
         $this->attributes['birthday'] = date("Y-m-d", strtotime($value) );
     }
+
+    public function registrations()
+    {
+        return $this->hasMany('App\UsersCoursesRegistration');
+    }
 }

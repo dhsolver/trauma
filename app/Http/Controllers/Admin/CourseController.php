@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class CourseController extends AdminController {
-
-    public function __construct()
-    {
-    }
-
     public function index(Request $request) {
         if (empty($request->id)) {
             $courses = Course::where('id', '>', 0);
@@ -187,4 +182,40 @@ class CourseController extends AdminController {
         session()->flash('courseMessage', 'Course has been copied!');
         return redirect()->action('Admin\CourseController@edit', $newCourse);
     }
+
+
+    public function exportStudents(Course $course)
+    {
+        $this->download_send_headers('course_students.csv');
+
+        ob_start();
+
+        // create a file pointer connected to the output stream
+        $output = fopen('php://output', 'w');
+
+        // output the column headings
+        fputcsv($output, array(
+            'Student Id',
+            'Full Name',
+            'Email',
+            // 'Channel',
+            'Registered At',
+            // 'Completed At',
+        ));
+        foreach ($course->registrations as $registration) {
+            fputcsv($output, array(
+                $registration->user->id,
+                $registration->user->first_name.' '.$registration->user->last_name,
+                $registration->user->email,
+                // $registration->method == 'key' ? 'Course Key' : 'Paypal',
+                $registration->registered_at,
+                // $registration->completed_at,
+            ));
+        }
+
+        fclose($output);
+        echo ob_get_clean();
+        die;
+    }
+
 }

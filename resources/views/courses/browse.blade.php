@@ -145,8 +145,12 @@
             </div>
         </div>
 
+        <div class="course-complete text-center
+            @if (!empty($registration->completed_at) || count($course->getModuleDocuments()) > count($registration->progress))
+                hidden
+            @endif
+        ">
         <hr>
-        <div class="course-complete text-center @if (count($course->getModuleDocuments()) > count($registration->progress)) hidden @endif">
             <p>You seem to have reached at the end of this course</p>
             <a href="{{ url('course/'.$course->id.'/finish') }}" class="btn btn-primary m-b-5">
                 <i class="fa fa-check"></i> Yes, I've finished this course
