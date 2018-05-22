@@ -27,6 +27,13 @@ class UsersCoursesRegistration extends Model {
         return date("m/d/Y", $time);
     }
 
+    public function getCertifiedAtAttribute($value)
+    {
+        if (empty($value)) return null;
+        $time = strtotime($value);
+        return date("m/d/Y", $time);
+    }
+
     public function user() {
         return $this->belongsTo('App\User');
     }

@@ -29,6 +29,14 @@
             <span class="help-block">{{ $errors->first('title', ':message') }}</span>
         </div>
     </div>
+    <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+        {!! Form::label('description', 'Description', array('class' => 'control-label shown')) !!}
+        <div class="controls">
+            {!! Form::textarea('description', $courseModule->description, array('class' => 'form-control', 'rows' => '3')) !!}
+            <span class="help-block">{{ $errors->first('description', ':message') }}</span>
+        </div>
+    </div>
+
 
     <div class="documents">
         @if (count($courseModule->documents))

@@ -98,7 +98,7 @@
             <p>{!! $course->continuing_education !!}</p>
         </div>
 
-        <hr>
+<!--         <hr>
         <div class="course-info">
             <label>Course Modules</label>
             @if (count($course->modules))
@@ -113,7 +113,7 @@
                 <p>No course module</p>
             @endif
         </div>
-
+ -->
         <hr>
         <div class="course-info course-register">
             <!-- <label>Register</label> -->

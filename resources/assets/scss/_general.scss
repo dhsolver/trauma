@@ -116,7 +116,11 @@ a {
 }
 
 .text-break {
-  word-break: break-all;
+    word-break: break-all;
+}
+
+.text-success {
+    color: $green;
 }
 
 @media (max-width: 767.98px) {

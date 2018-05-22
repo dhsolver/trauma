@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Course;
 use App\User;
+use App\UsersCoursesRegistration;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
+
 
 class CourseController extends AdminController {
     public function index(Request $request) {
@@ -115,6 +119,7 @@ class CourseController extends AdminController {
     public function disable(Course $course)
     {
         $course->enabled = false;
+        $course->published = false;
         $course->save();
         session()->flash('courseMessage', 'Course has been disabled!');
         return redirect()->action('Admin\CourseController@edit', $course);
@@ -218,4 +223,17 @@ class CourseController extends AdminController {
         die;
     }
 
+
+    public function certifyStuent(Course $course, UsersCoursesRegistration $registration)
+    {
+        if ($registration->completed_at && empty($registration->certified_at)) {
+            $registration->certified_at = Carbon::now()->toDateTimeString();
+            $registration->save();
+
+            session()->flash('courseMessage', 'You just certified a student for completing this course.');
+
+        }
+
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
 }

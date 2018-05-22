@@ -12,6 +12,7 @@ Route::model('coursekey', 'App\CourseKey');
 Route::model('coursedocument', 'App\CourseDocument');
 Route::model('coursemodule', 'App\CourseModule');
 Route::model('coursemoduledocument', 'App\CourseModuleDocument');
+Route::model('courseregistration', 'App\UsersCoursesRegistration');
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
 
@@ -66,6 +67,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
 
 
     Route::get('courses/{course}/students/export', 'Admin\CourseController@exportStudents');
+
+    Route::get('courses/{course}/registrations/{courseregistration}/certify', 'Admin\CourseController@certifyStuent');
 
     Route::post('courses/{course}/documents', 'Admin\CourseDocumentController@store');
     Route::get('courses/{course}/documents/{coursedocument}/delete', 'Admin\CourseDocumentController@delete');

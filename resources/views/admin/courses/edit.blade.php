@@ -215,6 +215,9 @@
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/delete') !!}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
             </div>
+            <div class="">
+                {{ $module->description }}
+            </div>
             @foreach ($module->documents as $document)
             <div class="row">
                 <div class="col-sm-11 col-sm-offset-1">
@@ -317,6 +320,7 @@
                     <th>Channel</th>
                     <th>Registered At</th>
                     <th>Completed At</th>
+                    <th>Certified</th>
                 </tr>
             </thead>
             @foreach ($course->registrations as $registration)
@@ -333,6 +337,16 @@
                 </td>
                 <td>{{ $registration->registered_at }}</td>
                 <td>{{ $registration->completed_at }}</td>
+                <td>
+                    @if ($registration->certified_at)
+                        {{ $registration->certified_at }}
+                    @elseif ($registration->completed_at)
+                        <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/certify') }}"
+                            class="btn btn-xs btn-danger">
+                            Certify
+                        </a>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </table>

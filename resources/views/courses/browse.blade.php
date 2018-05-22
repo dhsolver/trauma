@@ -17,7 +17,7 @@
                 @endif
             </div>
             <div class="col-sm-6">
-                <h1 class="page-title text-primary">
+                <h1 class="page-title text-primary m-t-10">
                     <a href="{{ url('course/'.$course->slug) }}">{{ $course->title }}</a>
                 </h1>
                 <div class="row">
@@ -58,12 +58,28 @@
                         {{ $course->location }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <small>Certification:</small>
+                    </div>
+                    <div class="col-xs-9">
+                        @if ($registration->completed_at)
+                            @if ($registration->certified_at)
+                                Certified by faculty
+                            @else
+                                Not certified by faculty
+                            @endif
+                        @else
+                            Eligible after learning all modules
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
 
         <hr>
         <div class="course-info">
-            <h3 class="text-primary">Course Modules</h3>
+            <h3 class="text-primary text-left">Course Modules</h3>
             <div class="row">
                 <div class="col-sm-3">
                     @if (count($course->modules))
@@ -84,19 +100,18 @@
                     <div class="tab-content">
                         @foreach ($course->modules as $key=>$module)
                         <div role="tabpanel" class="tab-pane @if ($key===0) active @endif" id="module-{{ $module->id }}">
+                            <p class="text-left">{{ $module->description }}</p>
                             <ul class="course-module-documents text-left">
                             @foreach ($module->documents as $document)
                                 <li>
-                                @if ($document->type === 'url')
+                                    @if ($document->type === 'url')
                                     <a
                                         href="{{ $document->full_url }}"
                                         target="_blank"
                                         class="course-document text-break"
                                         data-document-id="{{ $document->id }}"
                                     >
-                                        <i class="fa {{ $document->icon_class }}"></i> {{ $document->url }}
-                                    </a>
-                                @else
+                                    @else
                                     @if ($document->is_image)
                                     <a
                                         href="{{ url($document->full_url) }}"
@@ -104,8 +119,6 @@
                                         title="{{ $document->filename }}"
                                         data-document-id="{{ $document->id }}"
                                     >
-                                        <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
-                                    </a>
                                     @elseif ($document->is_video)
                                     <a
                                         href="{{ url($document->full_url) }}"
@@ -113,8 +126,6 @@
                                         title="{{ $document->filename }}"
                                         data-document-id="{{ $document->id }}"
                                     >
-                                        <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
-                                    </a>
                                     @elseif ($document->is_document)
                                     <a
                                         href="https://docs.google.com/gview?url={{ $document->full_url }}&embedded=true"
@@ -122,8 +133,6 @@
                                         title="{{ $document->filename }}"
                                         data-document-id="{{ $document->id }}"
                                     >
-                                        <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
-                                    </a>
                                     @else
                                     <a
                                         href="{{ $document->full_url }}"
@@ -131,10 +140,16 @@
                                         class="course-document text-break"
                                         data-document-id="{{ $document->id }}"
                                     >
-                                        <i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}
-                                    </a>
                                     @endif
-                                @endif
+                                    @endif
+                                        <i class="fa fa-check @if (!in_array($document->id, $registration->progress)) invisible @endif"></i>
+                                        <i class="fa {{ $document->icon_class }}"></i>
+                                        @if ($document->type === 'url')
+                                        {{ $document->full_url }}
+                                        @else
+                                        {{ $document->filename }}
+                                        @endif
+                                    </a>
                                 </li>
                             @endforeach
                             </ul>
@@ -145,16 +160,22 @@
             </div>
         </div>
 
-        <div class="course-complete text-center
-            @if (!empty($registration->completed_at) || count($course->getModuleDocuments()) > count($registration->progress))
-                hidden
-            @endif
-        ">
         <hr>
-            <p>You seem to have reached at the end of this course</p>
-            <a href="{{ url('course/'.$course->id.'/finish') }}" class="btn btn-primary m-b-5">
-                <i class="fa fa-check"></i> Yes, I've finished this course
-            </a>
+        <div class="course-complete text-center">
+            @if (!empty($registration->completed_at))
+            <h3 class="text-success">
+                <i class="fa fa-check"></i> Course Completed
+            </h3>
+            @else
+            <div class="notification hidden">
+                <p>
+                    You have completed all of the tasks within each module of this course. By clicking below, you are validating confirmation of course completion.
+                </p>
+                <a href="{{ url('course/'.$course->id.'/finish') }}" class="btn btn-primary m-b-5">
+                    <i class="fa fa-check"></i> Yes, I've finished this course
+                </a>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -172,9 +193,10 @@
         $('.course-document').click(function(e) {
             var documentId = $(this).data('document-id');
             var trackUrl = courseUrl + '/module/documents/' + documentId + '/track';
+            $(this).find('.fa-check').removeClass('invisible');
             $.get(trackUrl, function (data) {
                 if (data.progress == data.total) {
-                    $('.course-complete').removeClass('hidden');
+                    $('.course-complete .notification').removeClass('hidden');
                 }
             });
         });
