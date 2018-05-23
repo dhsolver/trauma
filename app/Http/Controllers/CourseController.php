@@ -6,6 +6,7 @@ use App\CourseKey;
 use App\CourseModuleDocument;
 use App\UsersCoursesRegistration;
 use App\Http\Requests\CourseRegisterRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -182,5 +183,30 @@ class CourseController extends Controller {
             ->toArray();
 
         return view('courses.my-courses', compact('registrations', 'faculties'));
+    }
+
+    public function calendar(Request $request)
+    {
+        $dt = $request->input('dt', date('Y-m-d'));
+
+        $faculties = User::where('role', 'faculty')
+            ->orderBy('first_name', 'asc')
+            ->orderBy('last_name', 'asc')
+            ->get()
+            ->keyBy('id')
+            ->toArray();
+
+        $latestCourses = Course::where(function ($query) use ($dt) {
+            $query->where('published', 1)
+                ->where('enabled', 1)
+                ->where('date_start', '<=', $dt)
+                ->where('date_end', '>=', $dt);
+        })->orWhere(function($query) {
+            $query->where('published', 1)
+                ->where('enabled', 1)
+                ->where('online_only', 1);
+        })->get();
+
+        return view('courses.calendar', compact('latestCourses', 'faculties', 'dt'));
     }
 }

@@ -41,6 +41,12 @@
             margin-bottom: 24px;
         }
     }
+
+    .text-white {
+        &:hover {
+            color: $grey;
+        }
+    }
 }
 
 @media (min-width: 768px) {

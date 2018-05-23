@@ -182,9 +182,6 @@
 
 @endsection
 
-@section('styles')
-@endsection
-
 @section('scripts')
 <script src="/js/html5lightbox/html5lightbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">

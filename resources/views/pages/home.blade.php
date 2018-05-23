@@ -10,20 +10,23 @@
     <div class="row equal-height bg-white">
         <div class="col-sm-4">
             <div class="content-box text-center">
+                <h2>Consulting</h2>
+                <img src="/images/magnifying_glass.jpg" alt="magnifying glass" />
+                <h3 class="title">Focused Trauma Solutions</h3>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="content-box text-center">
+                <h2>Data</h2>
                 <img src="/images/barchart.jpg" alt="barchart" />
                 <h3 class="title">Quantitative Analysis & Information Visualization Solutions</h3>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="content-box text-center">
+                <h2>Education</h2>
                 <img src="/images/computer_w_coding.png" alt="computer coding screen" />
-                <h3 class="title"><a href="/docs/TraumaInjuryCodingCourseBrochure.pdf" target="_blank">Specialized Injury Coding Solutions</a></h3>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="content-box text-center">
-                <img src="/images/magnifying_glass.jpg" alt="magnifying glass" />
-                <h3 class="title">Focused Trauma Consulting Solutions</h3>
+                <h3 class="title"><a href="/docs/TraumaInjuryCodingCourseBrochure.pdf" target="_blank">Specialized Continuing Education Solutions</a></h3>
             </div>
         </div>
     </div>

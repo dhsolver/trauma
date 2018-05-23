@@ -25,6 +25,9 @@
                 <li class="{{ (Request::is('education') ? 'active' : '') }}">
                     <a href="{{ url('education') }}">Education</a>
                 </li>
+                <li class="{{ (Request::is('calendar') ? 'active' : '') }}">
+                    <a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Calendar </a>
+                </li>
                 @if (!Auth::guest() && Auth::user()->approval == 'approved')
                 <li class="{{ (Request::is('courses') ? 'active' : '') }}">
                     <a href="{{ url('courses') }}">Course Catalog</a>

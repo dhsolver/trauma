@@ -28,6 +28,10 @@ img {
     margin-bottom: 10px;
 }
 
+.p-10 {
+    padding: 10px;
+}
+
 .btn {
     border-radius: 0;
     border: none;
@@ -121,6 +125,10 @@ a {
 
 .text-success {
     color: $green;
+}
+
+.text-white {
+    color: $white;
 }
 
 @media (max-width: 767.98px) {

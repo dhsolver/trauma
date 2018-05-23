@@ -31,6 +31,8 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('calendar', 'CourseController@calendar');
+
 /***************    User routes  **********************************/
 Route::group(['middleware' => 'auth'], function() {
     Route::get('profile', 'ProfileController@viewProfile');
