@@ -50,6 +50,16 @@
                                 <label class="label label-default">In Progress</label>
                                 @endif
                             </div>
+                            @if ($registration->completed_at)
+                            <hr>
+                            <div>
+                                @if ($registration->certified_at)
+                                <label class="label label-lg label-success">Certified on {{ $registration->certified_at }}</label>
+                                @else
+                                <label class="label label-default">N</label>
+                                @endif
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

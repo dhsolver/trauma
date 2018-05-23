@@ -170,4 +170,90 @@ class UserController extends AdminController
         fclose($output);
         return ob_get_clean();
     }
+
+    public function exportCourses(User $user) {
+        $this->download_send_headers('courses.csv');
+        ob_start();
+
+        // create a file pointer connected to the output stream
+        $output = fopen('php://output', 'w');
+
+        // output the column headings
+        fputcsv($output, array('ID',
+            'First Name',
+            'Last Name',
+            'Email',
+            'Account Type',
+            'Status',
+            'Date of Birth',
+            'Phone',
+            'Address',
+            'Apt/Unit',
+            'City',
+            'State',
+            'Zip Code',
+            'Hospital/Trauma Center Name',
+            'Trauma Center Level',
+            'NTDB/NTDS #',
+            'TQIP #',
+            'Address 1',
+            'Address 2',
+            'Address 3',
+            'City',
+            'State',
+            'Zip Code',
+            'Last 4 of SSN',
+            'Credentials',
+            'State License #',
+            'Course ID #',
+            'Course Title',
+            'Course Date',
+            'Course Location',
+            'Registered',
+            'Completed',
+            'Certified',
+        ));
+        foreach ($user->registrations as $registration) {
+            if (!$registration->completed_at) continue;
+            $course = $registration->course;
+            fputcsv($output, array(
+                $user->id,
+                $user->first_name,
+                $user->last_name,
+                $user->email,
+                $user->role,
+                $user->approval,
+                $user->birthday,
+                $user->phone,
+                $user->address,
+                $user->unit,
+                $user->city,
+                $user->state,
+                $user->zipcode,
+                $user->hospital_name,
+                $user->hospital_level,
+                $user->hospital_ntdb,
+                $user->hospital_tqip,
+                $user->hospital_address1,
+                $user->hospital_address2,
+                $user->hospital_address3,
+                $user->hospital_city,
+                $user->hospital_state,
+                $user->hospital_zipcode,
+                $user->ssn,
+                $user->credentials,
+                $user->state_license,
+                $course->id,
+                $course->title,
+                $course->online_only ? 'Online' : $course->date_start . ' - ' . $course->date_end,
+                $course->location,
+                $registration->registered_at,
+                $registration->completed_at,
+                $registration->certified_at,
+            ));
+        }
+        fclose($output);
+        echo ob_get_clean();
+        die;
+    }
 }

@@ -258,7 +258,7 @@
                     <th>Created At</th>
                     <th>Redeemed</th>
                     <th>Tag</th>
-                    <th></th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             @foreach ($course->keys as $key)
@@ -318,9 +318,10 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Channel</th>
-                    <th>Registered At</th>
-                    <th>Completed At</th>
+                    <th>Registered</th>
+                    <th>Completed</th>
                     <th>Certified</th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             @foreach ($course->registrations as $registration)
@@ -338,11 +339,17 @@
                 <td>{{ $registration->registered_at }}</td>
                 <td>{{ $registration->completed_at }}</td>
                 <td>
+                    {{ $registration->certified_at }}
+                </td>
+                <td>
                     @if ($registration->certified_at)
-                        {{ $registration->certified_at }}
+                        <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/uncertify') }}"
+                            class="btn btn-xs btn-danger">
+                            Uncertify
+                        </a>
                     @elseif ($registration->completed_at)
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/certify') }}"
-                            class="btn btn-xs btn-danger">
+                            class="btn btn-xs btn-success">
                             Certify
                         </a>
                     @endif

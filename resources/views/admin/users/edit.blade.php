@@ -272,6 +272,43 @@
             </div>
         </div>
 
+        <hr>
+            <h3 class="section-title">
+                Registered Courses
+                <div class="pull-right text-right">
+                    <a href="{{ url('admin/users/'.$user->id.'/courses/export') }}" class="btn btn-sm btn-primary">
+                        <i class="fa fa-download"></i> Export to CSV
+                    </a>
+                </div>
+            </h3>
+
+            <div class="table-responsive table-container">
+                @if (count($user->registrations))
+                <table class="table table-hover table-course-keys">
+                    <thead>
+                        <tr>
+                            <th>Course Id</th>
+                            <th>Title</th>
+                            <th>Registered</th>
+                            <th>Completed</th>
+                            <th>Certified</th>
+                        </tr>
+                    </thead>
+                    @foreach ($user->registrations as $registration)
+                    <tr>
+                        <td>#{{ $registration->course->id }}</td>
+                        <td>{{ $registration->course->title }}</td>
+                        <td>{{ $registration->registered_at }}</td>
+                        <td>{{ $registration->completed_at }}</td>
+                        <td>{{ $registration->certified_at }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+                @else
+                <h4>No registered students for this course.</h4>
+                @endif
+            </div>
+
         <div class="form-group">
             <div class="row">
                 <div class="col-xxs-6">

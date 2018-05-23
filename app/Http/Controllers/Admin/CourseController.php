@@ -204,8 +204,9 @@ class CourseController extends AdminController {
             'Full Name',
             'Email',
             // 'Channel',
-            'Registered At',
-            // 'Completed At',
+            'Registered',
+            'Completed',
+            'Certified',
         ));
         foreach ($course->registrations as $registration) {
             fputcsv($output, array(
@@ -214,7 +215,8 @@ class CourseController extends AdminController {
                 $registration->user->email,
                 // $registration->method == 'key' ? 'Course Key' : 'Paypal',
                 $registration->registered_at,
-                // $registration->completed_at,
+                $registration->completed_at,
+                $registration->certified_at,
             ));
         }
 
@@ -224,14 +226,26 @@ class CourseController extends AdminController {
     }
 
 
-    public function certifyStuent(Course $course, UsersCoursesRegistration $registration)
+    public function certifyStudent(Course $course, UsersCoursesRegistration $registration)
     {
         if ($registration->completed_at && empty($registration->certified_at)) {
             $registration->certified_at = Carbon::now()->toDateTimeString();
             $registration->save();
 
             session()->flash('courseMessage', 'You just certified a student for completing this course.');
+        }
 
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+
+    public function uncertifyStudent(Course $course, UsersCoursesRegistration $registration)
+    {
+        if ($registration->completed_at && $registration->certified_at) {
+            $registration->certified_at = null;
+            $registration->save();
+
+            session()->flash('courseMessage', 'You just uncertified a student for completing this course.');
         }
 
         return redirect()->action('Admin\CourseController@edit', $course);

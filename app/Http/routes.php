@@ -70,7 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
 
     Route::get('courses/{course}/students/export', 'Admin\CourseController@exportStudents');
 
-    Route::get('courses/{course}/registrations/{courseregistration}/certify', 'Admin\CourseController@certifyStuent');
+    Route::get('courses/{course}/registrations/{courseregistration}/certify', 'Admin\CourseController@certifyStudent');
+    Route::get('courses/{course}/registrations/{courseregistration}/uncertify', 'Admin\CourseController@uncertifyStudent');
 
     Route::post('courses/{course}/documents', 'Admin\CourseDocumentController@store');
     Route::get('courses/{course}/documents/{coursedocument}/delete', 'Admin\CourseDocumentController@delete');
@@ -96,6 +97,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::post('users', 'Admin\UserController@store');
     Route::get('users/{user}/approve', 'Admin\UserController@approve');
     Route::get('users/{user}/deny', 'Admin\UserController@deny');
+    Route::get('users/{user}/courses/export', 'Admin\UserController@exportCourses');
 
     // Courses routes
     // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
