@@ -76,6 +76,12 @@
 
         <hr>
         <div class="course-info">
+            <label>Instructor Note</label>
+            <p>{!! $course->instructor_note !!}</p>
+        </div>
+
+        <hr>
+        <div class="course-info">
             <label>Learning Objective</label>
             <p>{!! $course->objective !!}</p>
         </div>
@@ -98,7 +104,7 @@
             <p>{!! $course->continuing_education !!}</p>
         </div>
 
-<!--         <hr>
+        <hr>
         <div class="course-info">
             <label>Course Modules</label>
             @if (count($course->modules))
@@ -113,11 +119,28 @@
                 <p>No course module</p>
             @endif
         </div>
- -->
+
         <hr>
         <div class="course-info course-register">
-            <!-- <label>Register</label> -->
-            @if (empty($registration))
+            @if (!empty($registration))
+                @if ($registration->payment_status === 'Completed')
+                    <p class="text-info">
+                        <i class="fa fa-check"></i> You have registered for this course.
+                    </p>
+                    @if ($registration->completed_at)
+                    <p class="text-info">
+                        <i class="fa fa-check"></i> You have finished the course.
+                    </p>
+                    @endif
+                    <a href="{{ url('course/'.$course->slug.'/browse') }}" class="btn btn-primary m-b-5">
+                        <i class="fa fa-search"></i> Browse Course Modules
+                    </a>
+                @else
+                    <p class="text-warning">
+                        <i class="fa fa-check-circle-o"></i> Your purchase is under verification.
+                    </p>
+                @endif
+            @else
                 @if (Auth::guest())
                     <p class="text-info">You need to login to register for this course</p>
                     <a href="{{ url('auth/login') }}" class="btn btn-primary">
@@ -127,22 +150,12 @@
                     <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#registerWithKeyModal">
                         <i class="fa fa-key"></i> Register with key
                     </a>
-                    <!-- <a href="#" class="btn btn-primary m-b-5">
+                    @if ($course->price > 0)
+                    <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#buyWithPaypalModal">
                         <i class="fa fa-paypal"></i> Buy with Paypal
-                    </a> -->
+                    </a>
+                    @endif
                 @endif
-            @else
-                <p class="text-info">
-                    <i class="fa fa-check"></i> You have registered for this course.
-                </p>
-                @if ($registration->completed_at)
-                <p class="text-info">
-                    <i class="fa fa-check"></i> You have finished the course.
-                </p>
-                @endif
-                <a href="{{ url('course/'.$course->slug.'/browse') }}" class="btn btn-primary m-b-5">
-                    <i class="fa fa-search"></i> Browse Course Modules
-                </a>
             @endif
         </div>
 
@@ -171,6 +184,50 @@
                 <button type="submit" class="btn btn-primary">Register</button>
             </div>
             {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="buyWithPaypalModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ env('PAYPAL_CHECKOUT_URL', 'https://www.paypal.com/cgi-bin/webscr') }}" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Buy with Paypal</h4>
+                </div>
+
+                <div class="modal-body">
+                    Price: ${{ $course->price }}
+                </div>
+
+                <input type="hidden" name="business" value="{{ env('PAYPAL_MERCHANT_EMAIL') }}">
+
+                <!-- Specify a Buy Now button. -->
+                <input type="hidden" name="cmd" value="_xclick">
+
+                <!-- Specify details about the item that buyers will purchase. -->
+                <input type="hidden" name="item_name" value="{{ $course->title }}">
+                <input type="hidden" name="amount" value="{{ $course->price }}">
+                <input type="hidden" name="currency_code" value="USD">
+
+                <input type="hidden" name="no_shipping" value="1">
+                <input type="hidden" name="return" value="{{ url('cb/paypal/'.$course->slug) }}">
+                <input type="hidden" name="cancel_return" value="{{ url('course/'.$course->slug) }}">
+                <input type="hidden" name="rm" value="2">
+                <input type="hidden" name="custom" value="{{ $user->id }}-{{ $course->id }}">
+
+                <input type="hidden" name="notify_url" value="{{ env('PAYPAL_IPN_URL', url('ipn/paypal')) }}">
+
+                <!-- <input type="image" name="submit" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" alt="Buy Now" /> -->
+                <!-- <img alt="" border="0" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" /> -->
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Buy Now</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

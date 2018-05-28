@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-8">
                 @if (count($latestCourses) > 0)
-                <h4>Found {{ count($latestCourses) }} courses</h4>
+                <h4>Found {{ count($latestCourses) }} course(s)</h4>
                 @foreach ($latestCourses as $index => $course)
                 <div class="course m-b-10 p-10">
                     <div class="course__info">
@@ -26,8 +26,22 @@
                     </div>
                 </div>
                 @endforeach
-                @else
-                <h4>No available course on this date.</h4>
+                @endif
+
+                @if (count($onlineCourses) > 0)
+                <h4 class="m-t-30">{{ count($onlineCourses) }} online course(s)</h4>
+                @foreach ($onlineCourses as $index => $course)
+                <div class="course m-b-10 p-10">
+                    <div class="course__info">
+                        <h4 class="course__title">
+                            <a href="{!! url('course/'.$course->slug) !!}">{{ $course->title }}</a>
+                        </h4>
+                        <div class="course__location">
+                            {{ $course->location }}
+                        </div>
+                    </div>
+                </div>
+                @endforeach
                 @endif
             </div>
         </div>
@@ -40,6 +54,12 @@
     $(function() {
         $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
+            beforeShowDay: function(date) {
+                var availableDates = [{!! implode($availableDates, ',') !!}];
+                if (~availableDates.indexOf(date.getTime() / 1000 - date.getTimezoneOffset() * 60)) {
+                    return { classes: 'highlight' };
+                }
+            }
         });
 
         $('#datepicker').on('changeDate', function() {

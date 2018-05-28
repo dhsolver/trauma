@@ -20,6 +20,12 @@
         </div>
     @endif
 
+    @if (Session::has('errors'))
+        <div class="alert alert-danger" role="alert">
+            Some fields are incorrect, please check below.
+        </div>
+    @endif
+
     {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
     <input type="hidden" name="online_only" value="0">
     <input type="hidden" name="published" value="0">
@@ -100,6 +106,7 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             @foreach ($course->instructors as $faculty_id)
@@ -108,6 +115,11 @@
                 <td>{{ $faculty['id'] }}</td>
                 <td>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }}</td>
                 <td>{{ $faculty['email'] }}</td>
+                <td>
+                    @if ($faculty['approval'] === 'pending')
+                        <label class="label label-warning">Pending</label>
+                    @endif 
+                </td>
             </tr>
             @endforeach
         </table>
@@ -117,11 +129,13 @@
     </div>
 
     <div class="form-group">
-        {!! Form::label('instructors', 'Instructors', array('class' => 'control-label shown')) !!}
+        {!! Form::label('instructors', 'Available Instructors', array('class' => 'control-label shown')) !!}
         <div class="controls">
             <select class="form-control" name="instructors[]" multiple="">
                 @foreach ($faculties as $faculty)
+                @if ($faculty['approval'] === 'approved')
                 <option value="{{ $faculty['id'] }}" @if ($course->instructors && in_array($faculty['id'], $course->instructors)) selected @endif>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</option>
+                @endif
                 @endforeach
             </select>
         </div>
@@ -134,6 +148,17 @@
             <span class="help-block">{{ $errors->first('overview', ':message') }}</span>
         </div>
     </div>
+
+    @if (in_array(Auth::user()->id, $course->instructors))
+    <div class="form-group {{ $errors->has('instructor_note') ? 'has-error' : '' }}">
+        {!! Form::label('instructor_note', 'Instructor Note', array('class' => 'control-label shown')) !!}
+        <div class="controls">
+            {!! Form::textarea('instructor_note', $course->instructor_note, array('class' => 'form-control', 'rows' => '3')) !!}
+            <span class="help-block">{{ $errors->first('instructor_note', ':message') }}</span>
+        </div>
+    </div>
+    @endif
+
     <div class="form-group {{ $errors->has('objective') ? 'has-error' : '' }}">
         {!! Form::label('objective', 'Objective', array('class' => 'control-label shown')) !!}
         <div class="controls">
@@ -238,6 +263,19 @@
     <hr>
 
     <h3 class="section-title">
+        Course Price ($)
+    </h3>
+    <div class="form-group {{ $errors->has('price') ? 'has-error' : '' }}">
+        {!! Form::label('price', 'Price', array('class' => 'control-label')) !!}
+        <div class="controls">
+            {!! Form::text('price', $course->price, array('class' => 'form-control', 'placeholder' => 'Price')) !!}
+            <span class="help-block">{{ $errors->first('price', ':message') }}</span>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3 class="section-title">
         Course Keys
         <div class="pull-right text-right">
             <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#generateKeyModal">
@@ -334,24 +372,27 @@
                         <i class="fa fa-key"></i> Course Key
                     @elseif ($registration->method === 'paypal')
                         <i class="fa fa-paypal"></i> Paypal
+                        @if ($registration->payment_status !== 'Completed')
+                            <label class="label label-warning">{{ $registration->payment_status }}</label>
+                        @endif
                     @endif
                 </td>
                 <td>{{ $registration->registered_at }}</td>
                 <td>{{ $registration->completed_at }}</td>
-                <td>
-                    {{ $registration->certified_at }}
-                </td>
-                <td>
+                <td>{{ $registration->certified_at }}</td>
+                <td class="text-center">
+                    @if ($registration->payment_status === 'Completed')
                     @if ($registration->certified_at)
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/uncertify') }}"
                             class="btn btn-xs btn-danger">
                             Uncertify
                         </a>
-                    @elseif ($registration->completed_at)
+                    @else
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/certify') }}"
                             class="btn btn-xs btn-success">
                             Certify
                         </a>
+                    @endif
                     @endif
                 </td>
             </tr>

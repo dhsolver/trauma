@@ -5,9 +5,7 @@ use App\Course;
 use App\CourseKey;
 use App\CourseModuleDocument;
 use App\UsersCoursesRegistration;
-use App\Http\Requests\CourseRegisterRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -29,7 +27,7 @@ class CourseController extends Controller {
         return view('courses.index', compact('latestCourses', 'faculties'));
     }
 
-    public function show($slug)
+    public function show($slug, Request $request)
     {
         $faculties = User::where('role', 'faculty')
             ->orderBy('first_name', 'asc')
@@ -48,56 +46,7 @@ class CourseController extends Controller {
             ->where('course_id', $course->id)
             ->first();
 
-        return view('courses.show', compact('course', 'faculties', 'registration'));
-    }
-
-    public function register(Course $course, CourseRegisterRequest $request)
-    {
-        $user = Auth::user();
-        $alreadyRegistered = UsersCoursesRegistration::where('user_id', $user->id)
-            ->where('course_id', $course->id)
-            ->first();
-
-        if (!empty($alreadyRegistered)) {
-            return response()->json([
-                'key' => 'You are already registered for this course.'
-            ], 422);
-        }
-
-        $courseKey = CourseKey::where('course_id', $course->id)
-            ->where('key', $request->key)
-            ->where('redeemed', false)
-            ->where('enabled', true)
-            ->first();
-
-        if (empty($courseKey)) {
-            return response()->json([
-                'key' => 'Invalid course key.'
-            ], 422);
-        }
-
-        DB::transaction(function () use($course, $courseKey, $user) {
-            $registration = new UsersCoursesRegistration();
-            $registration->user_id = $user->id;
-            $registration->course_id = $course->id;
-            $registration->method = 'key';
-            $registration->reference = $courseKey->key;
-            $registration->registered_at = Carbon::now()->toDateTimeString();
-            $registration->save();
-
-            $courseKey->redeemed = true;
-            $courseKey->redeemed_at = Carbon::now()->toDateTimeString();
-            $courseKey->redeemed_user_id = $user->id;
-            $courseKey->save();
-        });
-
-        session()->flash('courseMessage', 'You have succssfully registered for this course!');
-        return response()->json([
-            'success' => true,
-            'redirect' => action('CourseController@show', [
-                'course' => $course,
-            ])
-        ]);
+        return view('courses.show', compact('user', 'course', 'faculties', 'registration'));
     }
 
     public function browse($slug)
@@ -117,10 +66,11 @@ class CourseController extends Controller {
         $user = Auth::user();
         $registration = UsersCoursesRegistration::where('user_id', $user->id)
             ->where('course_id', $course->id)
+            ->where('payment_status', 'Completed')
             ->first();
 
         if (empty($registration)) {
-            session()->flash('courseError', 'You need to register for the course to browse.');
+            session()->flash('courseError', 'You need to register or purchase to browse this course.');
             return redirect()->action('CourseController@show', $course->slug);
         }
 
@@ -196,17 +146,52 @@ class CourseController extends Controller {
             ->keyBy('id')
             ->toArray();
 
-        $latestCourses = Course::where(function ($query) use ($dt) {
-            $query->where('published', 1)
-                ->where('enabled', 1)
-                ->where('date_start', '<=', $dt)
-                ->where('date_end', '>=', $dt);
-        })->orWhere(function($query) {
-            $query->where('published', 1)
-                ->where('enabled', 1)
-                ->where('online_only', 1);
-        })->get();
+        $currentMonth = date('n', strtotime($dt));
+        $monthStart = date('Y-m-01', strtotime($dt));
+        $monthEnd = date('Y-m-t', strtotime($dt));
 
-        return view('courses.calendar', compact('latestCourses', 'faculties', 'dt'));
+        $availableCourses = Course::where('published', 1)
+            ->where('enabled', 1)
+            ->where('online_only', 0)
+            // ->where(function ($query) use ($monthStart, $monthEnd) {
+            //     $query->where(function ($q2) use ($monthStart, $monthEnd) {
+            //         $q2->where('date_start', '>=', $monthStart)
+            //             ->where('date_start', '<=', $monthEnd);
+            //     })->orWhere(function ($q2) use ($monthStart, $monthEnd) {
+            //         $q2->where('date_end', '>=', $monthStart)
+            //             ->where('date_end', '<=', $monthEnd);
+            //     })->orWhere(function ($q2) use ($monthStart, $monthEnd) {
+            //         $q2->where('date_start', '<', $monthStart)
+            //             ->where('date_end', '>', $monthEnd);
+            //     });
+            // })
+            ->orderBy('title', 'asc')
+            ->get();
+
+        $latestCourses = [];
+        $availableDates = [];
+        foreach ($availableCourses as $key => $course) {
+            if ($course->getOriginal('date_start') <= $dt && $course->getOriginal('date_end') >= $dt) {
+                $latestCourses[] = $course;
+            }
+
+            $begin = new \DateTime($course->getOriginal('date_start'));
+            $end = new \DateTime($course->getOriginal('date_end'));
+
+            for($d = $begin; $d <= $end; $d->modify('+1 day')){
+                $j = $d->getTimestamp(); //$d->format('Y-m-d');
+                if (!in_array($j, $availableDates)) {
+                    $availableDates[] = $j;
+                }
+            }
+        }
+
+        $onlineCourses = Course::where('published', 1)
+            ->where('enabled', 1)
+            ->where('online_only', 1)
+            ->orderBy('title', 'asc')
+            ->get();
+
+        return view('courses.calendar', compact('faculties', 'dt', 'latestCourses', 'onlineCourses', 'availableDates', 'currentMonth'));
     }
 }

@@ -289,6 +289,7 @@
                         <tr>
                             <th>Course Id</th>
                             <th>Title</th>
+                            <th>Channel</th>
                             <th>Registered</th>
                             <th>Completed</th>
                             <th>Certified</th>
@@ -298,6 +299,16 @@
                     <tr>
                         <td>#{{ $registration->course->id }}</td>
                         <td>{{ $registration->course->title }}</td>
+                        <td>
+                            @if ($registration->method === 'key')
+                                <i class="fa fa-key"></i> Course Key
+                            @elseif ($registration->method === 'paypal')
+                                <i class="fa fa-paypal"></i> Paypal
+                                @if ($registration->payment_status !== 'Completed')
+                                    <label class="label label-warning">{{ $registration->payment_status }}</label>
+                                @endif
+                            @endif
+                        </td>
                         <td>{{ $registration->registered_at }}</td>
                         <td>{{ $registration->completed_at }}</td>
                         <td>{{ $registration->certified_at }}</td>

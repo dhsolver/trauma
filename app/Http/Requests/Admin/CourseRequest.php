@@ -16,6 +16,7 @@ class CourseRequest extends FormRequest {
             'location' => 'required|max:255',
             'overview' => 'required|min:20',
             'objective' => 'required|min:20',
+            'price' => 'numeric|min:0',
             'date_start' => 'required_unless:online_only,1',
             'date_end' => 'required_unless:online_only,1',
         ];

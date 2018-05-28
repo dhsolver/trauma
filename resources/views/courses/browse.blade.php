@@ -142,7 +142,7 @@
                                     >
                                     @endif
                                     @endif
-                                        <i class="fa fa-check @if (!in_array($document->id, $registration->progress)) invisible @endif"></i>
+                                        <i class="fa fa-check @if (!is_array($registration->progress) || !in_array($document->id, $registration->progress)) invisible @endif"></i>
                                         <i class="fa {{ $document->icon_class }}"></i>
                                         @if ($document->type === 'url')
                                         {{ $document->full_url }}

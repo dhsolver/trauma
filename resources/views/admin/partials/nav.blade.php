@@ -16,6 +16,14 @@
                     <a href="{{url('admin/courses')}}"><i class="fa fa-language"></i> Courses</a>
                 </li>
             </ul>
+            @if(Auth::user()->role === 'faculty')
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/my-teaching', 'admin/my-teaching/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/my-teaching')}}"><i class="fa fa-graduation-cap"></i> My Teaching</a>
+                </li>
+            </ul>
+            @endif
+
             @if (Auth::user()->role === 'admin')
             <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('admin/users', 'admin/users/*') ? 'active' : '') }}">

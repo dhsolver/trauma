@@ -140,3 +140,24 @@ a {
 #html5-watermark {
     display: none !important;
 }
+
+.datepicker td.day {
+    &.highlight {
+        position: relative;
+
+        &:after {
+            content: '.';
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            color: $blue;
+            font-size: 24px;
+            margin-left: -3px;
+        }
+
+        &.active:after {
+            color: $white;
+        }
+    }
+}

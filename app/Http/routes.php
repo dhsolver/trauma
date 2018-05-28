@@ -32,6 +32,7 @@ Route::controllers([
 ]);
 
 Route::get('calendar', 'CourseController@calendar');
+Route::post('ipn/paypal', 'PurchaseController@handlePaypalIPN');
 
 /***************    User routes  **********************************/
 Route::group(['middleware' => 'auth'], function() {
@@ -41,18 +42,22 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('courses', 'CourseController@index');
     Route::get('course/{slug}', 'CourseController@show');
-    Route::post('course/{course}/register', 'CourseController@register');
+    Route::post('course/{course}/register', 'PurchaseController@handleRegister');
     Route::get('course/{slug}/browse', 'CourseController@browse');
     Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
     Route::get('course/{course}/finish', 'CourseController@finish');
 
     Route::get('my-courses', 'CourseController@myCourses');
+
+    Route::post('cb/paypal/{slug}', 'PurchaseController@handlePaypalCheckout');
 });
 
 /***************    Faculty routes  **********************************/
 Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     # Admin Dashboard
     Route::get('dashboard', 'Admin\DashboardController@index');
+
+    Route::get('my-teaching', 'Admin\CourseController@myTeachings');
 
     // Courses routes
     Route::get('courses/', 'Admin\CourseController@index');

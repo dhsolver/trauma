@@ -7,9 +7,9 @@ use App\User;
 use App\UsersCoursesRegistration;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 
@@ -66,6 +66,7 @@ class CourseController extends AdminController {
     public function edit(Course $course)
     {
         $faculties = User::where('role', 'faculty')
+            // ->where('approval', 'approved')
             ->orderBy('first_name', 'asc')
             ->orderBy('last_name', 'asc')
             ->get()
@@ -89,6 +90,9 @@ class CourseController extends AdminController {
             $course->photo = $photo;
         }
 
+        if (!$course->published && $request->published) {
+            $course->slug = null;
+        }
         $course->update($request->except('photo', 'online_only'));
         if ($request->online_only == '1') {
             $course->online_only = true;
@@ -228,7 +232,10 @@ class CourseController extends AdminController {
 
     public function certifyStudent(Course $course, UsersCoursesRegistration $registration)
     {
-        if ($registration->completed_at && empty($registration->certified_at)) {
+        if (empty($registration->certified_at)) {
+            if (empty($registration->completed_at)) {
+                $registration->completed_at = Carbon::now()->toDateTimeString();
+            }
             $registration->certified_at = Carbon::now()->toDateTimeString();
             $registration->save();
 
@@ -241,7 +248,7 @@ class CourseController extends AdminController {
 
     public function uncertifyStudent(Course $course, UsersCoursesRegistration $registration)
     {
-        if ($registration->completed_at && $registration->certified_at) {
+        if ($registration->certified_at) {
             $registration->certified_at = null;
             $registration->save();
 
@@ -249,5 +256,26 @@ class CourseController extends AdminController {
         }
 
         return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function myTeachings()
+    {
+        $user = Auth::user();
+        // $registrations = $user->registrations;
+
+        $myCourses = Course::where('published', 1)
+            ->where('enabled', 1)
+            ->where('instructors', 'like', "%$user->id%")
+            ->orderBy('title', 'asc')
+            ->get();
+
+        $faculties = User::where('role', 'faculty')
+            ->orderBy('first_name', 'asc')
+            ->orderBy('last_name', 'asc')
+            ->get()
+            ->keyBy('id')
+            ->toArray();
+
+        return view('admin.courses.my-teachings', compact('myCourses', 'faculties'));
     }
 }
