@@ -134,7 +134,7 @@
             <select class="form-control" name="instructors[]" multiple="">
                 @foreach ($faculties as $faculty)
                 @if ($faculty['approval'] === 'approved')
-                <option value="{{ $faculty['id'] }}" @if ($course->instructors && in_array($faculty['id'], $course->instructors)) selected @endif>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</option>
+                <option value="{{ $faculty['id'] }}" @if (is_array($course->instructors) && in_array($faculty['id'], $course->instructors)) selected @endif>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</option>
                 @endif
                 @endforeach
             </select>
@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    @if (in_array(Auth::user()->id, $course->instructors))
+    @if (is_array($course->instructors) && in_array(Auth::user()->id, $course->instructors))
     <div class="form-group {{ $errors->has('instructor_note') ? 'has-error' : '' }}">
         {!! Form::label('instructor_note', 'Instructor Note', array('class' => 'control-label shown')) !!}
         <div class="controls">
