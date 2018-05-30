@@ -40,6 +40,12 @@
                             <div class="course__location">
                                 {{ $course->location }}
                             </div>
+                            @if ($course->purchase_enabled && $course->price > 0)
+                            <hr>
+                            <div class="course__location text-primary">
+                                <strong>${{ $course->price }}</strong>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

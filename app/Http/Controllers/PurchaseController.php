@@ -6,6 +6,7 @@ use App\CourseKey;
 use App\CourseModuleDocument;
 use App\UsersCoursesRegistration;
 use App\Http\Requests\CourseRegisterRequest;
+use App\Jobs\SendPurchaseConfirmationEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -107,11 +108,6 @@ class PurchaseController extends Controller {
 
     public function handlePaypalIPN(Request $request)
     {
-        \Log::info('handlePaypalIPN', [
-            $request->isMethod('post'),
-            $request->all()
-        ]);
-
         // handling paypal IPN parameters
         if ($request->isMethod('post') &&
             $request->input('payment_type') === 'instant' &&
@@ -140,6 +136,10 @@ class PurchaseController extends Controller {
             $registration->payment_status = $request->input('payment_status');
             $registration->reference = $request->input('txn_id');
             $registration->save();
+
+            if ($registration->payment_status === 'Completed') {
+                $this->dispatch(new SendPurchaseConfirmationEmail($registration->user, $registration->course));
+            }
         }
 
         return response('OK', 200);

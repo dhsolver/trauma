@@ -265,6 +265,11 @@
     <h3 class="section-title">
         Course Price ($)
     </h3>
+    <div class="checkbox inline">
+        <label>
+            {!! Form::checkbox('purchase_enabled', true, $course->purchase_enabled) !!} Enable Purchase
+        </label>
+    </div>
     <div class="form-group {{ $errors->has('price') ? 'has-error' : '' }}">
         {!! Form::label('price', 'Price', array('class' => 'control-label')) !!}
         <div class="controls">

@@ -65,6 +65,16 @@
                         {{ $course->location }}
                     </div>
                 </div>
+                @if ($course->purchase_enabled && $course->price > 0)
+                <div class="row">
+                    <div class="col-xs-3">
+                        <small>Price:</small>
+                    </div>
+                    <div class="col-xs-9 text-primary">
+                        <strong>${{ $course->price }}</strong>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
 
@@ -150,7 +160,7 @@
                     <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#registerWithKeyModal">
                         <i class="fa fa-key"></i> Register with key
                     </a>
-                    @if ($course->price > 0)
+                    @if ($course->purchase_enabled > 0 && $course->price > 0)
                     <a href="#" class="btn btn-primary m-b-5" data-toggle="modal" data-target="#buyWithPaypalModal">
                         <i class="fa fa-paypal"></i> Buy with Paypal
                     </a>
