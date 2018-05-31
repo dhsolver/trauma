@@ -14,11 +14,7 @@
                 <div class="col-sm-4">
                     <div class="course text-center">
                         <a href="{!! url('course/'.$course->slug) !!}">
-                            @if ($course->photo)
-                                <img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/>
-                            @else
-                                <img class="img img-course" alt="no course photo" src="{!! url('images/no_photo.png') !!}"/>
-                            @endif
+                            <img class="img img-course" alt="course photo" src="{!! getS3Url($course->photo) !!}"/>
                         </a>
                         <div class="course__info text-center m-t-10">
                             <h4 class="course__title">

@@ -10,11 +10,7 @@
         @endif
         <div class="row">
             <div class="col-sm-6 text-center">
-                @if ($course->photo)
-                    <img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/>
-                @else
-                    <img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
-                @endif
+                <img class="img img-course" alt="course photo" src="{!! getS3Url($course->photo) !!}"/>
             </div>
             <div class="col-sm-6">
                 <h1 class="page-title text-primary m-t-10">

@@ -3,6 +3,10 @@
 use Config;
 
 function getS3Url($fileKey) {
+    if (empty($fileKey)) {
+        return url('images/no_photo.png');
+    }
+
     $region             = Config::get('aws.s3.region');
     $bucket_name        = Config::get('aws.s3.bucket');
     return "//s3-$region.amazonaws.com/$bucket_name/$fileKey";

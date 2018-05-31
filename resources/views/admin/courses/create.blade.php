@@ -15,22 +15,7 @@
         </div>
     @endif
 
-    {!! Form::open(array('url' => url('admin/courses'), 'method' => 'post', 'class' => 'form-course', 'files' => true)) !!}
-    <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
-        <div class="row">
-            <div class="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 text-center">
-                <img class="img img-photo" alt="no photo" src="{!! url('images/no_photo.png') !!}"/>
-                <div><span class='label label-info' id="upload-file-info"></span></div>
-                <label class="btn btn-sm btn-primary" for="course-photo">
-                    <input id="course-photo" name="photo" type="file" value="Upload" style="display:none"
-                    onchange="$('#upload-file-info').html(this.files[0].name)">
-                    Choose Photo
-                </label>
-                <span class="help-block">{{ $errors->first('image', ':message') }}</span>
-            </div>
-        </div>
-    </div>
-
+    {!! Form::open(array('url' => url('admin/courses'), 'method' => 'post', 'class' => 'form-course')) !!}
     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
         {!! Form::label('title', 'Title', array('class' => 'control-label')) !!}
         <div class="controls">

@@ -36,28 +36,8 @@ class CourseController extends AdminController {
 
     public function store(CourseRequest $request)
     {
-        $course = new Course($request->except('photo', 'online_only'));
-
-        if ($request->hasFile('photo'))
-        {
-            $file = $request->file('photo');
-            $filename = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-            $photo = sha1($filename . time()) . '.' . $extension;
-            $course->photo = $photo;
-        }
-        if ($request->online_only == '1') {
-            $course->online_only = true;
-        } else {
-            $course->online_only = false;
-        }
+        $course = new Course($request->all());
         $course->save();
-
-        if ($request->hasFile('photo'))
-        {
-            $destinationPath = public_path() . '/images/courses/'.$course->id.'/';
-            $request->file('photo')->move($destinationPath, $photo);
-        }
 
         session()->flash('courseMessage', 'Course has been created!');
         return redirect()->action('Admin\CourseController@index');
@@ -73,31 +53,19 @@ class CourseController extends AdminController {
             ->keyBy('id')
             ->toArray();
 
-        return view('admin.courses.edit', compact('course', 'faculties'));
+        $s3Data = prepareS3Data();
+ 
+        return view('admin.courses.edit', compact('course', 'faculties', 's3Data'));
     }
 
     public function update(CourseRequest $request, Course $course)
     {
-        $photo = '';
-        if ($request->hasFile('photo'))
-        {
-            $file = $request->file('photo');
-            $filename = $file->getClientOriginalName();
-            $extension = $file -> getClientOriginalExtension();
-            $photo = sha1($filename . time()) . '.' . $extension;
-            $destinationPath = public_path() . '/images/courses/'.$course->id.'/';
-            $request->file('photo')->move($destinationPath, $photo);
-            $course->photo = $photo;
-        }
-
         if (!$course->published && $request->published) {
             $course->slug = null;
         }
-        $course->update($request->except('photo', 'online_only'));
-        if ($request->online_only == '1') {
-            $course->online_only = true;
-        } else {
-            $course->online_only = false;
+        $course->update($request->all());
+
+        if (!$course->online_only) {
             if ($course->date_start > $course->date_end) {
                 return redirect()->action('Admin\CourseController@edit', $course)
                             ->withMessage('Please enter correct dates')
@@ -110,6 +78,19 @@ class CourseController extends AdminController {
         $course->save();
 
         session()->flash('courseMessage', 'Course has been updated!');
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function updatePhoto(Request $request, Course $course)
+    {
+        $this->validate($request, [
+            'fileKeys' => 'required',
+        ]);
+
+        $course->photo = $request->fileKeys[0];
+        $course->save();
+
+        session()->flash('courseMessage', 'Course image has been updated!');
         return redirect()->action('Admin\CourseController@edit', $course);
     }
 

@@ -32,6 +32,7 @@
     </div>
 </div>
 
+@include('../partials.s3form')
 @include('partials.footer')
 
 @yield('scripts')

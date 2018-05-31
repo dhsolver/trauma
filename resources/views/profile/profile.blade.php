@@ -31,7 +31,7 @@
                             onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-avatar-submit').show();">
                             Choose Photo
                         </label>
-                        <span class="help-block">{{ $errors->first('avatar', ':message') }}</span>
+                        <span class="help-block">{{ $errors->first('fileKeys', ':message') }}</span>
                         <button
                             id="upload-avatar-submit"
                             type="submit"

@@ -26,29 +26,41 @@
         </div>
     @endif
 
-    {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'files'=> true)) !!}
-    <input type="hidden" name="online_only" value="0">
-    <input type="hidden" name="published" value="0">
+    {!! Form::open(array('id' => 'course-photo-form', 'url' => url('admin/courses/'.$course->id.'/photo'), 'method' => 'post')) !!}
+        <!-- <input type="hidden" name="fileKeys[]" value="" /> -->
+    {!! Form::close() !!}
 
     <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
         <div class="row">
             <div class="col-xs-offset-2 col-xs-8 col-sm-offset-3 col-sm-6 text-center">
-                @if ($course->photo)
-                    <img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/>
-                @else
-                    <img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
-                @endif
+                <img class="img img-course" alt="course photo" src="{!! getS3Url($course->photo) !!}"/>
                 <div class="m-b-5"><span class='label label-info' id="upload-file-info"></span></div>
                 <label class="btn btn-sm btn-primary" for="course-photo">
                     <input id="course-photo" name="photo" type="file" value="Upload" style="display:none"
-                    onchange="$('#upload-file-info').html(this.files[0].name)">
+                    onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-photo-submit').show();">
                     Choose Photo
                 </label>
-                <span class="help-block">{{ $errors->first('image', ':message') }}</span>
+                <span class="help-block">{{ $errors->first('fileKeys', ':message') }}</span>
+                <button
+                    id="upload-photo-submit"
+                    type="submit"
+                    class="btn btn-sm btn-primary"
+                    style="display:none"
+                    data-upload="s3"
+                    data-upload-file="#course-photo"
+                    data-upload-dir="courses/{{ $course->id }}"
+                    data-upload-form="#course-photo-form"
+                >
+                    Upload Photo
+                </button>
             </div>
         </div>
     </div>
 
+    {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course')) !!}
+    <input type="hidden" name="online_only" value="0">
+    <input type="hidden" name="published" value="0">
+    <input type="hidden" name="purchase_enabled" value="0">
     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
         {!! Form::label('title', 'Course Id: #'.$course->id, array('class' => 'control-label shown')) !!}
         <div class="controls">

@@ -12,11 +12,9 @@
         @foreach ($latestCourses as $course)
         <div class="col-sm-4">
             <div class="course text-center">
-                @if ($course->photo)
-                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}"><img class="img img-course" alt="{{$course->photo}}" src="{!! url('images/courses/'.$course->id.'/'.$course->photo) !!}"/></a>
-                @else
-                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}"><img class="img img-course" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/></a>
-                @endif
+                <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">
+                    <img class="img img-course" alt="course photo" src="{!! getS3Url($course->photo) !!}"/>
+                </a>
                 <div class="course__info text-center m-t-10">
                     <div class="course__title"><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a></div>
                     <div class="course__location">{{ $course->location }}</div>
