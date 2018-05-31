@@ -47,7 +47,7 @@
                 <div class="form-group {{ $errors->has('birthday') ? 'has-error' : '' }}">
                     {!! Form::label('birthday', 'Date of Birth', array('class' => 'control-label')) !!}
                     <div class="controls">
-                        {!! Form::text('birthday', null, array('class' => 'form-control form-input-date', 'placeholder' => 'Date of Birth *', 'data-date-end-date' => '0y')) !!}
+                        {!! Form::text('birthday', null, array('class' => 'form-control form-input-date', 'placeholder' => 'Date of Birth *', 'data-date-end-date' => '0y', 'data-default-view-date' => '01/01/2000')) !!}
                         <span class="help-block">{{ $errors->first('birthday', ':message') }}</span>
                     </div>
                 </div>

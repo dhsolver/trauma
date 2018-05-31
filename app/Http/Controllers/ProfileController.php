@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class ProfileController extends Controller {
     public function viewProfile()
     {
         $user = Auth::user();
+        $s3Data = prepareS3Data();
 
-        return view('profile.profile', compact('user'));
+        return view('profile.profile', compact('user', 's3Data'));
     }
 
     public function saveProfile(Request $request)
@@ -64,20 +66,11 @@ class ProfileController extends Controller {
 
     public function saveAvatar(Request $request) {
         $this->validate($request, [
-            'avatar' => 'required|image',
+            'fileKeys' => 'required',
         ]);
 
         $user = Auth::user();
-
-        $avatar = '';
-        $file = $request->file('avatar');
-        $filename = $file->getClientOriginalName();
-        $extension = $file -> getClientOriginalExtension();
-        $avatar = sha1($filename . time()) . '.' . $extension;
-        $destinationPath = public_path() . '/images/users/'.$user->id.'/';
-        $file->move($destinationPath, $avatar);
-
-        $user->avatar = $avatar;
+        $user->avatar = $request->fileKeys[0];
         $user->save();
 
         session()->flash('avatarUpdated', 'Profile photo has been updated!');

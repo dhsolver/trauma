@@ -8,51 +8,62 @@
     <div class="container-fluid">
         <div class="row">
             <div class="content-box">
-            {!! Form::open(array('url' => url('profile/avatar'), 'method' => 'post', 'class' => 'form-profile', 'enctype' => 'multipart/form-data')) !!}
-                @if (Session::has('avatarUpdated'))
-                    <div class="alert alert-success" role="alert">
-                        {{ Session::get('avatarUpdated') }}
+            {!! Form::open(array('id' => 'avatar-form', 'url' => url('profile/avatar'), 'method' => 'post')) !!}
+                <!-- <input type="hidden" name="fileKeys[]" value="" /> -->
+            {!! Form::close() !!}
+
+            @if (Session::has('avatarUpdated'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('avatarUpdated') }}
+                </div>
+            @endif
+            <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
+                <div class="row">
+                    <div class="col-sm-4 text-center">
+                        @if ($user->avatar)
+                            <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($user->avatar) !!}"/>
+                        @else
+                            <img class="img img-avatar img-circle" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
+                        @endif
+                        <div class="m-b-5"><span class='label label-info' id="upload-file-info"></span></div>
+                        <label class="btn btn-sm btn-primary" for="avatar">
+                            <input id="avatar" name="avatar" type="file" value="Upload" style="display:none"
+                            onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-avatar-submit').show();">
+                            Choose Photo
+                        </label>
+                        <span class="help-block">{{ $errors->first('avatar', ':message') }}</span>
+                        <button
+                            id="upload-avatar-submit"
+                            type="submit"
+                            class="btn btn-sm btn-primary"
+                            style="display:none"
+                            data-upload="s3"
+                            data-upload-file="#avatar"
+                            data-upload-dir="avatars/{{ $user->id }}"
+                            data-upload-form="#avatar-form"
+                        >
+                            Upload Photo
+                        </button>
                     </div>
-                @endif
-                <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
-                    <div class="row">
-                        <div class="col-sm-4 text-center">
-                            @if ($user->avatar)
-                                <img class="img img-avatar img-circle" alt="{{$user->avatar}}" src="{!! url('images/users/'.$user->id.'/'.$user->avatar) !!}"/>
-                            @else
-                                <img class="img img-avatar img-circle" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
-                            @endif
-                            <div class="m-b-5"><span class='label label-info' id="upload-file-info"></span></div>
-                            <label class="btn btn-sm btn-primary" for="avatar">
-                                <input id="avatar" name="avatar" type="file" value="Upload" style="display:none"
-                                onchange="$('#upload-file-info').html(this.files[0].name); $('#upload-avatar-submit').show();">
-                                Choose Photo
-                            </label>
-                            <span class="help-block">{{ $errors->first('avatar', ':message') }}</span>
-                            <button id="upload-avatar-submit" type="submit" class="btn btn-sm btn-primary" style="display:none">
-                                Upload Photo
-                            </button>
-                        </div>
-                        <div class="col-sm-offset-1 col-sm-7 hidden-xs">
-                            <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
-                            User Id: {{ $user->id }}
-                            <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
-                            @if ($user->role !== 'admin')
-                            <div class="user-info">
-                                Approval Status:
-                                @if ($user->approval === 'approved')
-                                <label class="label label-success">Approved</label>
-                                @elseif ($user->approval === 'denied')
-                                <label class="label label-danger">Denied</label>
-                                @elseif ($user->approval === 'pending')
-                                <label class="label label-default">Pending</label>
-                                @endif
-                            </div>
+                    <div class="col-sm-offset-1 col-sm-7 hidden-xs">
+                        <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
+                        User Id: {{ $user->id }}
+                        <div class="user-info">Account Type: {{ ucfirst($user->role) }}</div>
+                        @if ($user->role !== 'admin')
+                        <div class="user-info">
+                            Approval Status:
+                            @if ($user->approval === 'approved')
+                            <label class="label label-success">Approved</label>
+                            @elseif ($user->approval === 'denied')
+                            <label class="label label-danger">Denied</label>
+                            @elseif ($user->approval === 'pending')
+                            <label class="label label-default">Pending</label>
                             @endif
                         </div>
+                        @endif
                     </div>
                 </div>
-            {!! Form::close() !!}
+            </div>
 
             {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class' => 'form-profile')) !!}
                 @if (Session::has('profileUpdated'))

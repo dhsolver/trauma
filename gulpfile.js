@@ -85,7 +85,7 @@ gulp.task('default', function () {
             paths.justifiedGallery + '/js/jquery.justifiedGallery.js',
             paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
             // 'html5lightbox.js',
-            'index.js',
+            'general.js',
         ], 'public/js/site.js');
 
         // Merge Admin CSSs.
@@ -119,7 +119,7 @@ gulp.task('default', function () {
             'bootstrap-dataTables-paging.js',
             'dataTables.bootstrap.js',
             'datatables.fnReloadAjax.js',
-            'admin.js',
+            'general.js',
         ], 'public/js/admin.js');
     });
 });
