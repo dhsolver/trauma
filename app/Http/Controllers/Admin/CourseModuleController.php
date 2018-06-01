@@ -8,13 +8,9 @@ use App\CourseModule;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseModuleRequest;
 use App\Http\Requests\Admin\CourseModuleDocumentRequest;
+use Illuminate\Database\QueryException;
 
 class CourseModuleController extends AdminController {
-
-    public function __construct()
-    {
-    }
-
     public function create(Course $course) {
         return view('admin.coursemodules.create', compact('course'));
     }
@@ -50,8 +46,12 @@ class CourseModuleController extends AdminController {
 
     public function delete(Course $course, CourseModule $courseModule)
     {
-        $courseModule->delete();
-        session()->flash('courseMessage', 'Course module has been deleted!');
+        try {
+            $courseModule->delete();
+            session()->flash('courseMessage', 'Course module has been deleted!');
+        } catch (QueryException $e) {
+            session()->flash('message', 'Course module can not be deleted!');
+        }
         return redirect()->action('Admin\CourseController@edit', $course);
     }
 }
