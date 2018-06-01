@@ -24,11 +24,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-4 text-center">
-                    @if ($user->avatar)
-                        <img class="img img-avatar img-circle" alt="{{$user->avatar}}" src="{!! url('images/users/'.$user->id.'/'.$user->avatar) !!}"/>
-                    @else
-                        <img class="img img-avatar img-circle" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
-                    @endif
+                    <img class="img img-avatar img-circle" alt="{{$user->avatar}}" src="{!! getS3Url($user->avatar) !!}"/>
                 </div>
                 <div class="col-sm-offset-1 col-sm-7 hidden-xs">
                     <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>

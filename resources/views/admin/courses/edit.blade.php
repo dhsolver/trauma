@@ -261,7 +261,7 @@
                     @if ($document->type === 'url')
                         <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->url }}</a>
                     @else
-                        <a href="{{ url('images/courses/'.$course->id.'/modules/'.$module->id.'/'.$document->file) }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}</a>
+                        <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}</a>
                     @endif
                 </div>
             </div>

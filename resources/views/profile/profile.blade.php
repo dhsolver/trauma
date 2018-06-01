@@ -20,11 +20,7 @@
             <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
                 <div class="row">
                     <div class="col-sm-4 text-center">
-                        @if ($user->avatar)
-                            <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($user->avatar) !!}"/>
-                        @else
-                            <img class="img img-avatar img-circle" alt="no avatar" src="{!! url('images/no_photo.png') !!}"/>
-                        @endif
+                        <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($user->avatar) !!}"/>
                         <div class="m-b-5"><span class='label label-info' id="upload-file-info"></span></div>
                         <label class="btn btn-sm btn-primary" for="avatar">
                             <input id="avatar" name="avatar" type="file" value="Upload" style="display:none"

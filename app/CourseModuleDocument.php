@@ -14,16 +14,6 @@ class CourseModuleDocument extends Model {
         return $this->belongsTo('App\CourseModule');
     }
 
-    public function getFilePathAttribute() {
-        $file = $this->attributes['file'];
-        if (empty($file)) return null;
-
-        $moduleId = $this->courseModule->id;
-        $courseId = $this->courseModule->course->id;
-
-        return "images/courses/$courseId/modules/$moduleId/$file";
-    }
-
     public function getFullUrlAttribute() {
         if ($this->type === 'url') {
             return $this->url;

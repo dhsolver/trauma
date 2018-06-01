@@ -151,7 +151,6 @@ class CourseController extends AdminController {
         $newCourse->enabled = true;
 
         $newCourse->push();
-        $this->copyPublicFile($course->photo_path, $newCourse->photo_path);
 
         foreach ($course->modules as $module => $courseModule) {
             $newCourseModule = $courseModule->replicate();
@@ -162,10 +161,6 @@ class CourseController extends AdminController {
                 $newCourseModuleDocument = $courseModuleDocument->replicate();
                 $newCourseModuleDocument->course_module_id = $newCourseModule->id;
                 $newCourseModuleDocument->push();
-
-                if ($newCourseModuleDocument->type == 'file') {
-                    $this->copyPublicFile($courseModuleDocument->file_path, $newCourseModuleDocument->file_path);
-                }
             }
         }
 
