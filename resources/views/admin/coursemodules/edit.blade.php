@@ -57,7 +57,7 @@
                                 <i class="fa fa-globe"></i> {{ $document->url }}
                             </a>
                         @else
-                            <a href="{{ url('images/courses/'.$course->id.'/modules/'.$courseModule->id.'/'.$document->file) }}" target="_blank" class="text-break">
+                            <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break">
                                 <i class="fa fa-file-o"></i> {{ $document->filename }}
                             </a>
                         @endif
@@ -106,7 +106,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="linkModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {!! Form::open(array('url' => url('admin/courses/'.$course->id.'/modules/'.$courseModule->id.'/documents'), 'method' => 'post', 'class' => 'form-course-module-doc')) !!}
+                {!! Form::open(array('id' => 'course-module-document-url-form', 'url' => url('admin/courses/'.$course->id.'/modules/'.$courseModule->id.'/documents'), 'method' => 'post', 'class' => 'form-course-module-doc')) !!}
                 <input type="hidden" name="id" value="">
                 <input type="hidden" name="type" value="url">
                 <div class="modal-header">
@@ -134,9 +134,13 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="documentModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {!! Form::open(array('url' => url('admin/courses/'.$course->id.'/modules/'.$courseModule->id.'/documents'), 'method' => 'post', 'files' => true, 'class' => 'form-course-module-doc')) !!}
-                <input type="hidden" name="id" value="">
-                <input type="hidden" name="type" value="file">
+                {!! Form::open(array('id' => 'course-module-document-file-form', 'url' => url('admin/courses/'.$course->id.'/modules/'.$courseModule->id.'/documents'), 'method' => 'post', 'class' => 'form-course-module-doc')) !!}
+                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="type" value="file">
+                    <input type="hidden" name="embedded" value="0">
+                    <!-- <input type="hidden" name="fileKeys[]" value="" /> -->
+                {!! Form::close() !!}
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Document Info</h4>
@@ -154,16 +158,26 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="embedded" value="1"> Embedded
+                                <input id="documentEmbedded" type="checkbox" name="embedded"> Embedded
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <button
+                        id="btn-save-document-file"
+                        type="submit"
+                        class="btn btn-sm btn-primary"
+                        data-upload="s3"
+                        data-upload-file="#module-document"
+                        data-upload-dir="courses/{{ $course->id }}/modules/{{ $courseModule->id }}/documents"
+                        data-upload-form="#course-module-document-file-form"
+                    >
+                        Save
+
+                    </button>
                 </div>
-                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -209,6 +223,18 @@
             $modal.find('input[type="file"]').attr('multiple', 'multiple');
             $modal.find('form input[type="checkbox"]').prop('checked', false);
             $modal.find('#upload-file-info').text('');
+        });
+
+        $('#documentEmbedded').on('change', function (event) {
+            $('#course-module-document-file-form input[name="embedded"]').val($(this).prop('checked') ? '1' : '0');
+        })
+
+        $('#btn-save-document-file').click(function(e) {
+            if ($('#course-module-document-file-form input[name="id"]').val() > 0 &&
+                $('#module-document').prop('files').length === 0
+            ) {
+                $('form.form-course-module-doc').submit();
+            }
         });
 
         $('form.form-course-module-doc').submit(function(event) {

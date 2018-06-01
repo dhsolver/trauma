@@ -30,7 +30,8 @@ class CourseModuleController extends AdminController {
 
     public function edit(Course $course, CourseModule $courseModule)
     {
-        return view('admin.coursemodules.edit', compact('course', 'courseModule'));
+        $s3Data = prepareS3Data();
+        return view('admin.coursemodules.edit', compact('course', 'courseModule', 's3Data'));
     }
 
     public function update(Course $course, CourseModuleRequest $request, CourseModule $courseModule)

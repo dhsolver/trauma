@@ -17,59 +17,43 @@ class CourseModuleDocumentController extends AdminController {
     public function store(Course $course, CourseModule $courseModule, CourseModuleDocumentRequest $request)
     {
         if (empty($request->id)) {
-            if ($request->type == 'file' && !$request->hasFile('documents')) {
-                return response()->json([
-                    'document' => 'Please upload a document.'
-                ], 422);
-            }
-
-            if ($request->hasFile('documents')) {
-                foreach ($request->file('documents') as $file) {
-                    $courseModuleDocument = new CourseModuleDocument($request->except('documents'));
-                    $courseModuleDocument->course_module_id = $courseModule->id;
-                    $courseModuleDocument->embedded = $request->has('embedded');
-
-                    $filename = $file->getClientOriginalName();
-                    $extension = $file->getClientOriginalExtension();
-                    $savepath = sha1($filename.time()).'.'.$extension;
-                    $destinationPath = public_path() . '/images/courses/'.$course->id.'/modules/'.$courseModule->id.'/';
-                    $file->move($destinationPath, $savepath);
-
-                    $courseModuleDocument->filename = $filename;
-                    $courseModuleDocument->file = $savepath;
-
+            if ($request->type === 'file') {
+                for ($i = 0; $i < count($request->fileKeys); $i++) {
+                    $courseModuleDocument = new CourseModuleDocument([
+                        'course_module_id' => $courseModule->id,
+                        'type' => 'file',
+                        'filename' => $request->fileNames[$i],
+                        'file' => $request->fileKeys[$i],
+                        'embedded' => $request->embedded,
+                    ]);
                     $courseModuleDocument->save();
                 }
             } else {
-                $courseModuleDocument = new CourseModuleDocument($request->all());
-                $courseModuleDocument->course_module_id = $courseModule->id;
+                $courseModuleDocument = new CourseModuleDocument([
+                    'course_module_id' => $courseModule->id,
+                    'type' => 'url',
+                    'url' => $request->url,
+                ]);
                 $courseModuleDocument->save();
             }
 
             session()->flash('courseModuleMessage',
-                $courseModuleDocument->type === 'url' ?
+                $request->type === 'url' ?
                     'New URL has been added!' : 'New document has been uploaded.'
             );
         } else {
             $courseModuleDocument = CourseModuleDocument::find($request->id);
-            $courseModuleDocument->update($request->except('documents'));
-            $courseModuleDocument->embedded = $request->has('embedded');
-
-            if ($request->hasFile('documents'))
-            {
-                $file = $request->file('documents');
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $savepath = sha1($filename.time()).'.'.$extension;
-                $destinationPath = public_path() . '/images/courses/'.$course->id.'/modules/'.$courseModule->id.'/';
-                $file->move($destinationPath, $savepath);
-
-                $courseModuleDocument->filename = $filename;
-                $courseModuleDocument->file = $savepath;
+            if ($request->type === 'file') {
+                $courseModuleDocument->embedded = $request->embedded;
+                if (!empty($request->fileKeys)) {
+                    $courseModuleDocument->file = $request->fileKeys[0];
+                    $courseModuleDocument->filename = $request->fileNames[0];
+                }
+            } else {
+                $courseModuleDocument->url = $request->url;
             }
 
             $courseModuleDocument->save();
-
             session()->flash('courseModuleMessage',
                 $courseModuleDocument->type === 'url' ?
                     'URL has been updated!' : 'Document has been updated.'
