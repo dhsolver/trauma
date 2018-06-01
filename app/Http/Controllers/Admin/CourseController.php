@@ -54,7 +54,7 @@ class CourseController extends AdminController {
             ->toArray();
 
         $s3Data = prepareS3Data();
- 
+
         return view('admin.courses.edit', compact('course', 'faculties', 's3Data'));
     }
 

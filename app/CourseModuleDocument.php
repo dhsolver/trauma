@@ -28,7 +28,7 @@ class CourseModuleDocument extends Model {
         if ($this->type === 'url') {
             return $this->url;
         }
-        return url($this->getFilePathAttribute());
+        return 'https:'.getS3Url($this->attributes['file']);
     }
 
     public function getFileExtensionAttribute() {

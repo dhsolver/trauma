@@ -45,7 +45,7 @@ class PurchaseController extends Controller {
             $registration->method = 'key';
             $registration->reference = $courseKey->key;
             $registration->registered_at = Carbon::now()->toDateTimeString();
-            $registration->purchast_status = 'Completed';
+            $registration->payment_status = 'Completed';
             $registration->save();
 
             $courseKey->redeemed = true;
