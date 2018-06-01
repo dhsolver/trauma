@@ -10,21 +10,12 @@ use App\Http\Requests\Admin\CourseDocumentRequest;
 class CourseDocumentController extends AdminController {
     public function store(Course $course, CourseDocumentRequest $request)
     {
-        foreach ($request->file('documents') as $document) {
-            $courseDocument = new CourseDocument();
-            $courseDocument->course_id = $course->id;
-
-            $file = $document;
-            $filename = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-            $savepath = sha1($filename.time()).'.'.$extension;
-            $destinationPath = public_path() . '/images/courses/'.$course->id.'/documents/';
-            $file->move($destinationPath, $savepath);
-
-            $courseDocument->filename = $filename;
-            $courseDocument->file = $savepath;
-
-            $courseDocument->save();
+        for ($i = 0; $i < count($request->fileKeys); $i++) {
+            CourseDocument::create([
+                'course_id' => $course->id,
+                'filename' => $request->fileNames[$i],
+                'file' => $request->fileKeys[$i],
+            ]);
         }
 
         session()->flash('courseMessage', 'New administrative document has been uploaded.');

@@ -14,6 +14,8 @@ class CourseModuleDocumentRequest extends FormRequest {
         return [
             'type' => 'in:url,file',
             'url' => 'required_if:type,url',
+            'fileNames' => 'required_if:type,file',
+            'fileKeys' => 'required_if:type,file',
         ];
     }
 

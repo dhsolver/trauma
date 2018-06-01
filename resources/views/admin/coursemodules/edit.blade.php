@@ -175,7 +175,6 @@
                         data-upload-form="#course-module-document-file-form"
                     >
                         Save
-
                     </button>
                 </div>
             </div>

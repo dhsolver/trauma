@@ -130,7 +130,7 @@
                 <td>
                     @if ($faculty['approval'] === 'pending')
                         <label class="label label-warning">Pending</label>
-                    @endif 
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -213,7 +213,7 @@
             @foreach ($course->documents as $document)
             <div class="row">
                 <div class="col-xs-10">
-                    <a href="{{ url('images/courses/'.$course->id.'/documents/'.$document->file) }}" target="_blank" class="text-break">
+                    <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break">
                         <i class="fa fa-file-o"></i> {{ $document->filename }}
                     </a>
                 </div>
@@ -515,8 +515,9 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="documentModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {!! Form::open(array('url' => url('admin/courses/'.$course->id.'/documents'), 'method' => 'post', 'files' => true, 'class' => 'form-course-doc')) !!}
-                <input type="hidden" name="id" value="">
+                {!! Form::open(array('id' => 'course-document-file-form', 'url' => url('admin/courses/'.$course->id.'/documents'), 'method' => 'post', 'class' => 'form-course-doc')) !!}
+
+                {!! Form::close() !!}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Document Info</h4>
@@ -534,9 +535,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-primary"
+                        data-upload="s3"
+                        data-upload-file="#course-document"
+                        data-upload-dir="courses/{{ $course->id }}/documents"
+                        data-upload-form="#course-document-file-form"
+                    >
+                        Save
+                    </button>
                 </div>
-                {!! Form::close() !!}
             </div>
         </div>
     </div>
