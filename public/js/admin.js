@@ -61636,7 +61636,7 @@ $(function() {
         for (var i=0; i<files.length; i++) {
             var file = files[0];
             var formData = new FormData(document.getElementById('s3-form'));
-            var fileKey = uploadDir + '/' + file.name;
+            var fileKey = uploadDir + '/' + Date.now() + '-' + file.name;
             formData.set('key', fileKey);
             if (file.size > S3_MAX_SIZE) {
                 alert('Your file (' + file.name + ') is too large to upload');
