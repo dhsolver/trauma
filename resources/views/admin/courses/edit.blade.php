@@ -553,10 +553,6 @@
 
 @section('scripts')
 <script type="text/javascript">
-    function getFileNames(files) {
-        return Array.from(files).map(file => file.name).join(', ')
-    }
-
     $(function() {
         $('.form-course input[type=checkbox][name=online_only]').change(function(e) {
             var courseForm = $(this).closest('.form-course');

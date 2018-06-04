@@ -61608,6 +61608,10 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallba
         }
     }, oSettings );
 };
+function getFileNames(files) {
+    return Array.from(files).map(file => file.name).join(', ')
+}
+
 $(function() {
     $('.form-input-date').datepicker({
         format: "mm/dd/yyyy",

@@ -30,6 +30,11 @@
                     <a href="{{url('admin/users')}}"><i class="fa fa-users"></i> Users</a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/staticpages', 'admin/staticpages/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/staticpages')}}">Static Pages</a>
+                </li>
+            </ul>
             @endif
             <ul class="nav navbar-nav navbar-right">
                 <li>

@@ -184,10 +184,6 @@
 
 @section('scripts')
 <script type="text/javascript">
-    function getFileNames(files) {
-        return Array.from(files).map(file => file.name).join(', ')
-    }
-
     $(function() {
         $('.form-course-module .documents .btn-edit-doc').click(function(event) {
             var $formGroup = $(this).closest('.form-group');

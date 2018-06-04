@@ -13,12 +13,17 @@ Route::model('coursedocument', 'App\CourseDocument');
 Route::model('coursemodule', 'App\CourseModule');
 Route::model('coursemoduledocument', 'App\CourseModuleDocument');
 Route::model('courseregistration', 'App\UsersCoursesRegistration');
+Route::model('staticpage', 'App\StaticPage');
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
 
 /***************    Site routes  **********************************/
 Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
+Route::get('data', 'PagesController@showStaticPage');
+Route::get('education', 'PagesController@showStaticPage');
+Route::get('consulting', 'PagesController@showStaticPage');
+Route::get('terms', 'PagesController@showStaticPage');
 Route::get('about', 'PagesController@about');
 Route::get('contact', 'PagesController@contact');
 Route::get('articles', 'ArticlesController@index');
@@ -109,6 +114,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');
     Route::get('courses/{course}/disable', 'Admin\CourseController@disable');
     Route::get('courses/{course}/enable', 'Admin\CourseController@enable');
+
+
+    # Static Pages
+    Route::get('staticpages', 'Admin\StaticPagesController@index');
+    Route::get('staticpages/{staticpage}/edit', 'Admin\StaticPagesController@edit');
+    Route::put('staticpages/{staticpage}', 'Admin\StaticPagesController@update');
 
     # Language
     Route::get('language/data', 'Admin\LanguageController@data');
