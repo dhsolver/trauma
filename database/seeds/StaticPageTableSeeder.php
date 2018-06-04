@@ -3,7 +3,6 @@ use Illuminate\Database\Seeder;
 use App\StaticPage;
 
 class StaticPageTableSeeder extends Seeder {
-
     public function run()
     {
         DB::table('static_pages')->delete();
@@ -37,6 +36,7 @@ class StaticPageTableSeeder extends Seeder {
         $page = new StaticPage();
         $page->slug = '/terms';
         $page->title = 'Terms and Policies';
+        $page->subtitle = 'Terms and Policies';
         $page->save();
     }
 }
