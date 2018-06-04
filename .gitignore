@@ -7,8 +7,5 @@ composer.lock
 resources/vendor/
 storage/debugbar/
 public/images
-public/css/site.css
-public/css/admin.css
-public/css/index.css
-public/js/admin.js
-public/js/site.js
+public/css
+public/js

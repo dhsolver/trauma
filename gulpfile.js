@@ -53,7 +53,6 @@ gulp.task('default', function () {
             paths.bootstrap + '/css/bootstrap.css',
             paths.fontawesome + '/css/font-awesome.css',
             paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css'
-            // '/../scss/index.css'
         ], 'public/css/site.css');
 
         // Merge Site scripts.
@@ -61,7 +60,6 @@ gulp.task('default', function () {
             paths.jquery + '/jquery.js',
             paths.bootstrap + '/js/bootstrap.js',
             paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
-            // 'html5lightbox.js',
             'general.js',
         ], 'public/js/site.js');
 
@@ -79,5 +77,7 @@ gulp.task('default', function () {
             paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
             'general.js',
         ], 'public/js/admin.js');
+
+        mix.copy('resources/assets/js/html5lightbox', 'public/js/html5lightbox');
     });
 });

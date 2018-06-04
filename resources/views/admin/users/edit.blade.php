@@ -86,7 +86,7 @@
             </div>
         </div>
         <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-            {!! Form::label('email', trans('site/user.e_mail'), array('class' => 'control-label')) !!}
+            {!! Form::label('email', 'Email', array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::text('email', $user->email, array('class' => 'form-control', 'placeholder' => 'Email *')) !!}
                 <span class="help-block">{{ $errors->first('email', ':message') }}</span>
