@@ -1,7 +1,5 @@
 <?php
 
-use Config;
-
 function getS3Url($fileKey) {
     if (empty($fileKey)) {
         return url('images/no_photo.png');

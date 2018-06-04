@@ -89,8 +89,8 @@ class PurchaseController extends Controller {
             }
 
             $registration->method = 'paypal';
-            $registration->payment_status = 'Pending';
             $registration->reference = $request->input('txn_id');
+            $registration->payment_status = $request->input('payment_status');
             $registration->save();
 
             if ($request->input('payer_status') === 'VERIFIED' &&
@@ -133,12 +133,13 @@ class PurchaseController extends Controller {
                 $registration->course_id = $courseId;
                 $registration->registered_at = Carbon::now()->toDateTimeString();
             } else if ($registration->payment_status === 'Completed') {
+                $this->dispatch(new SendPurchaseConfirmationEmail($registration->user, $registration->course));
                 return response('OK', 200);
             }
 
             $registration->method = 'paypal';
-            $registration->payment_status = $request->input('payment_status');
             $registration->reference = $request->input('txn_id');
+            $registration->payment_status = $request->input('payment_status');
             $registration->save();
 
             if ($registration->payment_status === 'Completed') {
