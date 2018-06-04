@@ -7,7 +7,7 @@ use Closure;
 class HttpsProtocol {
     public function handle($request, Closure $next)
     {
-        if (!$request->secure() && env('REDIRECT_HTTPS')) {
+        if ($request->header('x-forwarded-proto') !== 'https' && !$request->secure() && env('REDIRECT_HTTPS') == true) {
             return redirect()->secure($request->getRequestUri());
         }
 
