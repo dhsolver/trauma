@@ -89,7 +89,7 @@ class PurchaseController extends Controller {
             }
 
             $registration->method = 'paypal';
-            $registration->payment_status = $request->input('payment_status');
+            $registration->payment_status = 'Pending';
             $registration->reference = $request->input('txn_id');
             $registration->save();
 
@@ -108,6 +108,10 @@ class PurchaseController extends Controller {
 
     public function handlePaypalIPN(Request $request)
     {
+        \Log::info('handlePaypalIPN', [
+            $request->all()
+        ]);
+
         // handling paypal IPN parameters
         if ($request->isMethod('post') &&
             $request->input('payment_type') === 'instant' &&

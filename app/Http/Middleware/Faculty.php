@@ -42,7 +42,7 @@ class Faculty
                 return redirect('/');
             }
         }
-        session()->flash('authMessage', 'You need to login to acess this page.');
+        session()->flash('authMessage', 'You need to login to access this page.');
         return redirect('/auth/login');
     }
 }
