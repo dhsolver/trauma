@@ -1,7 +1,7 @@
 {
-  "name": "Laravel-5-Bootstrap-3-Starter-Site",
-  "version": "2.0.0",
-  "homepage": "https://github.com/mrakodol/Laravel-5-Bootstrap-3-Starter-Site",
+  "name": "TraumaAnalytics",
+  "version": "1.0.0",
+  "homepage": "http://traumaanalytics.com/",
   "moduleType": [
     "node"
   ],
