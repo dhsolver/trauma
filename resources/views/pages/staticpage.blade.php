@@ -12,9 +12,9 @@
             <img src="{{ url('images/'.$staticPage->image) }}" alt=""/>
         @endif
         <h3 class="title">{{ $staticPage->subtitle }}</h3>
-        <p class="text-left">
-            {!! nl2br(e($staticPage->text)) !!}
-        </p>
+        <div class="text text-left">
+            {!! $staticPage->text !!}
+        </div>
     </div>
 </div>
 @endsection

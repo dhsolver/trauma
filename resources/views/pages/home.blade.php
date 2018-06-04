@@ -35,9 +35,9 @@
             <div class="content-box">
                 <div class="row">
                     <div class="col-sm-6">
-                        <p class="text-justify">
-                            {!! nl2br(e($staticPage->text)) !!}
-                        </p>
+                        <div class="text text-justify">
+                            {!! $staticPage->text !!}
+                        </div>
                     </div>
                     <div class="col-sm-6 text-center">
                         <img src="images/bulb_color.jpg" class="img img-large" alt="trauma bulb" />

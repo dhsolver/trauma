@@ -6,3 +6,4 @@ Homestead.json
 composer.lock
 resources/vendor/
 storage/debugbar/
+public/images
