@@ -5,6 +5,7 @@ Homestead.json
 .env
 composer.lock
 resources/vendor/
+resources/assets/css/custom.css
 storage/debugbar/
 public/images
 public/css

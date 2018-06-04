@@ -15,10 +15,9 @@
               content="Use Trauma Analytics to improve your learning experience."/>
     @show
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-        <link href="{{ asset('css/site.css') }}" rel="stylesheet">
-		<link href="{{ asset('css/index.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
-        <script src="{{ asset('js/site.js') }}"></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
 
     @yield('styles')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

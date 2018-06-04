@@ -7,19 +7,6 @@ gulp.task('bower', function() {
     return bower();
 });
 
-//sass
-gulp.task('sass', function () {
-    gulp.src(['resources/assets/scss/**/*.scss'])
-        .pipe(sass({outputStyle: 'compressed'}))
-        .pipe(gulp.dest('public/css/'));
-});
-
-//sass
-gulp.task('watch-sass', function () {
-    gulp.watch(['resources/assets/scss/**/*.scss'], ['sass']);
-});
-
-
 // Default task
 gulp.task('default', function () {
     var vendors = '../../vendor/';
@@ -38,9 +25,6 @@ gulp.task('default', function () {
         // Run bower install
         mix.task('bower');
 
-        // Precompile SCSS
-        mix.task('sass');
-
         // Copy fonts straight to public
         mix.copy('resources/vendor/bootstrap/dist/fonts/**', 'public/fonts');
         mix.copy('resources/vendor/font-awesome/fonts/**', 'public/fonts');
@@ -48,35 +32,24 @@ gulp.task('default', function () {
         // Copy asset images to public
         mix.copy('resources/assets/images/**', 'public/images');
 
-        // Merge Site CSSs.
-        mix.styles([
-            paths.bootstrap + '/css/bootstrap.css',
-            paths.fontawesome + '/css/font-awesome.css',
-            paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css'
-        ], 'public/css/site.css');
-
         // Merge Site scripts.
         mix.scripts([
             paths.jquery + '/jquery.js',
             paths.bootstrap + '/js/bootstrap.js',
             paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
             'general.js',
-        ], 'public/js/site.js');
+        ], 'public/js/scripts.js');
 
-        // Merge Admin CSSs.
-        mix.styles([
+        // Merge Site CSSs.
+        mix.sass([
+            'index.scss'
+        ], 'resources/assets/css/custom.css')
+        .styles([
             paths.bootstrap + '/css/bootstrap.css',
             paths.fontawesome + '/css/font-awesome.css',
             paths.bootstrapDatepicker + '/css/bootstrap-datepicker.css',
-        ], 'public/css/admin.css');
-
-        // Merge Admin scripts.
-        mix.scripts([
-            paths.jquery + '/jquery.js',
-            paths.bootstrap + '/js/bootstrap.js',
-            paths.bootstrapDatepicker + '/js/bootstrap-datepicker.js',
-            'general.js',
-        ], 'public/js/admin.js');
+            '/resources/assets/css/custom.css'
+        ], 'public/css/styles.css');
 
         mix.copy('resources/assets/js/html5lightbox', 'public/js/html5lightbox');
     });

@@ -12,10 +12,9 @@
         <meta name="author" content="Sean Madhavan"/>
     @show
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-        <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/index.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
-        <script src="{{ asset('js/admin.js') }}"></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
     @yield('styles')
 </head>
 <body>
