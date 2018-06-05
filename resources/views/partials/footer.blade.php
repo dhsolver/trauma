@@ -19,5 +19,8 @@
                 </div>
             </div>
         </div>
+        <div class="text-right">
+            <a href="/terms" class="text-white">Terms & Policies</a>
+        </div>
     </div>
 </div>

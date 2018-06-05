@@ -1,0 +1,124 @@
+.container-admin {
+    font-size: 16px;
+    max-width: 1120px;
+
+    .content-box {
+        padding: 30px;
+    }
+
+    .page-title {
+        color: $blue;
+    }
+
+    .section-title {
+        color: $blue;
+    }
+
+    .page-title,
+    .section-title {
+        .btn {
+            line-height: inherit;
+        }
+    }
+
+    .btn {
+        &.btn-sm {
+            font-size: 20px;
+        }
+
+        &.btn-xs {
+            font-size: 18px;
+            padding: 2px 8px !important;
+        }
+    }
+
+    .table-container {
+        padding: 15px;
+        background-color: $grey;
+        margin-bottom: 30px;
+
+        table {
+            background-color: transparent;
+            border-collapse: separate;
+            border-spacing: 0 0.5em;
+            margin-bottom: 0;
+
+            tr {
+                background-color: $white;
+
+                td {
+                    border: none;
+                    vertical-align: middle;
+                }
+            }
+
+            .btn {
+                font-size: 16px;
+                padding: 4px 12px;
+            }
+
+            &.table-course-keys {
+                border-spacing: 0 0.1em;
+            }
+        }
+    }
+
+    .form-course {
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        textarea:focus {
+            border-top-style: dotted;
+            border-top-width: 1px;
+            margin-top: -1px;
+        }
+
+        .img-course {
+            margin-bottom: 12px;
+        }
+    }
+
+    .form-horizontal {
+        .checkbox {
+            font-size: 18px;
+            &.inline {
+                display: inline-block;
+                margin-right: 18px;
+            }
+        }
+    }
+
+    .course {
+        border: 10px solid $grey;
+        padding-bottom: 15px;
+    }
+
+    @media (max-width: 767px) {
+        .course {
+            margin-bottom: 15px;
+
+            .img-course {
+                width: 100%;
+            }
+        }
+
+        .btn {
+            &.btn-sm {
+                font-size: 18px;
+            }
+
+            &.btn-xs {
+                font-size: 16px;
+            }
+        }
+
+        .table-container {
+            table {
+                .btn {
+
+                }
+            }
+        }
+    }
+}

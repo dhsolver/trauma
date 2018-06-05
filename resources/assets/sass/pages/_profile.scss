@@ -1,0 +1,23 @@
+.form-profile {
+    padding: 20px 30px;
+
+    .form-subheader {
+        color: $blue;
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .img-avatar {
+        margin-bottom: 12px;
+    }
+
+    &:not(:first-child) {
+        margin-top: -20px;
+    }
+}

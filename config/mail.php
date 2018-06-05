@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'no-reply@traumaanalytics.com', 'name' => 'Trauma Analytics'],
 
     /*
     |--------------------------------------------------------------------------

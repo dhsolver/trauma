@@ -1,69 +1,44 @@
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html">Laravel V5.1</a>
-    </div>
-    <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-                <li>
-                    <a href="{{ url('') }}"><i class="fa fa-backward"></i> Go to frontend</a>
+<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/admin/dashboard">Trauma Admin</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="main-navbar">
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/courses', 'admin/courses/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/courses')}}"><i class="fa fa-language"></i> Courses</a>
                 </li>
-                <li>
-                    <a href="{{url('admin/dashboard')}}">
-                        <i class="fa fa-dashboard fa-fw"></i> Dashboard
-                    </a>
+            </ul>
+            @if(Auth::user()->role === 'faculty')
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/my-teaching', 'admin/my-teaching/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/my-teaching')}}"><i class="fa fa-graduation-cap"></i> My Teaching</a>
                 </li>
-                <li>
-                    <a href="{{url('admin/language')}}">
-                        <i class="fa fa-language"></i> Language
-                    </a>
+            </ul>
+            @endif
+
+            @if (Auth::user()->role === 'admin')
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/users', 'admin/users/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/users')}}"><i class="fa fa-users"></i> Users</a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-bullhorn"></i> Articles
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav collapse">
-                        <li>
-                            <a href="{{url('admin/articlecategory')}}">
-                                <i class="glyphicon glyphicon-list"></i>  Article categories
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{url('admin/article')}}">
-                                <i class="glyphicon glyphicon-bullhorn"></i> Articles
-                            </a>
-                        </li>
-                    </ul>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/staticpages', 'admin/staticpages/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/staticpages')}}">Static Pages</a>
                 </li>
+            </ul>
+            @endif
+            <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-camera"></i> Photo items
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav collapse">
-                        <li>
-                            <a href="{{url('admin/photoalbum')}}">
-                                <i class="glyphicon glyphicon-list"></i> Photo albums
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{url('admin/photo')}}">
-                                <i class="glyphicon glyphicon-camera"></i> Photo
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{url('admin/user')}}">
-                        <i class="glyphicon glyphicon-user"></i> Users
-                    </a>
+                    <a href="{{ url('/') }}">Go to Home</a>
                 </li>
                 <li>
                     <a href="{{ url('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>

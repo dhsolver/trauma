@@ -1,124 +1,255 @@
 <?php namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\AdminController;
 use App\User;
+use App\Jobs\SendInvitationEmail;
+use App\Jobs\SendApprovedEmail;
+use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\UserRequest;
-use Datatables;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends AdminController
 {
-
-
-    public function __construct()
+    public function index(Request $request)
     {
-        view()->share('type', 'user');
+        if (empty($request->id)) {
+            $users = User::where('id', '>', 0);
+        } else {
+            $users = User::where('id', $request->id);
+        }
+
+        if (!empty($request->email)) $users = $users->where('email', 'like', "%$request->email%");
+        if (!empty($request->first_name)) $users = $users->where('first_name', 'like', "%$request->first_name%");
+        if (!empty($request->last_name)) $users = $users->where('last_name', 'like', "%$request->last_name%");
+        if (!empty($request->approval)) $users = $users->whereIn('approval', array_values($request->approval));
+        if (!empty($request->role)) $users = $users->whereIn('role', array_values($request->role));
+
+        $users = $users->orderBy('role', 'asc')->get();
+
+        if ($request->export) {
+            echo $this->handleUsersCSV($users);
+            die;
+        }
+
+        $managers = User::whereIn('role', ['faculty', 'admin'])
+            ->orderBy('role', 'asc')
+            ->get();
+
+        return view('admin.users.index', compact('users', 'managers'));
     }
 
-    /*
-    * Display a listing of the resource.
-    *
-    * @return Response
-    */
-    public function index()
-    {
-        // Show the page
-        return view('admin.user.index');
+    public function create() {
+        return view('admin.users.create');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('admin.user.create_edit');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
     public function store(UserRequest $request)
     {
-
-        $user = new User ($request->except('password','password_confirmation'));
-        $user->password = bcrypt($request->password);
-        $user->confirmation_code = str_random(32);
+        $user = new User($request->all());
         $user->save();
+
+        $this->dispatch(new SendInvitationEmail($user));
+
+        session()->flash('userMessage', 'User has been created!');
+        return redirect()->action('Admin\UserController@index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param $user
-     * @return Response
-     */
+    public function approve(User $user)
+    {
+        if ($user->approval !== 'approved') {
+            $user->approval = 'approved';
+            $user->save();
+
+            $this->dispatch(new SendApprovedEmail($user));
+            session()->flash('userMessage', 'User has been approved!');
+        }
+
+        return redirect()->back();
+    }
+
+    public function deny(User $user)
+    {
+        if ($user->role !== 'denied') {
+            $user->approval = 'denied';
+            $user->save();
+
+            session()->flash('userMessage', 'User has been denied!');
+        }
+        return redirect()->back();
+    }
+
     public function edit(User $user)
     {
-        return view('admin.user.create_edit', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param $user
-     * @return Response
-     */
     public function update(UserRequest $request, User $user)
     {
         $password = $request->password;
-        $passwordConfirmation = $request->password_confirmation;
-
         if (!empty($password)) {
-            if ($password === $passwordConfirmation) {
-                $user->password = bcrypt($password);
-            }
+            $user->password = bcrypt($password);
         }
-        $user->update($request->except('password','password_confirmation'));
+
+        $user->update($request->except('password', 'password_confirmation'));
+
+        session()->flash('userMessage', 'User has been updated!');
+        return redirect()->action('Admin\UserController@edit', $user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param $user
-     * @return Response
-     */
+    private function handleUsersCSV($users) {
+        $this->download_send_headers('users.csv');
 
-    public function delete(User $user)
-    {
-        return view('admin.user.delete', compact('user'));
+        ob_start();
+
+        // create a file pointer connected to the output stream
+        $output = fopen('php://output', 'w');
+
+        // output the column headings
+        fputcsv($output, array('ID',
+            'First Name',
+            'Last Name',
+            'Email',
+            'Account Type',
+            'Status',
+            'Date of Birth',
+            'Phone',
+            'Address',
+            'Apt/Unit',
+            'City',
+            'State',
+            'Zip Code',
+            'Hospital/Trauma Center Name',
+            'Trauma Center Level',
+            'NTDB/NTDS #',
+            'TQIP #',
+            'Address 1',
+            'Address 2',
+            'Address 3',
+            'City',
+            'State',
+            'Zip Code',
+            'Last 4 of SSN',
+            'Credentials',
+            'State License #',
+        ));
+        foreach ($users as $user) {
+            fputcsv($output, array(
+                $user->id,
+                $user->first_name,
+                $user->last_name,
+                $user->email,
+                $user->role,
+                $user->approval,
+                $user->birthday,
+                $user->phone,
+                $user->address,
+                $user->unit,
+                $user->city,
+                $user->state,
+                $user->zipcode,
+                $user->hospital_name,
+                $user->hospital_level,
+                $user->hospital_ntdb,
+                $user->hospital_tqip,
+                $user->hospital_address1,
+                $user->hospital_address2,
+                $user->hospital_address3,
+                $user->hospital_city,
+                $user->hospital_state,
+                $user->hospital_zipcode,
+                $user->ssn,
+                $user->credentials,
+                $user->state_license,
+            ));
+        }
+
+        fclose($output);
+        return ob_get_clean();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param $user
-     * @return Response
-     */
-    public function destroy(User $user)
-    {
-        $user->delete();
+    public function exportCourses(User $user) {
+        $this->download_send_headers('courses.csv');
+        ob_start();
+
+        // create a file pointer connected to the output stream
+        $output = fopen('php://output', 'w');
+
+        // output the column headings
+        fputcsv($output, array('ID',
+            'First Name',
+            'Last Name',
+            'Email',
+            'Account Type',
+            'Status',
+            'Date of Birth',
+            'Phone',
+            'Address',
+            'Apt/Unit',
+            'City',
+            'State',
+            'Zip Code',
+            'Hospital/Trauma Center Name',
+            'Trauma Center Level',
+            'NTDB/NTDS #',
+            'TQIP #',
+            'Address 1',
+            'Address 2',
+            'Address 3',
+            'City',
+            'State',
+            'Zip Code',
+            'Last 4 of SSN',
+            'Credentials',
+            'State License #',
+            'Course ID #',
+            'Course Title',
+            'Course Date',
+            'Course Location',
+            'Registered',
+            'Completed',
+            'Certified',
+        ));
+        foreach ($user->registrations as $registration) {
+            if (!$registration->completed_at) continue;
+            $course = $registration->course;
+            fputcsv($output, array(
+                $user->id,
+                $user->first_name,
+                $user->last_name,
+                $user->email,
+                $user->role,
+                $user->approval,
+                $user->birthday,
+                $user->phone,
+                $user->address,
+                $user->unit,
+                $user->city,
+                $user->state,
+                $user->zipcode,
+                $user->hospital_name,
+                $user->hospital_level,
+                $user->hospital_ntdb,
+                $user->hospital_tqip,
+                $user->hospital_address1,
+                $user->hospital_address2,
+                $user->hospital_address3,
+                $user->hospital_city,
+                $user->hospital_state,
+                $user->hospital_zipcode,
+                $user->ssn,
+                $user->credentials,
+                $user->state_license,
+                $course->id,
+                $course->title,
+                $course->online_only ? 'Online' : $course->date_start . ' - ' . $course->date_end,
+                $course->location,
+                $registration->registered_at,
+                $registration->completed_at,
+                $registration->certified_at,
+            ));
+        }
+        fclose($output);
+        echo ob_get_clean();
+        die;
     }
-
-    /**
-     * Show a list of all the languages posts formatted for Datatables.
-     *
-     * @return Datatables JSON
-     */
-    public function data()
-    {
-        $users = User::select(array('users.id', 'users.name', 'users.email', 'users.confirmed', 'users.created_at'));
-
-        return Datatables::of($users)
-            ->edit_column('confirmed', '@if ($confirmed=="1") <span class="glyphicon glyphicon-ok"></span> @else <span class=\'glyphicon glyphicon-remove\'></span> @endif')
-            ->add_column('actions', '@if ($id!="1")<a href="{{{ url(\'admin/user/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{{ url(\'admin/user/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
-                @endif')
-            ->remove_column('id')
-            ->make();
-    }
-
 }

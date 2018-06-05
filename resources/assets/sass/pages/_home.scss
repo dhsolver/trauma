@@ -1,0 +1,32 @@
+.page-home {
+    padding: 20px 0;
+
+    .content-box {
+        background-color: $white;
+
+        img {
+            width: 60%;
+
+            &.img-large {
+                width: 80%;
+            }
+        }
+
+        .title {
+            margin-top: 4px;
+            color: $blue;
+        }
+
+        .text {
+            padding: 30px 15px 15px 15px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .content-box {
+            .img-large {
+                max-width: 300px;
+            }
+        }
+    }
+}

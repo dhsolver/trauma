@@ -38,6 +38,7 @@ class Authenticate
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
+                session()->flash('authMessage', 'You need to login to access this page.');
                 return redirect()->guest('auth/login');
             }
         }

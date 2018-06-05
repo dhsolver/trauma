@@ -46,6 +46,12 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
+        if($e instanceof \Illuminate\Session\TokenMismatchException){
+            return redirect()
+                ->back()
+                ->withInput($request->except('_token'))
+                ->withMessage('Seems you stayed away for a long time. Please try again.');
+        }
         return parent::render($request, $e);
     }
 }

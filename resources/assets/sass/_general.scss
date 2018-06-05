@@ -1,0 +1,163 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 18px;
+    line-height: 1.6em;
+}
+
+img {
+    max-width: 100%;
+}
+
+.content-box {
+    background-color: $white;
+}
+
+.m-t-10 {
+    margin-top: 10px;
+}
+
+.m-t-30 {
+    margin-top: 30px;
+}
+
+.m-b-5 {
+    margin-bottom: 5px;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.p-10 {
+    padding: 10px;
+}
+
+.btn {
+    border-radius: 0;
+    border: none;
+    font-size: 24px;
+    text-shadow: none;
+
+    &:focus,
+    &:active {
+        box-shadow: none;
+        outline: none;
+    }
+
+    &.btn-sm {
+        font-size: 16px;
+    }
+
+    &.btn-circle {
+        border-radius: 50%;
+    }
+}
+
+
+.btn-primary {
+    background-color: $blue;
+    background-image: none;
+}
+
+.btn-link {
+    color: $blue;
+}
+
+form {
+    .form-group {
+        margin-bottom: 20px;
+
+        label.control-label {
+            &:not(.shown) {
+                display: none;
+            }
+        }
+    }
+
+    .form-control {
+        border-radius: 0;
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: $black;
+        font-size: 18px;
+        box-shadow: none;
+        background-color: transparent;
+        padding-left: 0;
+        padding-right: 0;
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+            border-color: $blue;
+        }
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin-top: 8px;
+    }
+
+    .has-error {
+        .form-control {
+            box-shadow: none;
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+a {
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+.panel {
+    padding: 30px;
+}
+
+.text-break {
+    word-break: break-all;
+}
+
+.text-success {
+    color: $green;
+}
+
+.text-white {
+    color: $white;
+}
+
+@media (max-width: 767.98px) {
+    .btn {
+        font-size: 20px;
+    }
+}
+
+#html5-watermark {
+    display: none !important;
+}
+
+.datepicker td.day {
+    &.highlight {
+        position: relative;
+
+        &:after {
+            content: '.';
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            color: $blue;
+            font-size: 24px;
+            margin-left: -3px;
+        }
+
+        &.active:after {
+            color: $white;
+        }
+    }
+}

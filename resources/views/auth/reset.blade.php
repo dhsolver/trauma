@@ -1,32 +1,40 @@
 @extends('layouts.app')
 
+@section('title')Reset Password @endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Reset Password</div>
+                    <!-- <div class="panel-heading">Reset Password</div> -->
                     <div class="panel-body">
-                        {!! Form::open(array('url' => url('password/reset'), 'method' => 'post', 'files'=> true)) !!}
+                        @if (Session::has('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ Session::get('status') }}
+                            </div>
+                        @endif
+
+                        {!! Form::open(array('url' => url('password/reset'), 'method' => 'post')) !!}
                         {!! Form::hidden('token', $token) !!}
                         <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
                             {!! Form::label('email', "E-Mail Address", array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::text('email', null, array('class' => 'form-control')) !!}
+                                {!! Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Email address')) !!}
                                 <span class="help-block">{{ $errors->first('email', ':message') }}</span>
                             </div>
                         </div>
                         <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }}">
                             {!! Form::label('password', "Password", array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::password('password', array('class' => 'form-control')) !!}
+                                {!! Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) !!}
                                 <span class="help-block">{{ $errors->first('password', ':message') }}</span>
                             </div>
                         </div>
                         <div class="form-group  {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                             {!! Form::label('password_confirmation', "Confirm Password", array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
+                                {!! Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Password Confirmation')) !!}
                                 <span class="help-block">{{ $errors->first('password_confirmation', ':message') }}</span>
                             </div>
                         </div>
