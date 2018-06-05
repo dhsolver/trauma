@@ -17,7 +17,7 @@
                     {{ Session::get('avatarUpdated') }}
                 </div>
             @endif
-            <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
+            <div class="form-group form-profile {{ $errors->has('avatar') ? 'has-error' : '' }}">
                 <div class="row">
                     <div class="col-sm-4 text-center">
                         <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($user->avatar) !!}"/>
