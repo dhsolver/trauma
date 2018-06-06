@@ -253,7 +253,7 @@
                 </div>
             </div>
             <div class="">
-                {{ $module->description }}
+                {!! nl2br(e($module->description)) !!}
             </div>
             @foreach ($module->documents as $document)
             <div class="row">
