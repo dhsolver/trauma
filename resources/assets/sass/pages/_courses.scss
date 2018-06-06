@@ -4,7 +4,6 @@
     }
 
     .course {
-        /*background-color: $g;*/
         border: 6px solid $grey;
 
         &__info {
@@ -39,7 +38,6 @@
 .page-course {
     .course-info {
         margin-top: 12px;
-        text-align: center;
 
         label {
             color: $blue;
