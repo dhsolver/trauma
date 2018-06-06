@@ -4,8 +4,11 @@
     }
 
     .course {
-        /*background-color: $g;*/
         border: 6px solid $grey;
+
+        img {
+            max-height: 270px;
+        }
 
         &__info {
             padding-bottom: 16px;
