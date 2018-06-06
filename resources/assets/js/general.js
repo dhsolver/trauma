@@ -1,5 +1,7 @@
 function getFileNames(files) {
-    return Array.from(files).map(file => file.name).join(', ')
+    return Array.from(files).map(function(file) {
+        return file.name;
+    }).join(', ')
 }
 
 $(function() {

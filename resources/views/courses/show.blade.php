@@ -127,7 +127,7 @@
         </div>
 
         <hr>
-        <div class="course-info course-register">
+        <div class="course-info course-register text-center">
             @if (!empty($registration))
                 @if ($registration->payment_status === 'Completed')
                     <p class="text-info">
