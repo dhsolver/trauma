@@ -77,37 +77,37 @@
         <hr>
         <div class="course-info">
             <label>Overview</label>
-            <p>{!! $course->overview !!}</p>
+            <p>{!! nl2br($course->overview) !!}</p>
         </div>
 
         <hr>
         <div class="course-info">
             <label>Instructor Note</label>
-            <p>{!! $course->instructor_note !!}</p>
+            <p>{!! nl2br($course->instructor_note) !!}</p>
         </div>
 
         <hr>
         <div class="course-info">
             <label>Learning Objective</label>
-            <p>{!! $course->objective !!}</p>
+            <p>{!! nl2br($course->objective) !!}</p>
         </div>
 
         <hr>
         <div class="course-info">
             <label>Pre-Requisites</label>
-            <p>{!! $course->prerequisites !!}</p>
+            <p>{!! nl2br($course->prerequisites) !!}</p>
         </div>
 
         <hr>
         <div class="course-info">
             <label>Textbook or Additional Resources</label>
-            <p>{!! $course->resources !!}</p>
+            <p>{!! nl2br($course->resources) !!}</p>
         </div>
 
         <hr>
         <div class="course-info">
             <label>Continuing Education</label>
-            <p>{!! $course->continuing_education !!}</p>
+            <p>{!! nl2br($course->continuing_education) !!}</p>
         </div>
 
         <hr>
