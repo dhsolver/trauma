@@ -22,6 +22,7 @@
     @endif
 
     {!! Form::model($courseModule, array('url' => url('admin/courses/'.$course->id.'/modules/'.$courseModule->id), 'method' => 'put', 'class' => 'form-course-module')) !!}
+    <input type="hidden" name="addnew" value="0">
     <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
         {!! Form::label('title', 'Title', array('class' => 'control-label')) !!}
         <div class="controls">
@@ -95,6 +96,9 @@
                 </a>
             </div>
             <div class="col-xs-6 text-right">
+                <button type="button" class="btn btn-primary" id="btn-save-and-new">
+                    Save and New
+                </button>
                 <button type="submit" class="btn btn-primary">
                     Save
                 </button>
@@ -260,6 +264,11 @@
                     $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
                 });
             });
+        });
+
+        $('form.form-course-module #btn-save-and-new').click(function(event) {
+            $('form.form-course-module input[name="addnew"]').val('1');
+            $('form.form-course-module').submit();
         });
     });
 </script>

@@ -17,11 +17,14 @@ class CourseModuleController extends AdminController {
 
     public function store(Course $course, CourseModuleRequest $request)
     {
-        $courseModule = new CourseModule($request->all());
+        $courseModule = new CourseModule($request->except('addnew'));
         $courseModule->course_id = $course->id;
         $courseModule->save();
 
         session()->flash('courseModuleMessage', 'Course module has been created!');
+        if ($request->addnew == '1') {
+            return redirect()->action('Admin\CourseModuleController@create', $course);
+        }
         return redirect()->action('Admin\CourseModuleController@edit', [
             'course' => $course,
             'courseModule' => $courseModule
@@ -36,9 +39,12 @@ class CourseModuleController extends AdminController {
 
     public function update(Course $course, CourseModuleRequest $request, CourseModule $courseModule)
     {
-        $courseModule->update($request->all());
+        $courseModule->update($request->except('addnew'));
 
         session()->flash('courseModuleMessage', 'Course module has been updated!');
+        if ($request->addnew == '1') {
+            return redirect()->action('Admin\CourseModuleController@create', $course);
+        }
         return redirect()->action('Admin\CourseModuleController@edit', [
             'course' => $course,
             'courseModule' => $courseModule

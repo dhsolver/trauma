@@ -96,7 +96,7 @@
                     <div class="tab-content">
                         @foreach ($course->modules as $key=>$module)
                         <div role="tabpanel" class="tab-pane @if ($key===0) active @endif" id="module-{{ $module->id }}">
-                            <p class="text-left">{{ $module->description }}</p>
+                            <p class="text-left">{!! nl2br(e($module->description)) !!}</p>
                             <ul class="course-module-documents text-left">
                             @foreach ($module->documents as $document)
                                 <li>
