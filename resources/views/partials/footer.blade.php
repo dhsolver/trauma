@@ -19,7 +19,8 @@
                 </div>
             </div>
         </div>
-        <div class="text-right">
+        <div class="text-right m-t-5">
+            <a href="/about" class="text-white m-r-10">About Us</a>
             <a href="/terms" class="text-white">Terms & Policies</a>
         </div>
     </div>

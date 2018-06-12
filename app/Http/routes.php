@@ -19,7 +19,7 @@ Route::get('data', 'PagesController@showStaticPage');
 Route::get('education', 'PagesController@showStaticPage');
 Route::get('consulting', 'PagesController@showStaticPage');
 Route::get('terms', 'PagesController@showStaticPage');
-Route::get('about', 'PagesController@about');
+Route::get('about', 'PagesController@showStaticPage');
 Route::get('contact', 'PagesController@contact');
 
 Route::controllers([
