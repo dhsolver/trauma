@@ -48,7 +48,12 @@ class CourseModuleDocument extends Model {
 
     public function getIsDocumentAttribute() {
         $extension = $this->file_extension;
-        return in_array($extension, ['pdf', 'doc', 'docx', 'ppt', 'pptx']);
+        return in_array($extension, ['doc', 'docx', 'ppt', 'pptx']);
+    }
+
+    public function getIsPdfAttribute() {
+        $extension = $this->file_extension;
+        return in_array($extension, ['pdf']);
     }
 
     public function getIsVideoAttribute() {

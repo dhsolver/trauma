@@ -124,10 +124,17 @@
                                     >
                                     @elseif ($document->is_document)
                                     <a
-                                        href="https://docs.google.com/gview?url={{ $document->full_url }}&embedded=true"
+                                        href="http://view.officeapps.live.com/op/view.aspx?src={{ $document->full_url }}"
                                         class="course-document html5lightbox text-break"
                                         title="{{ $document->filename }}"
                                         data-document-id="{{ $document->id }}"
+                                    >
+                                    @elseif ($document->is_pdf)
+                                    <a
+                                        href="{{ $document->full_url }}"
+                                        class="course-document text-break"
+                                        title="{{ $document->filename }}"
+                                        target="_blank"
                                     >
                                     @else
                                     <a
