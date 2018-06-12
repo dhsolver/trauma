@@ -30,6 +30,7 @@ function prepareS3Data(){
                     array('acl' => 'public-read'),
                     array('bucket' => $bucket_name),
                     array('starts-with', '$key', ''),
+                    array('starts-with', '$Content-Type', ''),
                     array('content-length-range', '1', $allowd_file_size),
                     array('x-amz-credential' => $access_key.'/'.$short_date.'/'.$region.'/s3/aws4_request'),
                     array('x-amz-algorithm' => Config::get('aws.s3.algorithm')),
@@ -54,6 +55,6 @@ function prepareS3Data(){
         'iso_date' => $iso_date,
         'policy' => base64_encode($policy),
         'signature' => $signature,
-        'max_size' => $allowd_file_size
+        'max_size' => $allowd_file_size,
     );
 }
