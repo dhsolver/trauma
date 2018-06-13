@@ -122,19 +122,12 @@
                                         title="{{ $document->filename }}"
                                         data-document-id="{{ $document->id }}"
                                     >
-                                    @elseif ($document->is_document)
+                                    @elseif ($document->is_document || $document->is_pdf)
                                     <a
-                                        href="http://view.officeapps.live.com/op/view.aspx?src={{ $document->full_url }}"
+                                        href="https://docs.google.com/gview?url={{ $document->full_url }}&embedded=true"
                                         class="course-document html5lightbox text-break"
                                         title="{{ $document->filename }}"
                                         data-document-id="{{ $document->id }}"
-                                    >
-                                    @elseif ($document->is_pdf)
-                                    <a
-                                        href="{{ $document->full_url }}"
-                                        class="course-document text-break"
-                                        title="{{ $document->filename }}"
-                                        target="_blank"
                                     >
                                     @else
                                     <a
@@ -153,6 +146,16 @@
                                         {{ $document->filename }}
                                         @endif
                                     </a>
+                                    @if ($document->type == 'file' && ($document->is_document || $document->is_pdf))
+                                    <a
+                                        target="_blank"
+                                        href="{{ $document->full_url }}"
+                                        class="course-document text-break m-l-15"
+                                        data-document-id="{{ $document->id }}"
+                                    >
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    @endif
                                 </li>
                             @endforeach
                             </ul>
