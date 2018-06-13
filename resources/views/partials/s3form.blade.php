@@ -11,6 +11,5 @@
     <input type="hidden" name="X-Amz-Date" value="{{ $s3Data['iso_date'] }}" />
     <input type="hidden" name="Policy" value="{{ $s3Data['policy'] }}" />
     <input type="hidden" name="X-Amz-Signature" value="{{ $s3Data['signature'] }}" />
-    <input type="hidden" name="Content-Type" value="" />
 </form>
 @endif
