@@ -102,3 +102,21 @@
     </div>
     {!! Form::close() !!}
 @endsection
+
+@section('scripts')
+<script type="text/javascript">
+    $(function() {
+        $('.form-course input[type=checkbox][name=online_only]').change(function(e) {
+            var courseForm = $(this).closest('.form-course');
+            if (this.checked) {
+                courseForm.find('#date_start').prop('disabled', true);
+                courseForm.find('#date_end').prop('disabled', true);
+            } else {
+                courseForm.find('#date_start').prop('disabled', false);
+                courseForm.find('#date_end').prop('disabled', false);
+            }
+        });
+        $('.form-course input[type=checkbox][name=online_only]').trigger('change');
+    });
+</script>
+@endsection
