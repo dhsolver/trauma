@@ -10,23 +10,29 @@
     <div class="row equal-height bg-white">
         <div class="col-sm-4">
             <div class="content-box text-center">
-                <h2>Consulting</h2>
-                <img src="/images/page-consulting.jpg" alt="magnifying glass" />
-                <h3 class="title">Focused Trauma Solutions</h3>
+                <a href="{{ url('consulting') }}">
+                    <h2>Consulting</h2>
+                    <img src="/images/page-consulting.jpg" alt="magnifying glass" />
+                    <h3 class="title">Focused Trauma Solutions</h3>
+                </a>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="content-box text-center">
-                <h2>Data</h2>
-                <img src="/images/page-data.jpg" alt="barchart" />
-                <h3 class="title">Quantitative Analysis & Information Visualization Solutions</h3>
+                <a href="{{ url('data') }}">
+                    <h2>Data</h2>
+                    <img src="/images/page-data.jpg" alt="barchart" />
+                    <h3 class="title">Quantitative Analysis & Information Visualization Solutions</h3>
+                </a>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="content-box text-center">
-                <h2>Education</h2>
-                <img src="/images/page-education.png" alt="computer coding screen" />
-                <h3 class="title"><a href="/docs/TraumaInjuryCodingCourseBrochure.pdf" target="_blank">Specialized Continuing Education Solutions</a></h3>
+                <a href="{{ url('education') }}">
+                    <h2>Education</h2>
+                    <img src="/images/page-education.png" alt="computer coding screen" />
+                    <h3 class="title">Specialized Continuing Education Solutions</h3>
+                </a>
             </div>
         </div>
     </div>
