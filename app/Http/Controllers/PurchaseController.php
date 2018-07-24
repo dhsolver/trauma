@@ -54,7 +54,7 @@ class PurchaseController extends Controller {
             $courseKey->save();
         });
 
-        session()->flash('courseMessage', 'You have succssfully registered for this course!');
+        session()->flash('courseMessage', 'You have successfully registered for this course!');
         return response()->json([
             'success' => true,
             'redirect' => action('CourseController@show', [

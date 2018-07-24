@@ -248,6 +248,11 @@
                     <strong>{{ $module->title }}</strong>
                 </div>
                 <div class="col-xxs-6 text-right">
+                    @if ($module->is_visible)
+                    <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/hide') !!}" class="btn btn-xs btn-warning">Hide</a>
+                    @else
+                    <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/show') !!}" class="btn btn-xs btn-info">Show</a>
+                    @endif
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/edit') !!}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="{!! url('admin/courses/'.$course->id.'/modules/'.$module->id.'/delete') !!}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>

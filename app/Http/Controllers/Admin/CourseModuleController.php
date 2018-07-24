@@ -37,6 +37,22 @@ class CourseModuleController extends AdminController {
         return view('admin.coursemodules.edit', compact('course', 'courseModule', 's3Data'));
     }
 
+    public function show(Course $course, CourseModule $courseModule)
+    {
+        $courseModule->is_visible = true;
+        $courseModule->update();
+        session()->flash('course', 'Course module has set visible!');
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function hide(Course $course, CourseModule $courseModule)
+    {
+        $courseModule->is_visible = false;
+        $courseModule->update();
+        session()->flash('course', 'Course module has set hidden!');
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
     public function update(Course $course, CourseModuleRequest $request, CourseModule $courseModule)
     {
         $courseModule->update($request->except('addnew'));

@@ -81,11 +81,13 @@
                     @if (count($course->modules))
                     <ul class="nav nav-pills nav-stacked">
                         @foreach ($course->modules as $key=>$module)
+                        @if ($module->is_visible)
                         <li role="presentation" @if ($key===0) class="active" @endif>
                             <a href="#module-{{ $module->id }}" aria-controls="module-{{ $module->id }}" role="tab" data-toggle="tab">
                                 {{ $module->title }}
                             </a>
                         </li>
+                        @endif
                         @endforeach
                     </ul>
                     @else
@@ -94,8 +96,10 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="tab-content">
+                        <?php $active = true ?>
                         @foreach ($course->modules as $key=>$module)
-                        <div role="tabpanel" class="tab-pane @if ($key===0) active @endif" id="module-{{ $module->id }}">
+                        @if ($module->is_visible)
+                        <div role="tabpanel" class="tab-pane @if ($active) active @endif" id="module-{{ $module->id }}">
                             <p class="text-left">{!! nl2br(e($module->description)) !!}</p>
                             <ul class="course-module-documents text-left">
                             @foreach ($module->documents as $document)
@@ -160,6 +164,8 @@
                             @endforeach
                             </ul>
                         </div>
+                        <?php $active = false ?>
+                        @endif
                         @endforeach
                     </div>
                 </div>
