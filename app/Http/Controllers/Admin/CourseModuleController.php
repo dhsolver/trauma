@@ -41,7 +41,7 @@ class CourseModuleController extends AdminController {
     {
         $courseModule->is_visible = true;
         $courseModule->update();
-        session()->flash('course', 'Course module has set visible!');
+        session()->flash('courseMessage', 'Course module has set visible!');
         return redirect()->action('Admin\CourseController@edit', $course);
     }
 
@@ -49,7 +49,7 @@ class CourseModuleController extends AdminController {
     {
         $courseModule->is_visible = false;
         $courseModule->update();
-        session()->flash('course', 'Course module has set hidden!');
+        session()->flash('courseMessage', 'Course module has set hidden!');
         return redirect()->action('Admin\CourseController@edit', $course);
     }
 
