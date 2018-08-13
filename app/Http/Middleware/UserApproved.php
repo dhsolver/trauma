@@ -49,7 +49,7 @@ class UserApproved implements Middleware {
             if ($this->auth->user()->approval == 'approved') {
                 return $next($request);
             }
-            session()->flash('authMessage', 'You profile hasn\'t been approved by a Trauma Analytics administrator. We will get back to you shortly.');
+            session()->flash('authMessage', 'Your profile is pending. Upon approval, you will be able to view course details. If you feel this message is in error, please email support@traumaanalytics.com');
             return redirect('/');
         }
         session()->flash('authMessage', 'You need to login to access this page.');
