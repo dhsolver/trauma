@@ -243,6 +243,7 @@
     <div>
         @if (count($course->modules))
         @foreach ($course->modules as $module)
+            <hr>
             <div class="row m-t-10">
                 <div class="col-xxs-6">
                     <strong>{{ $module->title }}</strong>

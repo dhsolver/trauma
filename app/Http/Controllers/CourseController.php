@@ -137,6 +137,7 @@ class CourseController extends Controller {
 
     public function calendar(Request $request)
     {
+        $includeMonths = $request->has('dt') ? 2 : 3;
         $dt = $request->input('dt', date('Y-m-d'));
 
         $faculties = User::where('role', 'faculty')
@@ -146,33 +147,30 @@ class CourseController extends Controller {
             ->keyBy('id')
             ->toArray();
 
+
         $currentMonth = date('n', strtotime($dt));
         $monthStart = date('Y-m-01', strtotime($dt));
         $monthEnd = date('Y-m-t', strtotime($dt));
+        $searchEndDate = date('Y-m-t', strtotime('+2 month', strtotime($monthEnd))) ;
 
         $availableCourses = Course::where('published', 1)
             ->where('enabled', 1)
             ->where('online_only', 0)
-            // ->where(function ($query) use ($monthStart, $monthEnd) {
-            //     $query->where(function ($q2) use ($monthStart, $monthEnd) {
-            //         $q2->where('date_start', '>=', $monthStart)
-            //             ->where('date_start', '<=', $monthEnd);
-            //     })->orWhere(function ($q2) use ($monthStart, $monthEnd) {
-            //         $q2->where('date_end', '>=', $monthStart)
-            //             ->where('date_end', '<=', $monthEnd);
-            //     })->orWhere(function ($q2) use ($monthStart, $monthEnd) {
-            //         $q2->where('date_start', '<', $monthStart)
-            //             ->where('date_end', '>', $monthEnd);
-            //     });
-            // })
             ->orderBy('title', 'asc')
             ->get();
 
         $latestCourses = [];
         $availableDates = [];
+
         foreach ($availableCourses as $key => $course) {
-            if ($course->getOriginal('date_start') <= $dt && $course->getOriginal('date_end') >= $dt) {
-                $latestCourses[] = $course;
+            // check if there's any intersection between the course's available period and search dates.
+            if (($course->getOriginal('date_start') >= $monthStart && $course->getOriginal('date_start') <= $searchEndDate)
+                || ($monthStart >= $course->getOriginal('date_start') && $monthStart && $course->getOriginal('date_end'))) {
+
+                // do not show already end courses
+                if ($dt < $course->getOriginal('date_end')) {
+                    $latestCourses[] = $course;
+                }
             }
 
             $begin = new \DateTime($course->getOriginal('date_start'));

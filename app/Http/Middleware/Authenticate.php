@@ -38,7 +38,7 @@ class Authenticate
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                session()->flash('authMessage', 'You need to login to access this page.');
+                session()->flash('authMessage', 'Please login with your Trauma Analytics account to view this page. If you don\'t have a Trauma Analytics account, you can create one for free, by clicking register.');
                 return redirect()->guest('auth/login');
             }
         }

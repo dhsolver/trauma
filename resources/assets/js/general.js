@@ -19,7 +19,7 @@ $(function() {
         var fileName = file.name;
         var fileKey = uploadDir + '/' + Date.now() + '-' + fileName;
         formData.set('key', fileKey);
-        if (file.size > S3_MAX_SIZE) {
+        if (S3_MAX_SIZE > 0 && file.size > S3_MAX_SIZE) {
             alert('Your file (' + fileName + ') is too large to upload');
             uploadButton.text(uploadButtonText);
             uploadButton.prop('disabled', false);

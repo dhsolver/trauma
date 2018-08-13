@@ -7,6 +7,11 @@
             {{ Session::get('status') }}
         </div>
     @endif
+    @if (Session::has('authMessage'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('authMessage') }}
+        </div>
+    @endif
     <div class="row equal-height bg-white">
         <div class="col-sm-4">
             <div class="content-box text-center">
