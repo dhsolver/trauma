@@ -149,6 +149,7 @@ class CourseController extends AdminController {
         $newCourse->continuing_education = '';
         $newCourse->published = false;
         $newCourse->enabled = true;
+        $newCourse->slug = null;
 
         $newCourse->push();
 
@@ -237,7 +238,6 @@ class CourseController extends AdminController {
     public function myTeachings()
     {
         $user = Auth::user();
-        // $registrations = $user->registrations;
 
         $myCourses = Course::where('published', 1)
             ->where('enabled', 1)

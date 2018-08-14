@@ -36,12 +36,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('profile', 'ProfileController@saveProfile');
     Route::post('profile/avatar', 'ProfileController@saveAvatar');
 
-    Route::get('courses', 'CourseController@index');
-    Route::get('course/{slug}', 'CourseController@show');
-    Route::post('course/{course}/register', 'PurchaseController@handleRegister');
-    Route::get('course/{slug}/browse', 'CourseController@browse');
-    Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
-    Route::get('course/{course}/finish', 'CourseController@finish');
+    Route::group(['middleware' => 'userApproved'], function() {
+        Route::get('courses', 'CourseController@index');
+        Route::get('course/{slug}', 'CourseController@show');
+        Route::post('course/{course}/register', 'PurchaseController@handleRegister');
+        Route::get('course/{slug}/browse', 'CourseController@browse');
+        Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
+        Route::get('course/{course}/finish', 'CourseController@finish');
+    });
 
     Route::get('my-courses', 'CourseController@myCourses');
 

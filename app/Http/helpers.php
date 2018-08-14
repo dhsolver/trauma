@@ -10,7 +10,7 @@ function getS3Url($fileKey) {
     return "//s3-$region.amazonaws.com/$bucket_name/$fileKey";
 }
 
-function prepareS3Data(){
+function prepareS3Data($applyMaxSize = false){
     $access_key         = Config::get('aws.s3.access_key');
     $secret_key         = Config::get('aws.s3.secret_key');
     $bucket_name        = Config::get('aws.s3.bucket');
@@ -24,18 +24,23 @@ function prepareS3Data(){
 
     //POST Policy required in order to control what is allowed in the request
     //For more info http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-HTTPPOSTConstructPolicy.html
+    $conditions = array(
+        array('acl' => 'public-read'),
+        array('bucket' => $bucket_name),
+        array('starts-with', '$key', ''),
+        array('x-amz-credential' => $access_key.'/'.$short_date.'/'.$region.'/s3/aws4_request'),
+        array('x-amz-algorithm' => Config::get('aws.s3.algorithm')),
+        array('X-amz-date' => $iso_date)
+    );
+
+    if ($applyMaxSize) {
+        $conditions[] = array('content-length-range', '1', $allowd_file_size);
+    }
+
     $policy = utf8_encode(json_encode(array(
-            'expiration' => $expiration_date,
-                'conditions' => array(
-                    array('acl' => 'public-read'),
-                    array('bucket' => $bucket_name),
-                    array('starts-with', '$key', ''),
-                    array('content-length-range', '1', $allowd_file_size),
-                    array('x-amz-credential' => $access_key.'/'.$short_date.'/'.$region.'/s3/aws4_request'),
-                    array('x-amz-algorithm' => Config::get('aws.s3.algorithm')),
-                    array('X-amz-date' => $iso_date)
-                )
-            )));
+        'expiration' => $expiration_date,
+        'conditions' => $conditions
+    )));
 
     //Signature calculation (AWS Signature Version 4)
     //For more info http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html
@@ -45,7 +50,7 @@ function prepareS3Data(){
     $kSigning = hash_hmac('sha256', "aws4_request", $kService, true);
     $signature = hash_hmac('sha256', base64_encode($policy), $kSigning);
 
-    return array(
+    $result = array(
         'bucket' => $bucket_name,
         'region' => $region,
         'access_key' => $access_key,
@@ -54,6 +59,7 @@ function prepareS3Data(){
         'iso_date' => $iso_date,
         'policy' => base64_encode($policy),
         'signature' => $signature,
-        'max_size' => $allowd_file_size,
+        'max_size' => $applyMaxSize ? $allowd_file_size : 0
     );
+    return $result;
 }
