@@ -76,7 +76,7 @@ class CourseController extends Controller {
         }
 
         $user = Auth::user();
-        $s3Data = prepareS3Data();
+        $s3Data = prepareS3Data(true);
         return view('courses.browse', compact('user', 'course', 'faculties', 'registration', 's3Data'));
     }
 
@@ -205,6 +205,8 @@ class CourseController extends Controller {
         $comment->text = $request->comment;
         $comment->user_id = Auth::user()->id;
         $comment->course_id = $course->id;
+        if ($request->has('parent_id')) $comment->parent_id = $request->parent_id;
+
         if (!empty($request->fileKeys)) {
             $comment->attachment = $request->fileKeys[0];
             $comment->attachment_filename = $request->fileNames[0];

@@ -192,11 +192,10 @@
                         </div>
                         @endif
                     </div>
-
                 </div>
                 <div role="tabpanel" class="tab-pane" id="comments">
                     @foreach ($course->comments as $key=>$comment)
-                    <div class="article" data-id="{{ $comment->id }}">
+                    <article data-id="{{ $comment->id }}">
                         <div class="avatar">
                             <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($comment->user->avatar) !!}"/>
                         </div>
@@ -211,56 +210,123 @@
                                     <a href="{!! getS3Url($comment->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $comment->attachment_filename }}</a>
                                 @endif
                             </div>
+                            @foreach ($comment->comments as $key => $reply)
+                            <article>
+                                <div class="avatar">
+                                    <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($reply->user->avatar) !!}"/>
+                                </div>
+                                <div class="comment">
+                                    <div class="text">
+                                        <span class="author">{{ $reply->user->first_name }} {{ $reply->user->last_name }}: </span>
+                                        {{ $reply->text }}
+                                    </div>
+                                    <div class="meta">
+                                        <span class="timestamp">{{ $reply->created_at }}</span>
+                                        @if ($reply->attachment)
+                                            <a href="{!! getS3Url($reply->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $reply->attachment_filename }}</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </article>
+                            @endforeach
+                            <div class="comment-reply-container hidden">
+                                <div class="comment-reply">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            {!! Form::open(array('id' => 'comment-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments'), 'method' => 'post', 'class' => 'form-comment')) !!}
+                                            <input type="hidden" name="parent_id" value="{{$comment->id}}"></input>
+                                            <textarea rows="2" class="form-control" name="comment" placeholder="Write a reply"></textarea>
+                                            <div class="m-b-5 hidden" id="comment-file-wrapper-{{$comment->id}}">
+                                                <span class='label label-info' id="comment-file-info-{{$comment->id}}"></span>
+                                                <button type="button" class="btn btn-sm btn-default btn-remove">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                            <div class="has-error">
+                                                <span class="help-block"></span>
+                                            </div>
+                                            {!! Form::close() !!}
+                                        </div>
+                                        <div class="col-md-3 text-right">
+                                            <label class="btn btn-default" for="comment-file-{{$comment->id}}">
+                                                <input
+                                                    id="comment-file-{{$comment->id}}"
+                                                    name="comment-file-{{$comment->id}}"
+                                                    type="file"
+                                                    value="Upload"
+                                                    style="display:none"
+                                                    accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, application/zip,application/x-zip,application/x-zip-compressed, image/*"
+                                                    onchange="$('#comment-file-info-{{$comment->id}}').html(this.files[0].name); $('#comment-file-wrapper-{{$comment->id}}').removeClass('hidden');"
+                                                >
+                                                <i class="fa fa-paperclip"></i>
+                                            </label>
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-default btn-send"
+                                                data-upload="s3"
+                                                data-upload-file="#comment-file-{{$comment->id}}"
+                                                data-upload-dir="courses/{{ $course->id }}/comments"
+                                                data-upload-form="#comment-form-{{$comment->id}}"
+                                                data-uploading-text="..."
+                                            >
+                                                <i class="fa fa-paper-plane-o"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="action">
                             <button type="button" class="btn btn-default btn-reply">
                                 <i class="fa fa-reply"></i>
                             </button>
                         </div>
-                    </div>
+                    </article>
                     @endforeach
 
                     <div class="comment-reply-container">
                         <div class="comment-reply">
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-9">
                                     {!! Form::open(array('id' => 'comment-form', 'url' => url('course/'.$course->id.'/comments'), 'method' => 'post', 'class' => 'form-comment')) !!}
                                     <textarea rows="2" class="form-control" name="comment" placeholder="Write a reply"></textarea>
                                     <div class="m-b-5 hidden" id="comment-file-wrapper">
                                         <span class='label label-info' id="comment-file-info"></span>
-                                        <button type="button" class="btn btn-sm btn-default btn-remove"><i class="fa fa-times"></i></button>
+                                        <button type="button" class="btn btn-sm btn-default btn-remove">
+                                            <i class="fa fa-times"></i>
+                                        </button>
                                     </div>
                                     <div class="has-error">
                                         <span class="help-block"></span>
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
-                                <div class="col-md-2">
-                                    <div>
-                                        <label class="btn btn-default" for="comment-file">
-                                            <input
-                                                id="comment-file"
-                                                name="comment-file"
-                                                type="file"
-                                                value="Upload"
-                                                style="display:none"
-                                                onchange="$('#comment-file-info').html(this.files[0].name); $('#comment-file-wrapper').removeClass('hidden');"
-                                            >
-                                            <i class="fa fa-paperclip"></i>
-                                        </label>
-
-                                        <button
-                                            type="submit"
-                                            class="btn btn-default btn-send"
-                                            data-upload="s3"
-                                            data-upload-file="#comment-file"
-                                            data-upload-dir="courses/{{ $course->id }}/comments"
-                                            data-upload-form="#comment-form"
-                                            data-uploading-text="..."
+                                <div class="col-md-3 text-right">
+                                    <label class="btn btn-default" for="comment-file">
+                                        <input
+                                            id="comment-file"
+                                            name="comment-file"
+                                            type="file"
+                                            value="Upload"
+                                            style="display:none"
+                                            accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, application/zip,application/x-zip,application/x-zip-compressed, image/*"
+                                            onchange="$('#comment-file-info').html(this.files[0].name); $('#comment-file-wrapper').removeClass('hidden');"
                                         >
-                                            <i class="fa fa-paper-plane-o"></i>
-                                        </button>
-                                    </div>
+                                        <i class="fa fa-paperclip"></i>
+                                    </label>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-default btn-send"
+                                        data-upload="s3"
+                                        data-upload-file="#comment-file"
+                                        data-upload-dir="courses/{{ $course->id }}/comments"
+                                        data-upload-form="#comment-form"
+                                        data-uploading-text="..."
+                                    >
+                                        <i class="fa fa-paper-plane-o"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -277,6 +343,10 @@
 <script src="/js/html5lightbox/html5lightbox.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $(function() {
+        if (location.hash === '#comments') {
+            $('a[href="#comments"]').tab('show');
+        }
+
         var courseUrl = "{{ url('course/'.$course->id) }}";
         $('.course-document').click(function(e) {
             var documentId = $(this).data('document-id');
@@ -290,11 +360,15 @@
         });
 
         $('.btn-remove').click(function(e) {
-            $('#comment-form input[name="fileKeys[]"]').remove();
+            $(this).parents('form').find('input[name="fileKeys[]"]').remove();
             $(this).parent().addClass('hidden');
         });
 
-        $('#comment-form').submit(function(e) {
+        $('.btn-reply').click(function(e) {
+            $(this).parents('article').find('.comment-reply-container').toggleClass('hidden');
+        });
+
+        $('.form-comment').submit(function(e) {
             e.preventDefault();
             var $form = $(this);
             $form.find('.help-block').text('').hide();
@@ -313,12 +387,12 @@
                 success: function (data) {
                     if (data.success) {
                         location.href = data.redirect;
+                        location.reload(true);
                     }
                 },
                 cache: false,
                 contentType: false,
                 processData: false
-
             }).fail(function(xhr) {
                 var errors = xhr.responseJSON;
                 $form.find('.help-block').text(errors[0][key]);
