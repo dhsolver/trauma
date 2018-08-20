@@ -235,4 +235,14 @@ class CourseController extends Controller {
             'redirect' => '/course/' . $course->slug . '/browse#comments'
         ]);
     }
+
+    public function deleteComment(Course $course, Comment $comment, Request $request) {
+        $user = Auth::user();
+        if ($user->role !== 'student') {
+            $comment->delete();
+            session()->flash('courseMessage', 'Comment has been deleted!');
+        }
+
+        return redirect('/course/' . $course->slug . '/browse#comments');
+    }
 }

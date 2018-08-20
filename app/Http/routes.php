@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('course/{course}/finish', 'CourseController@finish');
         Route::post('course/{course}/comments', 'CourseController@saveComment');
         Route::post('course/{course}/comments/{comment}', 'CourseController@updateComment');
+        Route::get('course/{course}/comments/{comment}/delete', 'CourseController@deleteComment');
     });
 
     Route::get('my-courses', 'CourseController@myCourses');

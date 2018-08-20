@@ -206,11 +206,15 @@
                                 @if ($comment->created_at != $comment->updated_at)
                                 <small>(edited)</small>
                                 @endif
-                                @if ($comment->user_id === $user->id)
                                 <span class="actions">
+                                    @if ($comment->user_id === $user->id)
                                     <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
                                     <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
                                     <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
+                                    @endif
+                                    @if ($user->role !== 'student')
+                                    <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button>
+                                    @endif
                                 </span>
                                 <div>
                                     {!! Form::open(array('id' => 'comment-edit-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments/'.$comment->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
@@ -218,7 +222,6 @@
                                     <span class="help-block"></span>
                                     {!! Form::close() !!}
                                 </div>
-                                @endif
                             </div>
                             <div class="meta">
                                 <span class="timestamp">{{ $comment->created_at }}</span>
@@ -238,11 +241,15 @@
                                         @if ($reply->created_at != $reply->updated_at)
                                         <small>(edited)</small>
                                         @endif
-                                        @if ($comment->user_id === $user->id)
                                         <span class="actions">
+                                            @if ($comment->user_id === $user->id)
                                             <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
                                             <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
                                             <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
+                                            @endif
+                                            @if ($user->role !== 'student')
+                                            <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button>
+                                            @endif
                                         </span>
                                         <div>
                                             {!! Form::open(array('id' => 'comment-edit-form-' . $reply->id, 'url' => url('course/'.$course->id.'/comments/'.$reply->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
@@ -250,7 +257,6 @@
                                             <span class="help-block"></span>
                                             {!! Form::close() !!}
                                         </div>
-                                        @endif
                                     </div>
                                     <div class="meta">
                                         <span class="timestamp">{{ $reply->created_at }}</span>
@@ -402,6 +408,13 @@
 
         $('.btn-edit').click(function(e) {
             $(this).parents('.text').addClass('editing');
+        });
+
+        $('.btn-delete').click(function(e) {
+            if (!confirm('Are you sure?')) return;
+            var $form = $(this).parents('.text').find('form')[0];
+            var url = $($form).attr('action') + '/delete';
+            location.href = url;
         });
 
         $('.btn-save').click(function(e) {
