@@ -111,4 +111,11 @@ class Course extends Model implements SluggableInterface {
         }
         return $moduleDocuments;
     }
+
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
 }

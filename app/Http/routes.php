@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('course/{slug}/browse', 'CourseController@browse');
         Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
         Route::get('course/{course}/finish', 'CourseController@finish');
+        Route::post('course/{course}/comments', 'CourseController@saveComment');
     });
 
     Route::get('my-courses', 'CourseController@myCourses');

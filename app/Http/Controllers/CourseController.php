@@ -5,6 +5,7 @@ use App\Course;
 use App\CourseKey;
 use App\CourseModuleDocument;
 use App\UsersCoursesRegistration;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -74,7 +75,9 @@ class CourseController extends Controller {
             return redirect()->action('CourseController@show', $course->slug);
         }
 
-        return view('courses.browse', compact('course', 'faculties', 'registration'));
+        $user = Auth::user();
+        $s3Data = prepareS3Data();
+        return view('courses.browse', compact('user', 'course', 'faculties', 'registration', 's3Data'));
     }
 
     public function trackProgress(Course $course, CourseModuleDocument $courseModuleDocument)
@@ -191,5 +194,28 @@ class CourseController extends Controller {
             ->get();
 
         return view('courses.calendar', compact('faculties', 'dt', 'latestCourses', 'onlineCourses', 'availableDates', 'currentMonth'));
+    }
+
+    public function saveComment(Course $course, Request $request) {
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+
+        $comment = new Comment();
+        $comment->text = $request->comment;
+        $comment->user_id = Auth::user()->id;
+        $comment->course_id = $course->id;
+        if (!empty($request->fileKeys)) {
+            $comment->attachment = $request->fileKeys[0];
+            $comment->attachment_filename = $request->fileNames[0];
+        }
+
+        $comment->save();
+        session()->flash('courseMessage', 'Your comment has been posted.');
+
+        return response()->json([
+            'success' => true,
+            'redirect' => '/course/' . $course->slug . '/browse#comments'
+        ]);
     }
 }
