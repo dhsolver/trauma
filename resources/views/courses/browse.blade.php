@@ -242,7 +242,7 @@
                                         <small>(edited)</small>
                                         @endif
                                         <span class="actions">
-                                            @if ($comment->user_id === $user->id)
+                                            @if ($reply->user_id === $user->id)
                                             <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
                                             <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
                                             <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
@@ -452,10 +452,10 @@
         $('.form-comment').submit(function(e) {
             e.preventDefault();
             var $form = $(this);
-            $form.find('.help-block').text('').hide();
+            $form.find('.help-block').text('');
 
             if ($form.find('textarea[name=comment]').val() === '') {
-                $form.find('.help-block').text('Please enter the comment.').show();
+                $form.find('.help-block').text('Please enter the comment.');
                 return;
             }
 

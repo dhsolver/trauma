@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Config;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model {
@@ -23,14 +26,16 @@ class Comment extends Model {
     public function getCreatedAtAttribute($value)
     {
         if (empty($value)) return null;
-        $time = strtotime($value);
-        return date("m/d/Y h:i A", $time);
+        $dt = new DateTime($value, new DateTimeZone('UTC'));
+        $dt->setTimezone(new DateTimeZone('America/Chicago'));
+        return $dt->format("m/d/Y h:i A");
     }
 
     public function getUpdatedAtAttribute($value)
     {
         if (empty($value)) return null;
-        $time = strtotime($value);
-        return date("m/d/Y h:i A", $time);
+        $dt = new DateTime($value, new DateTimeZone('UTC'));
+        $dt->setTimezone(new DateTimeZone('America/Chicago'));
+        return $dt->format("m/d/Y h:i A");
     }
 }
