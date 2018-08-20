@@ -196,13 +196,26 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="comments">
                     @foreach ($course->comments as $key=>$comment)
-                    <div class="article">
+                    <div class="article" data-id="{{ $comment->id }}">
                         <div class="avatar">
                             <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($comment->user->avatar) !!}"/>
                         </div>
                         <div class="comment">
-                            <div class="text">{{ $comment->text }}</div>
-                            <div>{{ $comment->created_at }}</div>
+                            <div class="text">
+                                <span class="author">{{ $comment->user->first_name }} {{ $comment->user->last_name }}: </span>
+                                {{ $comment->text }}
+                            </div>
+                            <div class="meta">
+                                <span class="timestamp">{{ $comment->created_at }}</span>
+                                @if ($comment->attachment)
+                                    <a href="{!! getS3Url($comment->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $comment->attachment_filename }}</a>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="action">
+                            <button type="button" class="btn btn-default btn-reply">
+                                <i class="fa fa-reply"></i>
+                            </button>
                         </div>
                     </div>
                     @endforeach
@@ -274,6 +287,11 @@
                     $('.course-complete .notification').removeClass('hidden');
                 }
             });
+        });
+
+        $('.btn-remove').click(function(e) {
+            $('#comment-form input[name="fileKeys[]"]').remove();
+            $(this).parent().addClass('hidden');
         });
 
         $('#comment-form').submit(function(e) {
