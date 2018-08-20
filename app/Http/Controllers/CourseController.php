@@ -220,4 +220,19 @@ class CourseController extends Controller {
             'redirect' => '/course/' . $course->slug . '/browse#comments'
         ]);
     }
+
+    public function updateComment(Course $course, Comment $comment, Request $request) {
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+
+        $comment->text = $request->comment;
+        $comment->save();
+        session()->flash('courseMessage', 'Your comment has been updated.');
+
+        return response()->json([
+            'success' => true,
+            'redirect' => '/course/' . $course->slug . '/browse#comments'
+        ]);
+    }
 }

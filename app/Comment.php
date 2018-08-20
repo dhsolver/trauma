@@ -19,4 +19,18 @@ class Comment extends Model {
     {
         return $this->hasMany('App\Comment', 'parent_id');
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        if (empty($value)) return null;
+        $time = strtotime($value);
+        return date("m/d/Y h:i A", $time);
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        if (empty($value)) return null;
+        $time = strtotime($value);
+        return date("m/d/Y h:i A", $time);
+    }
 }

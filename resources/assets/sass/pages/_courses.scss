@@ -97,6 +97,57 @@
                         border-radius: 20px;
                         font-size: 15px;
                         padding: 4px 12px;
+
+                        .actions {
+                            margin-left: 16px;
+
+                            button {
+                                background-color: transparent;
+                                color: inherit;
+                                padding-left: 4px;
+                                padding-right: 4px
+                            }
+
+                            .btn-edit {
+                                display: inline-block;
+                            }
+
+                            .btn-save,
+                            .btn-cancel {
+                                display: none;
+                            }
+                        }
+
+                        form {
+                            display: none;
+
+                            textarea {
+                                color: inherit;
+                            }
+                        }
+
+                        small {
+                            font-size: 70%;
+                        }
+
+                        &.editing {
+                            padding-bottom: 12px;
+
+                            .actions {
+                                .btn-edit {
+                                    display: none;
+                                }
+
+                                .btn-save,
+                                .btn-cancel {
+                                    display: inline-block;
+                                }
+                            }
+
+                            form {
+                                display: block;
+                            }
+                        }
                     }
 
                     .author {

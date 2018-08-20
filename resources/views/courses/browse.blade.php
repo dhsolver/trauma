@@ -203,6 +203,22 @@
                             <div class="text">
                                 <span class="author">{{ $comment->user->first_name }} {{ $comment->user->last_name }}: </span>
                                 {{ $comment->text }}
+                                @if ($comment->created_at != $comment->updated_at)
+                                <small>(edited)</small>
+                                @endif
+                                @if ($comment->user_id === $user->id)
+                                <span class="actions">
+                                    <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
+                                    <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
+                                    <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
+                                </span>
+                                <div>
+                                    {!! Form::open(array('id' => 'comment-edit-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments/'.$comment->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
+                                    <textarea class="form-control" name="comment">{{ $comment->text }}</textarea>
+                                    <span class="help-block"></span>
+                                    {!! Form::close() !!}
+                                </div>
+                                @endif
                             </div>
                             <div class="meta">
                                 <span class="timestamp">{{ $comment->created_at }}</span>
@@ -219,6 +235,22 @@
                                     <div class="text">
                                         <span class="author">{{ $reply->user->first_name }} {{ $reply->user->last_name }}: </span>
                                         {{ $reply->text }}
+                                        @if ($reply->created_at != $reply->updated_at)
+                                        <small>(edited)</small>
+                                        @endif
+                                        @if ($comment->user_id === $user->id)
+                                        <span class="actions">
+                                            <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
+                                            <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
+                                        </span>
+                                        <div>
+                                            {!! Form::open(array('id' => 'comment-edit-form-' . $reply->id, 'url' => url('course/'.$course->id.'/comments/'.$reply->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
+                                            <textarea class="form-control" name="comment">{{ $reply->text }}</textarea>
+                                            <span class="help-block"></span>
+                                            {!! Form::close() !!}
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="meta">
                                         <span class="timestamp">{{ $reply->created_at }}</span>
@@ -368,6 +400,42 @@
             $(this).parents('article').find('.comment-reply-container').toggleClass('hidden');
         });
 
+        $('.btn-edit').click(function(e) {
+            $(this).parents('.text').addClass('editing');
+        });
+
+        $('.btn-save').click(function(e) {
+            var text = $(this).parents('.text').find('textarea').val();
+            var $form = $(this).parents('.text').find('form')[0];
+            var formData = new FormData($form);
+            var url = $($form).attr('action');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        location.href = data.redirect;
+                        location.reload(true);
+                    }
+                },
+                processData: false,
+                contentType: false,
+                cache: false,
+            }).fail(function(xhr) {
+                var errors = xhr.responseJSON;
+                $.each(Object.keys(errors), function(index, key) {
+                    $($form).find('.help-block').text(errors[key]);
+                });
+            });
+
+        });
+
+        $('.btn-cancel').click(function(e) {
+            $(this).parents('.text').removeClass('editing');
+        });
+
         $('.form-comment').submit(function(e) {
             e.preventDefault();
             var $form = $(this);
@@ -395,7 +463,9 @@
                 processData: false
             }).fail(function(xhr) {
                 var errors = xhr.responseJSON;
-                $form.find('.help-block').text(errors[0][key]);
+                $.each(Object.keys(errors), function(index, key) {
+                    $form.find('.help-block').text(errors[key]);
+                });
             });
         });
     });
