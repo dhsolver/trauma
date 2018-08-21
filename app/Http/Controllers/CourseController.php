@@ -245,4 +245,15 @@ class CourseController extends Controller {
 
         return redirect('/course/' . $course->slug . '/browse#comments');
     }
+
+    public function hideComment(Course $course, Comment $comment, Request $request) {
+        $user = Auth::user();
+        if ($user->role !== 'student') {
+            $comment->is_hidden = true;
+            $comment->save();
+            session()->flash('courseMessage', 'Comment has been hidden!');
+        }
+
+        return redirect('/course/' . $course->slug . '/browse#comments');
+    }
 }

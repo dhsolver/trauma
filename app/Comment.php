@@ -20,7 +20,7 @@ class Comment extends Model {
 
     public function comments()
     {
-        return $this->hasMany('App\Comment', 'parent_id');
+        return $this->hasMany('App\Comment', 'parent_id')->where('is_hidden', false);;
     }
 
     public function getCreatedAtAttribute($value)

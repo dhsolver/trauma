@@ -213,7 +213,8 @@
                                     <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
                                     @endif
                                     @if ($user->role !== 'student')
-                                    <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-sm btn-hide"><i class="fa fa-eye-slash"></i></button>
+                                    <!-- <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button> -->
                                     @endif
                                 </span>
                                 <div>
@@ -248,7 +249,8 @@
                                             <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
                                             @endif
                                             @if ($user->role !== 'student')
-                                            <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button>
+                                            <button type="button" class="btn btn-sm btn-hide"><i class="fa fa-eye-slash"></i></button>
+                                            <!-- <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button> -->
                                             @endif
                                         </span>
                                         <div>
@@ -414,6 +416,13 @@
             if (!confirm('Are you sure?')) return;
             var $form = $(this).parents('.text').find('form')[0];
             var url = $($form).attr('action') + '/delete';
+            location.href = url;
+        });
+
+        $('.btn-hide').click(function(e) {
+            if (!confirm('Are you sure?')) return;
+            var $form = $(this).parents('.text').find('form')[0];
+            var url = $($form).attr('action') + '/hide';
             location.href = url;
         });
 

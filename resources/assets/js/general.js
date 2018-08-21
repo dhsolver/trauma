@@ -20,7 +20,7 @@ $(function() {
         var fileKey = uploadDir + '/' + Date.now() + '-' + fileName;
         formData.set('key', fileKey);
         if (S3_MAX_SIZE > 0 && file.size > S3_MAX_SIZE) {
-            alert('Your file (' + fileName + ') is too large to upload');
+            alert('Your file (' + fileName + ') exceeds the ' + Math.floor(S3_MAX_SIZE / 1024 / 1024) + ' MB size limit.');
             uploadButton.html(uploadButtonText);
             uploadButton.prop('disabled', false);
             return;
@@ -50,6 +50,8 @@ $(function() {
             failedFiles.push(fileName);
         }).always(function() {
             if (uploadedFiles.length + failedFiles.length === totalFilesCount) {
+                uploadButton.html(uploadButtonText);
+                uploadButton.prop('disabled', false);
                 $(uploadFormId).submit();
             }
         });
