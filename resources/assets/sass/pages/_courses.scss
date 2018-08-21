@@ -58,6 +58,10 @@
             list-style-type: none;
         }
 
+        & > .tab-content {
+            padding-top: 12px;
+        }
+
         .nav-stacked {
             li {
                 padding-bottom: 2px;
@@ -68,6 +72,139 @@
 
                 a {
                     padding: 5px 12px;
+                }
+            }
+        }
+
+        #comments {
+            article {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 8px;
+
+                .avatar {
+                    flex: 0 0 60px;
+                }
+
+                .comment {
+                    flex-grow: 1;
+                    padding-left: 20px;
+                    position: relative;
+
+                    .text {
+                        background-color: $blue;
+                        color: $white;
+                        border-radius: 20px;
+                        font-size: 15px;
+                        padding: 4px 12px;
+
+                        .actions {
+                            margin-left: 16px;
+
+                            button {
+                                background-color: transparent;
+                                color: inherit;
+                                padding-left: 4px;
+                                padding-right: 4px
+                            }
+
+                            .btn-edit {
+                                display: inline-block;
+                            }
+
+                            .btn-save,
+                            .btn-cancel {
+                                display: none;
+                            }
+                        }
+
+                        form {
+                            display: none;
+
+                            textarea {
+                                color: inherit;
+                                resize: none;
+                            }
+                        }
+
+                        small {
+                            font-size: 70%;
+                        }
+
+                        &.editing {
+                            padding-bottom: 12px;
+
+                            .actions {
+                                .btn-edit {
+                                    display: none;
+                                }
+
+                                .btn-save,
+                                .btn-cancel {
+                                    display: inline-block;
+                                }
+                            }
+
+                            form {
+                                display: block;
+                            }
+                        }
+                    }
+
+                    .author {
+                        font-weight: 600;
+                    }
+
+                    .timestamp {
+                        color: $blue;
+                        font-size: 14px;
+                        padding-left: 10px;
+                    }
+
+                    .attachment {
+                        font-size: 14px;
+                        margin-left: 12px;
+                        margin-top: 4px;
+                    }
+                }
+
+                .action {
+                    flex: 0 0 60px;
+
+                    .btn-reply {
+                        background-color: transparent;
+                        color: inherit;
+
+                        &:hover {
+                            color: $blue;
+                        }
+                    }
+                }
+
+                &:hover {
+                    .btn-reply {
+                        visibility: visible;
+                    }
+                }
+            }
+
+            .comment-reply {
+                background-color: #dedede;
+                border-radius: 20px;
+                padding: 12px;
+                margin-bottom: 12px;
+
+                textarea {
+                    font-size: 16px;
+                }
+
+                .btn-default {
+                    background-color: transparent;
+                    color: inherit;
+
+                    &:hover {
+                        color: $blue;
+                    }
                 }
             }
         }

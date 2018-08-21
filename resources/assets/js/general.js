@@ -20,8 +20,8 @@ $(function() {
         var fileKey = uploadDir + '/' + Date.now() + '-' + fileName;
         formData.set('key', fileKey);
         if (S3_MAX_SIZE > 0 && file.size > S3_MAX_SIZE) {
-            alert('Your file (' + fileName + ') is too large to upload');
-            uploadButton.text(uploadButtonText);
+            alert('Your file (' + fileName + ') exceeds the ' + Math.floor(S3_MAX_SIZE / 1024 / 1024) + ' MB size limit.');
+            uploadButton.html(uploadButtonText);
             uploadButton.prop('disabled', false);
             return;
         }
@@ -50,6 +50,8 @@ $(function() {
             failedFiles.push(fileName);
         }).always(function() {
             if (uploadedFiles.length + failedFiles.length === totalFilesCount) {
+                uploadButton.html(uploadButtonText);
+                uploadButton.prop('disabled', false);
                 $(uploadFormId).submit();
             }
         });
@@ -60,16 +62,21 @@ $(function() {
 
         var fileInputId = $(this).data('upload-file');
         var files = $(fileInputId).prop('files');
-        totalFilesCount = files.length;
-        if (totalFilesCount === 0) return;
 
         var uploadDir = $(this).data('upload-dir');
         var uploadFormId = $(this).data('upload-form');
         $(uploadFormId + ' input[name="fileKeys[]"]').remove();
 
+        totalFilesCount = files.length;
+        if (totalFilesCount === 0) {
+            if (uploadFormId) $(uploadFormId).submit();
+            return;
+        }
+
         var uploadButton = $(this);
-        var uploadButtonText = uploadButton.text();
-        uploadButton.text('Uploading ...')
+        var uploadButtonText = uploadButton.html();
+        var uploadingText = $(this).data('uploading-text');
+        uploadButton.text(uploadingText || 'Uploading ...')
         uploadButton.prop('disabled', true);
 
         uploadedFiles = [];

@@ -4,6 +4,7 @@
 Route::model('user', 'App\User');
 Route::model('course', 'App\Course');
 Route::model('coursekey', 'App\CourseKey');
+Route::model('comment', 'App\Comment');
 Route::model('coursedocument', 'App\CourseDocument');
 Route::model('coursemodule', 'App\CourseModule');
 Route::model('coursemoduledocument', 'App\CourseModuleDocument');
@@ -43,6 +44,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('course/{slug}/browse', 'CourseController@browse');
         Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
         Route::get('course/{course}/finish', 'CourseController@finish');
+        Route::post('course/{course}/comments', 'CourseController@saveComment');
+        Route::post('course/{course}/comments/{comment}', 'CourseController@updateComment');
+        Route::get('course/{course}/comments/{comment}/delete', 'CourseController@deleteComment');
+        Route::get('course/{course}/comments/{comment}/hide', 'CourseController@hideComment');
     });
 
     Route::get('my-courses', 'CourseController@myCourses');

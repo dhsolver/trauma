@@ -5,6 +5,7 @@ use App\Course;
 use App\CourseKey;
 use App\CourseModuleDocument;
 use App\UsersCoursesRegistration;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -74,7 +75,9 @@ class CourseController extends Controller {
             return redirect()->action('CourseController@show', $course->slug);
         }
 
-        return view('courses.browse', compact('course', 'faculties', 'registration'));
+        $user = Auth::user();
+        $s3Data = prepareS3Data(true);
+        return view('courses.browse', compact('user', 'course', 'faculties', 'registration', 's3Data'));
     }
 
     public function trackProgress(Course $course, CourseModuleDocument $courseModuleDocument)
@@ -191,5 +194,66 @@ class CourseController extends Controller {
             ->get();
 
         return view('courses.calendar', compact('faculties', 'dt', 'latestCourses', 'onlineCourses', 'availableDates', 'currentMonth'));
+    }
+
+    public function saveComment(Course $course, Request $request) {
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+
+        $comment = new Comment();
+        $comment->text = $request->comment;
+        $comment->user_id = Auth::user()->id;
+        $comment->course_id = $course->id;
+        if ($request->has('parent_id')) $comment->parent_id = $request->parent_id;
+
+        if (!empty($request->fileKeys)) {
+            $comment->attachment = $request->fileKeys[0];
+            $comment->attachment_filename = $request->fileNames[0];
+        }
+
+        $comment->save();
+        session()->flash('courseMessage', 'Your comment has been posted.');
+
+        return response()->json([
+            'success' => true,
+            'redirect' => '/course/' . $course->slug . '/browse#comments'
+        ]);
+    }
+
+    public function updateComment(Course $course, Comment $comment, Request $request) {
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+
+        $comment->text = $request->comment;
+        $comment->save();
+        session()->flash('courseMessage', 'Your comment has been updated.');
+
+        return response()->json([
+            'success' => true,
+            'redirect' => '/course/' . $course->slug . '/browse#comments'
+        ]);
+    }
+
+    public function deleteComment(Course $course, Comment $comment, Request $request) {
+        $user = Auth::user();
+        if ($user->role !== 'student') {
+            $comment->delete();
+            session()->flash('courseMessage', 'Comment has been deleted!');
+        }
+
+        return redirect('/course/' . $course->slug . '/browse#comments');
+    }
+
+    public function hideComment(Course $course, Comment $comment, Request $request) {
+        $user = Auth::user();
+        if ($user->role !== 'student') {
+            $comment->is_hidden = true;
+            $comment->save();
+            session()->flash('courseMessage', 'Comment has been hidden!');
+        }
+
+        return redirect('/course/' . $course->slug . '/browse#comments');
     }
 }
