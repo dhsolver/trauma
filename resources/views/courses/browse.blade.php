@@ -59,14 +59,16 @@
                         <small>Certification:</small>
                     </div>
                     <div class="col-xs-9">
-                        @if ($registration->completed_at)
-                            @if ($registration->certified_at)
-                                Certified by faculty
+                        @if (!empty($registration))
+                            @if ($registration->completed_at)
+                                @if ($registration->certified_at)
+                                    Certified by faculty
+                                @else
+                                    Not certified by faculty
+                                @endif
                             @else
-                                Not certified by faculty
+                                Eligible after learning all modules
                             @endif
-                        @else
-                            Eligible after learning all modules
                         @endif
                     </div>
                 </div>
@@ -147,7 +149,9 @@
                                             >
                                             @endif
                                             @endif
+                                                @if (!empty($registration))
                                                 <i class="fa fa-check @if (!is_array($registration->progress) || !in_array($document->id, $registration->progress)) invisible @endif"></i>
+                                                @endif
                                                 <i class="fa {{ $document->icon_class }}"></i>
                                                 @if ($document->type === 'url')
                                                 {{ $document->full_url }}
@@ -177,7 +181,7 @@
                     </div>
                     <hr>
                     <div class="course-complete text-center">
-                        @if (!empty($registration->completed_at))
+                        @if (!empty($registration) && !empty($registration->completed_at))
                         <h3 class="text-success">
                             <i class="fa fa-check"></i> Course Completed
                         </h3>

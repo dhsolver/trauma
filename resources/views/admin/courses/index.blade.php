@@ -93,7 +93,12 @@
                     >
                         <i class="fa fa-copy"></i> Copy
                     </a>
-
+                    <a
+                        class="btn btn-primary"
+                        href="{{ route('course.browse', $course->id) }}"
+                    >
+                        <i class="fa fa-search"></i> Browse
+                    </a>
                 </td>
             </tr>
             @endforeach

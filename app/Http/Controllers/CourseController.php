@@ -70,7 +70,7 @@ class CourseController extends Controller {
             ->where('payment_status', 'Completed')
             ->first();
 
-        if (empty($registration)) {
+        if (empty($registration) && $user->role !== 'admin') {
             session()->flash('courseError', 'You need to register or purchase to browse this course.');
             return redirect()->action('CourseController@show', $course->slug);
         }
@@ -86,6 +86,14 @@ class CourseController extends Controller {
         $registration = UsersCoursesRegistration::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->first();
+
+        if (empty($registration)) {
+            return response()->json([
+                'document' => $courseModuleDocument,
+                'progress' => 0,
+                'total' => count($course->getModuleDocuments())
+            ], 422);
+        }
 
         $currentProgress = $registration->progress;
         $documentId = $courseModuleDocument->id;
