@@ -415,19 +415,19 @@
                     @if ($registration->payment_status === 'Completed')
                     @if ($registration->certified_at)
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/uncertify') }}"
-                            class="btn btn-xs btn-danger">
+                            class="btn btn-xs btn-80 mx-2 btn-danger">
                             Uncertify
                         </a>
                     @else
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/certify') }}"
-                            class="btn btn-xs btn-success">
+                            class="btn btn-xs btn-80 mx-2 btn-success">
                             Certify
                         </a>
                     @endif
                     @if (Auth::user()->role === 'admin')
                     <a
                         href="{{ route('course.unregister', [$course->id, $registration->id]) }}"
-                        class="btn btn-xs btn-danger"
+                        class="btn btn-xs btn-80 mx-2 btn-danger"
                         onclick="return confirm('Are you sure?')"
                     >
                         Remove
