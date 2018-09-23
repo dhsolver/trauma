@@ -6,6 +6,6 @@ Here are discussions you missed since your last read.<br />
 <?php } ?>
 </ul>
 <br />
-You can opt out of receiving discussion board emails within your profile on <a href="https://www.traumaanalytics.com">www.traumaanalytics.com</a>.<br />
+You can opt out of receiving discussion board emails within your profile on <a href="<?= url()?>"><?= url()?></a>.<br />
 <br />
 Trauma Analytics Team
