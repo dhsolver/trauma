@@ -75,6 +75,9 @@ class CourseController extends Controller {
             return redirect()->action('CourseController@show', $course->slug);
         }
 
+        $registration->last_discussion_at = Carbon::now()->toDateTimeString();
+        $registration->save();
+
         $user = Auth::user();
         $s3Data = prepareS3Data(true);
         return view('courses.browse', compact('user', 'course', 'faculties', 'registration', 's3Data'));
