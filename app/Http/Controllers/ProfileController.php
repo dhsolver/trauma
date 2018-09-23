@@ -58,6 +58,7 @@ class ProfileController extends Controller {
         $user->ssn = $request['ssn'];
         $user->credentials = $request['credentials'];
         $user->state_license = $request['state_license'];
+        $user->discussion_emails_enabled = $request['discussion_emails_enabled'];
         $user->save();
 
         session()->flash('profileUpdated', 'Profile has been updated!');

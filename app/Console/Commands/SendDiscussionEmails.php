@@ -43,6 +43,7 @@ class SendDiscussionEmails extends Command
         $users = User::all();
         foreach ($users as $key => $user) {
             $courses = [];
+            if (!$user->discussion_emails_enabled) continue;
             foreach ($user->registrations as $key => $registration) {
                 $comments = $registration->course->comments()
                     ->where('user_id', '<>', $user->id)
