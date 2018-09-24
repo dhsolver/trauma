@@ -62,6 +62,8 @@
             </div>
 
             {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class' => 'form-profile')) !!}
+                <input type="hidden" name="discussion_emails_enabled" value="0">
+
                 @if (Session::has('profileUpdated'))
                     <div class="alert alert-success" role="alert">
                         {{ Session::get('profileUpdated') }}
@@ -263,6 +265,16 @@
                     <div class="controls">
                         {!! Form::text('state_license', $user->state_license, array('class' => 'form-control', 'placeholder' => 'State License # (or N/A)')) !!}
                         <span class="help-block">{{ $errors->first('state_license', ':message') }}</span>
+                    </div>
+                </div>
+
+                <h3 class="form-subheader">Discussion Board Emails</h3>
+                <div class="form-group {{ $errors->has('discussion_emails_enabled') ? 'has-error' : '' }}">
+                    {!! Form::label('discussion_emails_enabled', 'Receive daily emails on missed discussion posts', array('class' => 'control-label')) !!}
+                    <div class="checkbox inline">
+                        <label>
+                            {!! Form::checkbox('discussion_emails_enabled', true, $user->discussion_emails_enabled, null) !!} Receive email notifications
+                        </label>
                     </div>
                 </div>
 

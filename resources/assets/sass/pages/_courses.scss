@@ -77,6 +77,12 @@
         }
 
         #comments {
+            .comments-container {
+                max-height: 400px;
+                overflow: scroll;
+                padding-bottom: 12px;
+            }
+
             article {
                 display: flex;
                 flex-direction: row;

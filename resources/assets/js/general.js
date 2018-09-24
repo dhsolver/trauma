@@ -4,6 +4,11 @@ function getFileNames(files) {
     }).join(', ')
 }
 
+function scrollToBottom(selector) {
+    var elem = $(selector);
+    elem.scrollTop(elem[0].scrollHeight);
+}
+
 $(function() {
     $('.form-input-date').datepicker({
         format: "mm/dd/yyyy",

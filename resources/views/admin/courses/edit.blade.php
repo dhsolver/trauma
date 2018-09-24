@@ -388,7 +388,15 @@
             @foreach ($course->registrations as $registration)
             <tr>
                 <td>#{{ $registration->user->id }}</td>
-                <td>{{ $registration->user->first_name }} {{ $registration->user->last_name }}</td>
+                <td>
+                    @if (Auth::user()->role === 'admin')
+                    <a href="{!! route('user.edit', $registration->user->id) !!}">
+                        {{ $registration->user->first_name }} {{ $registration->user->last_name }}
+                    </a>
+                    @else
+                        {{ $registration->user->first_name }} {{ $registration->user->last_name }}
+                    @endif
+                </td>
                 <td>{{ $registration->user->email }}</td>
                 <td>
                     @if ($registration->method === 'key')
@@ -407,14 +415,23 @@
                     @if ($registration->payment_status === 'Completed')
                     @if ($registration->certified_at)
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/uncertify') }}"
-                            class="btn btn-xs btn-danger">
+                            class="btn btn-xs btn-80 m-2 btn-danger">
                             Uncertify
                         </a>
                     @else
                         <a href="{{ url('admin/courses/'.$course->id.'/registrations/'.$registration->id.'/certify') }}"
-                            class="btn btn-xs btn-success">
+                            class="btn btn-xs btn-80 m-2 btn-success">
                             Certify
                         </a>
+                    @endif
+                    @if (Auth::user()->role === 'admin')
+                    <a
+                        href="{{ route('course.unregister', [$course->id, $registration->id]) }}"
+                        class="btn btn-xs btn-80 m-2 btn-danger"
+                        onclick="return confirm('Are you sure?')"
+                    >
+                        Remove
+                    </a>
                     @endif
                     @endif
                 </td>

@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('courses', 'CourseController@index');
         Route::get('course/{slug}', 'CourseController@show');
         Route::post('course/{course}/register', 'PurchaseController@handleRegister');
-        Route::get('course/{slug}/browse', 'CourseController@browse');
+        Route::get('course/{slug}/browse', 'CourseController@browse')->name('course.browse');
         Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
         Route::get('course/{course}/finish', 'CourseController@finish');
         Route::post('course/{course}/comments', 'CourseController@saveComment');
@@ -102,7 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::get('users/', 'Admin\UserController@index');
-    Route::get('users/{user}/edit', 'Admin\UserController@edit');
+    Route::get('users/{user}/edit', 'Admin\UserController@edit')->name('user.edit');
     Route::put('users/{user}', 'Admin\UserController@update');
     Route::get('users/create', 'Admin\UserController@create');
     Route::post('users', 'Admin\UserController@store');
@@ -115,6 +115,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('courses/{course}/disable', 'Admin\CourseController@disable');
     Route::get('courses/{course}/enable', 'Admin\CourseController@enable');
 
+    Route::get('courses/{course}/registrations/{courseregistration}/unregister', 'Admin\CourseController@unregisterStudent')->name('course.unregister');
 
     # Static Pages
     Route::get('staticpages', 'Admin\StaticPagesController@index');

@@ -169,7 +169,6 @@ class CourseController extends AdminController {
         return redirect()->action('Admin\CourseController@edit', $newCourse);
     }
 
-
     public function exportStudents(Course $course)
     {
         $this->download_send_headers('course_students.csv');
@@ -206,7 +205,6 @@ class CourseController extends AdminController {
         die;
     }
 
-
     public function certifyStudent(Course $course, UsersCoursesRegistration $registration)
     {
         if (empty($registration->certified_at)) {
@@ -222,7 +220,6 @@ class CourseController extends AdminController {
         return redirect()->action('Admin\CourseController@edit', $course);
     }
 
-
     public function uncertifyStudent(Course $course, UsersCoursesRegistration $registration)
     {
         if ($registration->certified_at) {
@@ -232,6 +229,12 @@ class CourseController extends AdminController {
             session()->flash('courseMessage', 'You just uncertified a student for completing this course.');
         }
 
+        return redirect()->action('Admin\CourseController@edit', $course);
+    }
+
+    public function unregisterStudent(Course $course, UsersCoursesRegistration $registration)
+    {
+        $registration->delete();
         return redirect()->action('Admin\CourseController@edit', $course);
     }
 

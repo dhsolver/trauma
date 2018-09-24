@@ -112,10 +112,9 @@ class Course extends Model implements SluggableInterface {
         return $moduleDocuments;
     }
 
-
     public function comments()
     {
-        return $this->hasMany('App\Comment')->whereNull('parent_id')->where('is_hidden', false);
+        return $this->hasMany('App\Comment')->whereNull('parent_id')->where('is_hidden', false)->orderBy('created_at', 'ASC');
     }
 
 }

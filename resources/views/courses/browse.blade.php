@@ -59,14 +59,16 @@
                         <small>Certification:</small>
                     </div>
                     <div class="col-xs-9">
-                        @if ($registration->completed_at)
-                            @if ($registration->certified_at)
-                                Certified by faculty
+                        @if (!empty($registration))
+                            @if ($registration->completed_at)
+                                @if ($registration->certified_at)
+                                    Certified by faculty
+                                @else
+                                    Not certified by faculty
+                                @endif
                             @else
-                                Not certified by faculty
+                                Eligible after learning all modules
                             @endif
-                        @else
-                            Eligible after learning all modules
                         @endif
                     </div>
                 </div>
@@ -147,7 +149,9 @@
                                             >
                                             @endif
                                             @endif
+                                                @if (!empty($registration))
                                                 <i class="fa fa-check @if (!is_array($registration->progress) || !in_array($document->id, $registration->progress)) invisible @endif"></i>
+                                                @endif
                                                 <i class="fa {{ $document->icon_class }}"></i>
                                                 @if ($document->type === 'url')
                                                 {{ $document->full_url }}
@@ -177,7 +181,7 @@
                     </div>
                     <hr>
                     <div class="course-complete text-center">
-                        @if (!empty($registration->completed_at))
+                        @if (!empty($registration) && !empty($registration->completed_at))
                         <h3 class="text-success">
                             <i class="fa fa-check"></i> Course Completed
                         </h3>
@@ -194,136 +198,138 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="comments">
-                    @foreach ($course->comments as $key=>$comment)
-                    <article data-id="{{ $comment->id }}">
-                        <div class="avatar">
-                            <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($comment->user->avatar) !!}"/>
-                        </div>
-                        <div class="comment">
-                            <div class="text">
-                                <span class="author">{{ $comment->user->first_name }} {{ $comment->user->last_name }}: </span>
-                                {{ $comment->text }}
-                                @if ($comment->created_at != $comment->updated_at)
-                                <small>(edited)</small>
-                                @endif
-                                <span class="actions">
-                                    @if ($comment->user_id === $user->id)
-                                    <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
-                                    <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
-                                    @endif
-                                    @if ($user->role !== 'student')
-                                    <button type="button" class="btn btn-sm btn-hide"><i class="fa fa-eye-slash"></i></button>
-                                    <!-- <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button> -->
-                                    @endif
-                                </span>
-                                <div>
-                                    {!! Form::open(array('id' => 'comment-edit-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments/'.$comment->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
-                                    <textarea class="form-control" name="comment">{{ $comment->text }}</textarea>
-                                    <span class="help-block"></span>
-                                    {!! Form::close() !!}
-                                </div>
+                    <div class="comments-container">
+                        @foreach ($course->comments as $key=>$comment)
+                        <article data-id="{{ $comment->id }}">
+                            <div class="avatar">
+                                <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($comment->user->avatar) !!}"/>
                             </div>
-                            <div class="meta">
-                                <span class="timestamp">{{ $comment->created_at }}</span>
-                                @if ($comment->attachment)
-                                    <a href="{!! getS3Url($comment->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $comment->attachment_filename }}</a>
-                                @endif
-                            </div>
-                            @foreach ($comment->comments as $key => $reply)
-                            <article>
-                                <div class="avatar">
-                                    <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($reply->user->avatar) !!}"/>
-                                </div>
-                                <div class="comment">
-                                    <div class="text">
-                                        <span class="author">{{ $reply->user->first_name }} {{ $reply->user->last_name }}: </span>
-                                        {{ $reply->text }}
-                                        @if ($reply->created_at != $reply->updated_at)
-                                        <small>(edited)</small>
+                            <div class="comment">
+                                <div class="text">
+                                    <span class="author">{{ $comment->user->first_name }} {{ $comment->user->last_name }}: </span>
+                                    {{ $comment->text }}
+                                    @if ($comment->created_at != $comment->updated_at)
+                                    <small>(edited)</small>
+                                    @endif
+                                    <span class="actions">
+                                        @if ($comment->user_id === $user->id)
+                                        <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
+                                        <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
                                         @endif
-                                        <span class="actions">
-                                            @if ($reply->user_id === $user->id)
-                                            <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
-                                            <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
-                                            <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
+                                        @if ($user->role !== 'student')
+                                        <button type="button" class="btn btn-sm btn-hide"><i class="fa fa-eye-slash"></i></button>
+                                        <!-- <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button> -->
+                                        @endif
+                                    </span>
+                                    <div>
+                                        {!! Form::open(array('id' => 'comment-edit-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments/'.$comment->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
+                                        <textarea class="form-control" name="comment">{{ $comment->text }}</textarea>
+                                        <span class="help-block"></span>
+                                        {!! Form::close() !!}
+                                    </div>
+                                </div>
+                                <div class="meta">
+                                    <span class="timestamp">{{ $comment->created_at }}</span>
+                                    @if ($comment->attachment)
+                                        <a href="{!! getS3Url($comment->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $comment->attachment_filename }}</a>
+                                    @endif
+                                </div>
+                                @foreach ($comment->comments as $key => $reply)
+                                <article>
+                                    <div class="avatar">
+                                        <img class="img img-avatar img-circle" alt="user avatar" src="{!! getS3Url($reply->user->avatar) !!}"/>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="text">
+                                            <span class="author">{{ $reply->user->first_name }} {{ $reply->user->last_name }}: </span>
+                                            {{ $reply->text }}
+                                            @if ($reply->created_at != $reply->updated_at)
+                                            <small>(edited)</small>
                                             @endif
-                                            @if ($user->role !== 'student')
-                                            <button type="button" class="btn btn-sm btn-hide"><i class="fa fa-eye-slash"></i></button>
-                                            <!-- <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button> -->
+                                            <span class="actions">
+                                                @if ($reply->user_id === $user->id)
+                                                <button type="button" class="btn btn-sm btn-edit"><i class="fa fa-pencil"></i></button>
+                                                <button type="button" class="btn btn-sm btn-save"><i class="fa fa-save"></i></button>
+                                                <button type="button" class="btn btn-sm btn-cancel"><i class="fa fa-undo"></i></button>
+                                                @endif
+                                                @if ($user->role !== 'student')
+                                                <button type="button" class="btn btn-sm btn-hide"><i class="fa fa-eye-slash"></i></button>
+                                                <!-- <button type="button" class="btn btn-sm btn-delete"><i class="fa fa-trash"></i></button> -->
+                                                @endif
+                                            </span>
+                                            <div>
+                                                {!! Form::open(array('id' => 'comment-edit-form-' . $reply->id, 'url' => url('course/'.$course->id.'/comments/'.$reply->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
+                                                <textarea class="form-control" name="comment">{{ $reply->text }}</textarea>
+                                                <span class="help-block"></span>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </div>
+                                        <div class="meta">
+                                            <span class="timestamp">{{ $reply->created_at }}</span>
+                                            @if ($reply->attachment)
+                                                <a href="{!! getS3Url($reply->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $reply->attachment_filename }}</a>
                                             @endif
-                                        </span>
-                                        <div>
-                                            {!! Form::open(array('id' => 'comment-edit-form-' . $reply->id, 'url' => url('course/'.$course->id.'/comments/'.$reply->id), 'method' => 'post', 'class' => 'form-comment-edit')) !!}
-                                            <textarea class="form-control" name="comment">{{ $reply->text }}</textarea>
-                                            <span class="help-block"></span>
-                                            {!! Form::close() !!}
                                         </div>
                                     </div>
-                                    <div class="meta">
-                                        <span class="timestamp">{{ $reply->created_at }}</span>
-                                        @if ($reply->attachment)
-                                            <a href="{!! getS3Url($reply->attachment) !!}" class="attachment"><i class="fa fa-paperclip"></i> {{ $reply->attachment_filename }}</a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </article>
-                            @endforeach
-                            <div class="comment-reply-container hidden">
-                                <div class="comment-reply">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            {!! Form::open(array('id' => 'comment-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments'), 'method' => 'post', 'class' => 'form-comment')) !!}
-                                            <input type="hidden" name="parent_id" value="{{$comment->id}}"></input>
-                                            <textarea rows="2" class="form-control" name="comment" placeholder="Write a reply"></textarea>
-                                            <div class="m-b-5 hidden" id="comment-file-wrapper-{{$comment->id}}">
-                                                <span class='label label-info' id="comment-file-info-{{$comment->id}}"></span>
-                                                <button type="button" class="btn btn-sm btn-default btn-remove">
-                                                    <i class="fa fa-times"></i>
+                                </article>
+                                @endforeach
+                                <div class="comment-reply-container hidden">
+                                    <div class="comment-reply">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                {!! Form::open(array('id' => 'comment-form-' . $comment->id, 'url' => url('course/'.$course->id.'/comments'), 'method' => 'post', 'class' => 'form-comment')) !!}
+                                                <input type="hidden" name="parent_id" value="{{$comment->id}}"></input>
+                                                <textarea rows="2" class="form-control" name="comment" placeholder="Write a reply"></textarea>
+                                                <div class="m-b-5 hidden" id="comment-file-wrapper-{{$comment->id}}">
+                                                    <span class='label label-info' id="comment-file-info-{{$comment->id}}"></span>
+                                                    <button type="button" class="btn btn-sm btn-default btn-remove">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="has-error">
+                                                    <span class="help-block"></span>
+                                                </div>
+                                                {!! Form::close() !!}
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <label class="btn btn-default" for="comment-file-{{$comment->id}}">
+                                                    <input
+                                                        id="comment-file-{{$comment->id}}"
+                                                        name="comment-file-{{$comment->id}}"
+                                                        type="file"
+                                                        value="Upload"
+                                                        style="display:none"
+                                                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, application/zip,application/x-zip,application/x-zip-compressed, image/*"
+                                                        onchange="$('#comment-file-info-{{$comment->id}}').html(this.files[0].name); $('#comment-file-wrapper-{{$comment->id}}').removeClass('hidden');"
+                                                    >
+                                                    <i class="fa fa-paperclip"></i>
+                                                </label>
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-default btn-send"
+                                                    data-upload="s3"
+                                                    data-upload-file="#comment-file-{{$comment->id}}"
+                                                    data-upload-dir="courses/{{ $course->id }}/comments"
+                                                    data-upload-form="#comment-form-{{$comment->id}}"
+                                                    data-uploading-text="..."
+                                                >
+                                                    <i class="fa fa-paper-plane-o"></i>
                                                 </button>
                                             </div>
-                                            <div class="has-error">
-                                                <span class="help-block"></span>
-                                            </div>
-                                            {!! Form::close() !!}
-                                        </div>
-                                        <div class="col-md-3 text-right">
-                                            <label class="btn btn-default" for="comment-file-{{$comment->id}}">
-                                                <input
-                                                    id="comment-file-{{$comment->id}}"
-                                                    name="comment-file-{{$comment->id}}"
-                                                    type="file"
-                                                    value="Upload"
-                                                    style="display:none"
-                                                    accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, application/zip,application/x-zip,application/x-zip-compressed, image/*"
-                                                    onchange="$('#comment-file-info-{{$comment->id}}').html(this.files[0].name); $('#comment-file-wrapper-{{$comment->id}}').removeClass('hidden');"
-                                                >
-                                                <i class="fa fa-paperclip"></i>
-                                            </label>
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-default btn-send"
-                                                data-upload="s3"
-                                                data-upload-file="#comment-file-{{$comment->id}}"
-                                                data-upload-dir="courses/{{ $course->id }}/comments"
-                                                data-upload-form="#comment-form-{{$comment->id}}"
-                                                data-uploading-text="..."
-                                            >
-                                                <i class="fa fa-paper-plane-o"></i>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="action">
-                            <button type="button" class="btn btn-default btn-reply">
-                                <i class="fa fa-reply"></i>
-                            </button>
-                        </div>
-                    </article>
-                    @endforeach
+                            <div class="action">
+                                <button type="button" class="btn btn-default btn-reply">
+                                    <i class="fa fa-reply"></i>
+                                </button>
+                            </div>
+                        </article>
+                        @endforeach
+                    </div>
 
                     <div class="comment-reply-container">
                         <div class="comment-reply">
@@ -490,6 +496,13 @@
                 });
             });
         });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            if (e.target.hash === '#comments') {
+                scrollToBottom('#comments .comments-container');
+            }
+        })
+
     });
 </script>
 @endsection
