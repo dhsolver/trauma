@@ -1,5 +1,5 @@
 Hi <?php echo ($user->first_name) ?>,<br />
-Here are discussions you missed since your last read.<br />
+There has been activity on the follow course(s) discussion board(s) for your review: <br />
 <ul>
 <?php foreach ($courses as $key => $row) { ?>
 <li><a href="<?=url('course/'.$row['course']->slug)?>">Course Id #<?=$row['course']->id?> <?=$row['course']->title?></a> -- <?=$row['comments']?> comment(s)</li>
