@@ -329,50 +329,50 @@
                             </div>
                         </article>
                         @endforeach
+                    </div>
 
-                        <div class="comment-reply-container">
-                            <div class="comment-reply">
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        {!! Form::open(array('id' => 'comment-form', 'url' => url('course/'.$course->id.'/comments'), 'method' => 'post', 'class' => 'form-comment')) !!}
-                                        <textarea rows="2" class="form-control" name="comment" placeholder="Write a reply"></textarea>
-                                        <div class="m-b-5 hidden" id="comment-file-wrapper">
-                                            <span class='label label-info' id="comment-file-info"></span>
-                                            <button type="button" class="btn btn-sm btn-default btn-remove">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </div>
-                                        <div class="has-error">
-                                            <span class="help-block"></span>
-                                        </div>
-                                        {!! Form::close() !!}
-                                    </div>
-                                    <div class="col-md-3 text-right">
-                                        <label class="btn btn-default" for="comment-file">
-                                            <input
-                                                id="comment-file"
-                                                name="comment-file"
-                                                type="file"
-                                                value="Upload"
-                                                style="display:none"
-                                                accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, application/zip,application/x-zip,application/x-zip-compressed, image/*"
-                                                onchange="$('#comment-file-info').html(this.files[0].name); $('#comment-file-wrapper').removeClass('hidden');"
-                                            >
-                                            <i class="fa fa-paperclip"></i>
-                                        </label>
-
-                                        <button
-                                            type="submit"
-                                            class="btn btn-default btn-send"
-                                            data-upload="s3"
-                                            data-upload-file="#comment-file"
-                                            data-upload-dir="courses/{{ $course->id }}/comments"
-                                            data-upload-form="#comment-form"
-                                            data-uploading-text="..."
-                                        >
-                                            <i class="fa fa-paper-plane-o"></i>
+                    <div class="comment-reply-container">
+                        <div class="comment-reply">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    {!! Form::open(array('id' => 'comment-form', 'url' => url('course/'.$course->id.'/comments'), 'method' => 'post', 'class' => 'form-comment')) !!}
+                                    <textarea rows="2" class="form-control" name="comment" placeholder="Write a reply"></textarea>
+                                    <div class="m-b-5 hidden" id="comment-file-wrapper">
+                                        <span class='label label-info' id="comment-file-info"></span>
+                                        <button type="button" class="btn btn-sm btn-default btn-remove">
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </div>
+                                    <div class="has-error">
+                                        <span class="help-block"></span>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label class="btn btn-default" for="comment-file">
+                                        <input
+                                            id="comment-file"
+                                            name="comment-file"
+                                            type="file"
+                                            value="Upload"
+                                            style="display:none"
+                                            accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, application/zip,application/x-zip,application/x-zip-compressed, image/*"
+                                            onchange="$('#comment-file-info').html(this.files[0].name); $('#comment-file-wrapper').removeClass('hidden');"
+                                        >
+                                        <i class="fa fa-paperclip"></i>
+                                    </label>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-default btn-send"
+                                        data-upload="s3"
+                                        data-upload-file="#comment-file"
+                                        data-upload-dir="courses/{{ $course->id }}/comments"
+                                        data-upload-form="#comment-form"
+                                        data-uploading-text="..."
+                                    >
+                                        <i class="fa fa-paper-plane-o"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
