@@ -278,20 +278,6 @@
             </div>
         </h3>
 
-        @if (Auth::user()->role === 'admin')
-        <hr>
-        <div class="form-group {{ $errors->has('notes') ? 'has-error' : '' }}">
-            {!! Form::label('notes', 'Notes', array('class' => 'control-label')) !!}
-            <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
-                {!! Form::label('notes', 'Notes', array('class' => 'control-label shown')) !!}
-                <div class="controls">
-                    {!! Form::textarea('notes', $user->notes, array('class' => 'form-control', 'rows' => '3')) !!}
-                    <span class="help-block">{{ $errors->first('notes', ':message') }}</span>
-                </div>
-            </div>
-        </div>
-        @endif
-
         <div class="table-responsive table-container">
             @if (count($user->registrations))
             <table class="table table-hover table-course-keys">
@@ -329,6 +315,20 @@
             <h4>No registered courses for this student.</h4>
             @endif
         </div>
+
+        @if (Auth::user()->role === 'admin')
+        <hr>
+        <div class="form-group {{ $errors->has('notes') ? 'has-error' : '' }}">
+            {!! Form::label('notes', 'Notes', array('class' => 'control-label')) !!}
+            <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
+                {!! Form::label('notes', 'Notes', array('class' => 'control-label shown')) !!}
+                <div class="controls">
+                    {!! Form::textarea('notes', $user->notes, array('class' => 'form-control', 'rows' => '3')) !!}
+                    <span class="help-block">{{ $errors->first('notes', ':message') }}</span>
+                </div>
+            </div>
+        </div>
+        @endif
 
         <div class="form-group">
             <div class="row">
