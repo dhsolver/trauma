@@ -70,13 +70,15 @@ class CourseController extends Controller {
             ->where('payment_status', 'Completed')
             ->first();
 
-        if (empty($registration) && $user->role !== 'admin') {
-            session()->flash('courseError', 'You need to register or purchase to browse this course.');
-            return redirect()->action('CourseController@show', $course->slug);
+        if (empty($registration)) {
+            if ($user->role !== 'admin') {
+                session()->flash('courseError', 'You need to register or purchase to browse this course.');
+                return redirect()->action('CourseController@show', $course->slug);
+            }
+        } else {
+            $registration->last_discussion_at = Carbon::now()->toDateTimeString();
+            $registration->save();
         }
-
-        $registration->last_discussion_at = Carbon::now()->toDateTimeString();
-        $registration->save();
 
         $user = Auth::user();
         $s3Data = prepareS3Data(true);
