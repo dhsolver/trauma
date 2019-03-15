@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Jobs\SendWelcomeEmail;
+use App\Jobs\SendNewSignupEmail;
 
 class AuthController extends Controller
 {
@@ -128,6 +129,7 @@ class AuthController extends Controller
         ]);
 
         $this->dispatch(new SendWelcomeEmail($user));
+        $this->dispatch(new SendNewSignupEmail($user));
 
         return $user;
     }

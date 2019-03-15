@@ -7,7 +7,7 @@
                     <a href="https://twitter.com/TraumAnalytics" target="_blank" title="Visit Trauma Analytics on Twitter">
                         <span class="fa fa-2x fa-twitter"></span>
                     </a>
-                    <a href="https://www.facebook.com/TraumAnaytics" target="_blank" title="Visit Trauma Analytics on Facebook">
+                    <a href="https://www.facebook.com/TraumAnalytics/" target="_blank" title="Visit Trauma Analytics on Facebook">
                         <span class="fa fa-2x fa-facebook-official"></span>
                     </a>
                 </div>

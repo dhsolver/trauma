@@ -167,7 +167,7 @@ class CourseController extends Controller {
         $currentMonth = date('n', strtotime($dt));
         $monthStart = date('Y-m-01', strtotime($dt));
         $monthEnd = date('Y-m-t', strtotime($dt));
-        $searchEndDate = date('Y-m-t', strtotime('+2 month', strtotime($monthEnd))) ;
+        $searchEndDate = date('Y-m-t', strtotime('+12 month', strtotime($monthEnd)));
 
         $availableCourses = Course::where('published', 1)
             ->where('enabled', 1)
