@@ -22,6 +22,8 @@ class CourseController extends AdminController {
         }
         if (!empty($request->title)) $courses = $courses->where('title', 'like', "%$request->title%");
         if (!empty($request->location)) $courses = $courses->where('location', 'like', "%$request->location%");
+        $user = Auth::user();
+        if ($user->role === 'faculty') $courses = $courses->where('instructors', 'like', "%$user->id%");
 
         $courses = $courses->orderBy('title', 'asc')
             ->get();
@@ -37,6 +39,9 @@ class CourseController extends AdminController {
     public function store(CourseRequest $request)
     {
         $course = new Course($request->all());
+        $user = Auth::user();
+        if ($user->role === 'faculty')
+            $course->instructors = [$user->id];
         $course->save();
 
         session()->flash('courseMessage', 'Course has been created!');
@@ -45,6 +50,11 @@ class CourseController extends AdminController {
 
     public function edit(Course $course)
     {
+        $user = Auth::user();
+        if (!is_array($course->instructors) || ($user->role === 'faculty' && !in_array($user->id, $course->instructors))) {
+            return redirect()->action('Admin\CourseController@index');
+        }
+
         $faculties = User::where('role', 'faculty')
             // ->where('approval', 'approved')
             ->orderBy('first_name', 'asc')
@@ -73,7 +83,8 @@ class CourseController extends AdminController {
             }
         }
 
-        if (empty($request->instructors)) $course->instructors = [];
+        $user = Auth::user();
+        if (empty($request->instructors) && $user->role === 'admin') $course->instructors = [];
 
         $course->save();
 
