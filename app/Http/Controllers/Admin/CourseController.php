@@ -51,7 +51,7 @@ class CourseController extends AdminController {
     public function edit(Course $course)
     {
         $user = Auth::user();
-        if (!is_array($course->instructors) || ($user->role === 'faculty' && !in_array($user->id, $course->instructors))) {
+        if (($user->role === 'faculty' && (!is_array($course->instructors) || !in_array($user->id, $course->instructors)))) {
             return redirect()->action('Admin\CourseController@index');
         }
 
