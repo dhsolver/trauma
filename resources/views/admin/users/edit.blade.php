@@ -64,6 +64,11 @@
                     </div>
                     <div class="checkbox inline">
                         <label>
+                            {!! Form::radio('role', 'manager', $user->role === 'manager' ? true : false) !!} Manager
+                        </label>
+                    </div>
+                    <div class="checkbox inline">
+                        <label>
                             {!! Form::radio('role', 'admin', $user->role === 'admin' ? true : false) !!} Admin
                         </label>
                     </div>

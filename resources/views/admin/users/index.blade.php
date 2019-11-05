@@ -127,7 +127,7 @@
                 <td>{{ $user->birthday }}</td>
                 <td>{{ $user->hospital_name }}</td>
                 <td>
-                    <label class="label {{ $user->role == 'admin' ? 'label-danger' : ($user->role === 'faculty' ? 'label-info' : 'label-primary') }}">{{ ucfirst($user->role) }}</label>
+                    <label class="label {{ $user->role == 'admin' ? 'label-danger' : ($user->role === 'manager' ? 'label-warning' : ($user->role === 'faculty' ? 'label-info' : 'label-primary')) }}">{{ ucfirst($user->role) }}</label>
                 </td>
                 <td>
                     @if ($user->role !== 'admin')

@@ -207,7 +207,10 @@
                             <div class="comment">
                                 <div class="text">
                                     <span class="author">{{ $comment->user->first_name }} {{ $comment->user->last_name }}: </span>
-                                    {{ $comment->text }}
+                                    <?php $lineComments = explode("\n", $comment->text); ?>
+                                    @foreach ($lineComments as $lineComment)
+                                    <div>{{ $lineComment }}</div>
+                                    @endforeach
                                     @if ($comment->created_at != $comment->updated_at)
                                     <small>(edited)</small>
                                     @endif
@@ -243,7 +246,10 @@
                                     <div class="comment">
                                         <div class="text">
                                             <span class="author">{{ $reply->user->first_name }} {{ $reply->user->last_name }}: </span>
-                                            {{ $reply->text }}
+                                            <?php $lineReplies = explode("\n", $reply->text); ?>
+                                            @foreach ($lineReplies as $lineReply)
+                                            <div>{{ $lineReply }}</div>
+                                            @endforeach
                                             @if ($reply->created_at != $reply->updated_at)
                                             <small>(edited)</small>
                                             @endif

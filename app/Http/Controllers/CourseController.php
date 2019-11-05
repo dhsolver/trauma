@@ -50,6 +50,27 @@ class CourseController extends Controller {
         return view('courses.show', compact('user', 'course', 'faculties', 'registration'));
     }
 
+    public function preview($slug, Request $request) {
+        $faculties = User::where('role', 'faculty')
+            ->orderBy('first_name', 'asc')
+            ->orderBy('last_name', 'asc')
+            ->get()
+            ->keyBy('id')
+            ->toArray();
+
+        $course = Course::findBySlugOrId($slug);
+        if (!$course->enabled) {
+            return response()->view('errors.404');
+        }
+
+        $user = Auth::user();
+        $registration = UsersCoursesRegistration::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->first();
+
+        return view('courses.preview', compact('user', 'course', 'faculties', 'registration'));
+    }
+
     public function browse($slug)
     {
         $faculties = User::where('role', 'faculty')
@@ -63,6 +84,7 @@ class CourseController extends Controller {
         if (!$course->enabled) {
             return response()->view('errors.404');
         }
+        // var_dump(explode("\n", $course->comments[0]->text));exit;
 
         $user = Auth::user();
         $registration = UsersCoursesRegistration::where('user_id', $user->id)

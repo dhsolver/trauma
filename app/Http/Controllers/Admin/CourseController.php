@@ -73,6 +73,7 @@ class CourseController extends AdminController {
         if (!$course->published && $request->published) {
             $course->slug = null;
         }
+        $instructors = $course->instructors;
         $course->update($request->all());
 
         if (!$course->online_only) {
@@ -83,9 +84,7 @@ class CourseController extends AdminController {
             }
         }
 
-        $user = Auth::user();
-        if (empty($request->instructors) && $user->role === 'admin') $course->instructors = [];
-
+        $course->instructors = $instructors;
         $course->save();
 
         session()->flash('courseMessage', 'Course has been updated!');
@@ -157,7 +156,6 @@ class CourseController extends AdminController {
     {
         $newCourse = $course->replicate();
         $newCourse->title = 'Copy - '.$newCourse->title;
-        $newCourse->continuing_education = '';
         $newCourse->published = false;
         $newCourse->enabled = true;
         $newCourse->slug = null;
@@ -267,5 +265,28 @@ class CourseController extends AdminController {
             ->toArray();
 
         return view('admin.courses.my-teachings', compact('myCourses', 'faculties'));
+    }
+
+    public function updateInstrcutors(Course $course, Request $request)
+    {
+        $instructors = $course->instructors;
+        $instructor_id = $request->instructor_id;
+        if (in_array($instructor_id, $instructors)) {
+            $key = array_search($instructor_id, $instructors);
+            unset($instructors[$key]);
+        }
+        else {
+            $instructors[] = $instructor_id;
+        }
+
+        $course->instructors = $instructors;
+        $course->save();
+        
+        return response()->json([
+            'success' => true,
+            'redirect' => action('Admin\CourseController@edit', [
+                'course' => $course
+            ])
+        ]);
     }
 }

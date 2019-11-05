@@ -42,7 +42,7 @@
     <div class="documents">
         @if (count($courseModule->documents))
             @foreach ($courseModule->documents as $document)
-            <div class="form-group" data-id="{{ $document->id }}" data-type="{{ $document->type }}" data-url="{{ $document->url }}" data-filename="{{ $document->filename }}" data-embedded="{{ $document->embedded }}">
+    <div class="form-group" data-id="{{ $document->id }}" data-type="{{ $document->type }}" data-url="{{ $document->url }}" data-display_name="{{ $document->display_name }}" data-filename="{{ $document->filename }}" data-embedded="{{ $document->embedded }}">
                 <div class="row">
                     <div class="col-xs-4 col-sm-2 text-right">
                         <a class="btn btn-xs btn-circle btn-primary btn-edit-doc">
@@ -55,11 +55,19 @@
                     <div class="col-xs-8 col-sm-10">
                         @if ($document->type === 'url')
                             <a href="{{ $document->url }}" target="_blank" class="text-break">
-                                <i class="fa fa-globe"></i> {{ $document->url }}
+                                @if (!is_null($document->display_name))
+                                    <i class="fa fa-globe"></i> {{ $document->display_name }}
+                                @else
+                                    <i class="fa fa-globe"></i> {{ $document->url }}
+                                @endif
                             </a>
                         @else
                             <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break">
-                                <i class="fa fa-file-o"></i> {{ $document->filename }}
+                                @if (!is_null($document->display_name))
+                                    <i class="fa fa-file-o"></i> {{ $document->display_name }}
+                                @else
+                                    <i class="fa fa-file-o"></i> {{ $document->filename }}
+                                @endif
                             </a>
                         @endif
                     </div>
@@ -125,6 +133,13 @@
                             <span class="help-block">{{ $errors->first('title', ':message') }}</span>
                         </div>
                     </div>
+                    <div class="form-group display-name">
+                        {!! Form::label('display_name', 'Display Name', array('class' => 'control-label')) !!}
+                        <div class="controls">
+                            <input class="form-control" placeholder="Display Name" type="text" name="displayName" value="">
+                            <span class="help-block">{{ $errors->first('title', ':message') }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
@@ -143,8 +158,7 @@
                     <input type="hidden" name="type" value="file">
                     <input type="hidden" name="embedded" value="0">
                     <!-- <input type="hidden" name="fileKeys[]" value="" /> -->
-                {!! Form::close() !!}
-
+                
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Document Info</h4>
@@ -158,6 +172,13 @@
                             Choose a File
                         </label>
                         <span class="help-block"></span>
+                    </div>
+                    <div class="form-group document-display-name">
+                        {!! Form::label('document-display-name', 'Display Name', array('class' => 'control-label')) !!}
+                        <div class="controls">
+                            <input class="form-control" placeholder="Display Name" type="text" name="displayName" value="">
+                            <span class="help-block">{{ $errors->first('title', ':message') }}</span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
@@ -181,6 +202,7 @@
                         Save
                     </button>
                 </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -197,18 +219,23 @@
             if (type === 'url') {
                 var $modal = $('#linkModal');
                 var url = $formGroup.data('url');
+                console.log($formGroup.data('display_name'));
+                var displayName = $formGroup.data('display_name') == undefined ? url : $formGroup.data('display_name');;
                 $modal.modal('show');
                 $modal.find('input[name="id"]').val(id);
                 $modal.find('input[name="url"]').val(url);
+                $modal.find('input[name="displayName"]').val(displayName);
             } else {
                 var $modal = $('#documentModal');
                 $modal.modal('show');
                 var filename= $formGroup.data('filename');
                 var embedded= $formGroup.data('embedded');
+                var displayName = $formGroup.data('display_name') == undefined ? filename : $formGroup.data('display_name');;
                 $modal.find('input[name="id"]').val(id);
                 $modal.find('input[type="file"]').removeAttr('multiple');
                 $modal.find('#upload-file-info').text(filename);
                 $modal.find('input[name="embedded"]').prop('checked', embedded);
+                $modal.find('input[name="displayName"]').val(displayName);
             }
         });
 

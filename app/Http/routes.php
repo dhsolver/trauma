@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['middleware' => 'userApproved'], function() {
         Route::get('courses', 'CourseController@index');
         Route::get('course/{slug}', 'CourseController@show');
+        Route::get('course/{slug}/preview', 'CourseController@preview');
         Route::post('course/{course}/register', 'PurchaseController@handleRegister');
         Route::get('course/{slug}/browse', 'CourseController@browse')->name('course.browse');
         Route::get('course/{course}/module/documents/{coursemoduledocument}/track', 'CourseController@trackProgress');
@@ -70,6 +71,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::put('courses/{course}', 'Admin\CourseController@update');
     Route::post('courses/{course}/photo', 'Admin\CourseController@updatePhoto');
     Route::get('courses/{course}/copy', 'Admin\CourseController@copy');
+    Route::get('courses/{course}/instructors', 'Admin\CourseController@updateInstrcutors');
 
     Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
     Route::get('courses/{course}/keys/export', 'Admin\CourseKeyController@export');

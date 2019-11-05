@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course')) !!}
+    {!! Form::model($course, array('url' => url('admin/courses/'.$course->id), 'method' => 'put', 'class' => 'form-course', 'id' => 'course_form')) !!}
     <input type="hidden" name="online_only" value="0">
     <input type="hidden" name="published" value="0">
     <input type="hidden" name="purchase_enabled" value="0">
@@ -143,14 +143,26 @@
     @if (Auth::user()->role === 'admin')
     <div class="form-group">
         {!! Form::label('instructors', 'Available Instructors', array('class' => 'control-label shown')) !!}
-        <div class="controls">
-            <select class="form-control" name="instructors[]" multiple="">
+        <div class="controls instructors">
+            {{-- <select class="form-control" name="instructors[]" multiple="">
                 @foreach ($faculties as $faculty)
                 @if ($faculty['approval'] === 'approved')
                 <option value="{{ $faculty['id'] }}" @if (is_array($course->instructors) && in_array($faculty['id'], $course->instructors)) selected @endif>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</option>
                 @endif
                 @endforeach
-            </select>
+            </select> --}}
+            @foreach ($faculties as $faculty)
+            @if ($faculty['approval'] === 'approved')
+            <div class="instructor" data-instructor="{{ $faculty['id'] }}" data-url={{ url('admin/courses/'.$course->id.'/instructors') }}>
+                <div>{{ $faculty['last_name'] }} ({{ $faculty['email'] }})</div>
+                @if (in_array($faculty['id'], $course->instructors))
+                <button class="btn btn-danger btn-xs">Remove</button>
+                @else
+                <button class="btn btn-primary btn-xs">Add</button>
+                @endif
+            </div>
+            @endif
+            @endforeach
         </div>
     </div>
     @endif
@@ -267,9 +279,17 @@
             <div class="row">
                 <div class="col-sm-11 col-sm-offset-1">
                     @if ($document->type === 'url')
-                        <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->url }}</a>
+                        @if (!empty($document->display_name))
+                            <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->display_name }}</a>
+                        @else
+                            <a href="{{ $document->url }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->url }}</a>
+                        @endif
                     @else
-                        <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}</a>
+                        @if (!empty($document->display_name))
+                            <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->display_name }}</a>
+                        @else
+                            <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break"><i class="fa {{ $document->icon_class }}"></i> {{ $document->filename }}</a>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -366,6 +386,16 @@
     <h3 class="section-title">
         Registered Students
         <div class="pull-right text-right">
+            @if (count($course->registrations))
+                <?php $mailToAddresses = ''; ?>
+                @foreach ($course->registrations as $registration)
+                    <?php $mailToAddresses .= $registration->user->email . ';'; ?>
+                @endforeach
+                <?php $mailToAddresses = substr($mailToAddresses, 0, -1).'?subject=Hi everybody!' ; ?>
+                <a href="mailto:{{ $mailToAddresses }}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-envelope"></i> Send Email
+                </a>    
+            @endif
             <a href="{{ url('admin/courses/'.$course->id.'/students/export') }}" class="btn btn-sm btn-primary">
                 <i class="fa fa-download"></i> Export to CSV
             </a>
@@ -482,6 +512,12 @@
                 @endif
             </div>
             <div class="col-xxs-6 text-right">
+                <a
+                    class="btn btn-primary"
+                    href="{{ url('course').'/'.$course->slug.'/preview' }}"
+                >
+                    Preview
+                </a>
                 <button type="submit" class="btn btn-primary">
                     Update Course
                 </button>
@@ -600,6 +636,7 @@
 
             var formData = new FormData(this);
             var url = $form.attr('action');
+            console.log(formData);return;
              $.ajax({
                 url: url,
                 type: 'POST',
@@ -632,7 +669,7 @@
             var url = $form.attr('action');
              $.ajax({
                 url: url,
-                type: 'POST',
+                type: 'GET',
                 data: formData,
                 success: function (data) {
                     if (data.success) {
@@ -648,6 +685,27 @@
                     $form.find('.form-group.' + key).addClass('has-error');
                     $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
                 });
+            });
+        });
+
+        $('form.form-course .instructors .instructor button').click(function(event) {
+            event.preventDefault();
+
+            var instructor_id = $(this).parent().data('instructor');
+            var url = $(this).parent().data('url') + '?instructor_id=' + instructor_id;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data:{name:'aaaa'},
+                success: function(data) {
+                    if (data.success) {
+                        location.href = data.redirect;
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
             });
         });
     });

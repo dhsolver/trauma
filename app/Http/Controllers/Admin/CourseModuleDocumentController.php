@@ -25,6 +25,7 @@ class CourseModuleDocumentController extends AdminController {
                         'filename' => $request->fileNames[$i],
                         'file' => $request->fileKeys[$i],
                         'embedded' => $request->embedded,
+                        'display_name' => $request->displayName
                     ]);
                     $courseModuleDocument->save();
                 }
@@ -33,6 +34,7 @@ class CourseModuleDocumentController extends AdminController {
                     'course_module_id' => $courseModule->id,
                     'type' => 'url',
                     'url' => $request->url,
+                    'display_name' => $request->displayName
                 ]);
                 $courseModuleDocument->save();
             }
@@ -48,9 +50,11 @@ class CourseModuleDocumentController extends AdminController {
                 if (!empty($request->fileKeys)) {
                     $courseModuleDocument->file = $request->fileKeys[0];
                     $courseModuleDocument->filename = $request->fileNames[0];
+                    $courseModuleDocument->display_name = $request->displayName;
                 }
             } else {
                 $courseModuleDocument->url = $request->url;
+                $courseModuleDocument->display_name = $request->displayName;
             }
 
             $courseModuleDocument->save();
