@@ -209,7 +209,7 @@
                                     <span class="author">{{ $comment->user->first_name }} {{ $comment->user->last_name }}: </span>
                                     <?php $lineComments = explode("\n", $comment->text); ?>
                                     @foreach ($lineComments as $lineComment)
-                                    <div>{{ $lineComment }}</div>
+                                    <div style="min-height: 15px;">{{ $lineComment }}</div>
                                     @endforeach
                                     @if ($comment->created_at != $comment->updated_at)
                                     <small>(edited)</small>

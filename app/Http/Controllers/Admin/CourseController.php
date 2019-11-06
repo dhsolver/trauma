@@ -29,6 +29,7 @@ class CourseController extends AdminController {
             ->get();
 
         $users = User::all()->keyBy('id')->toArray();
+        // var_dump(count($courses));exit;
         return view('admin.courses.index', compact('courses', 'users'));
     }
 
@@ -282,7 +283,8 @@ class CourseController extends AdminController {
         $course->instructors = $instructors;
         $course->save();
         
-        return response()->json([
+        return response()->json
+        ([
             'success' => true,
             'redirect' => action('Admin\CourseController@edit', [
                 'course' => $course

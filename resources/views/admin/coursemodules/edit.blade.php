@@ -42,7 +42,7 @@
     <div class="documents">
         @if (count($courseModule->documents))
             @foreach ($courseModule->documents as $document)
-    <div class="form-group" data-id="{{ $document->id }}" data-type="{{ $document->type }}" data-url="{{ $document->url }}" data-display_name="{{ $document->display_name }}" data-filename="{{ $document->filename }}" data-embedded="{{ $document->embedded }}">
+            <div class="form-group" data-id="{{ $document->id }}" data-type="{{ $document->type }}" data-url="{{ $document->url }}" data-display_name="{{ $document->display_name }}" data-filename="{{ $document->filename }}" data-embedded="{{ $document->embedded }}">
                 <div class="row">
                     <div class="col-xs-4 col-sm-2 text-right">
                         <a class="btn btn-xs btn-circle btn-primary btn-edit-doc">
@@ -55,7 +55,7 @@
                     <div class="col-xs-8 col-sm-10">
                         @if ($document->type === 'url')
                             <a href="{{ $document->url }}" target="_blank" class="text-break">
-                                @if (!is_null($document->display_name))
+                                @if (!empty($document->display_name))
                                     <i class="fa fa-globe"></i> {{ $document->display_name }}
                                 @else
                                     <i class="fa fa-globe"></i> {{ $document->url }}
@@ -63,7 +63,7 @@
                             </a>
                         @else
                             <a href="{{ getS3Url($document->file) }}" target="_blank" class="text-break">
-                                @if (!is_null($document->display_name))
+                                @if (!empty($document->display_name))
                                     <i class="fa fa-file-o"></i> {{ $document->display_name }}
                                 @else
                                     <i class="fa fa-file-o"></i> {{ $document->filename }}
@@ -219,8 +219,7 @@
             if (type === 'url') {
                 var $modal = $('#linkModal');
                 var url = $formGroup.data('url');
-                console.log($formGroup.data('display_name'));
-                var displayName = $formGroup.data('display_name') == undefined ? url : $formGroup.data('display_name');;
+                var displayName = $formGroup.data('display_name');
                 $modal.modal('show');
                 $modal.find('input[name="id"]').val(id);
                 $modal.find('input[name="url"]').val(url);
@@ -230,7 +229,7 @@
                 $modal.modal('show');
                 var filename= $formGroup.data('filename');
                 var embedded= $formGroup.data('embedded');
-                var displayName = $formGroup.data('display_name') == undefined ? filename : $formGroup.data('display_name');;
+                var displayName = $formGroup.data('display_name');
                 $modal.find('input[name="id"]').val(id);
                 $modal.find('input[type="file"]').removeAttr('multiple');
                 $modal.find('#upload-file-info').text(filename);

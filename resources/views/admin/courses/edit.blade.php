@@ -154,7 +154,7 @@
             @foreach ($faculties as $faculty)
             @if ($faculty['approval'] === 'approved')
             <div class="instructor" data-instructor="{{ $faculty['id'] }}" data-url={{ url('admin/courses/'.$course->id.'/instructors') }}>
-                <div>{{ $faculty['last_name'] }} ({{ $faculty['email'] }})</div>
+                <div>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</div>
                 @if (in_array($faculty['id'], $course->instructors))
                 <button class="btn btn-danger btn-xs">Remove</button>
                 @else
@@ -391,7 +391,7 @@
                 @foreach ($course->registrations as $registration)
                     <?php $mailToAddresses .= $registration->user->email . ';'; ?>
                 @endforeach
-                <?php $mailToAddresses = substr($mailToAddresses, 0, -1).'?subject=Hi everybody!' ; ?>
+                <?php $mailToAddresses = substr($mailToAddresses, 0, -1).'?subject='.$course->title ; ?>
                 <a href="mailto:{{ $mailToAddresses }}" class="btn btn-sm btn-primary">
                     <i class="fa fa-envelope"></i> Send Email
                 </a>    
@@ -577,8 +577,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 {!! Form::open(array('id' => 'course-document-file-form', 'url' => url('admin/courses/'.$course->id.'/documents'), 'method' => 'post', 'class' => 'form-course-doc')) !!}
-
-                {!! Form::close() !!}
+                
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Document Info</h4>
@@ -607,6 +606,7 @@
                         Save
                     </button>
                 </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -636,7 +636,7 @@
 
             var formData = new FormData(this);
             var url = $form.attr('action');
-            console.log(formData);return;
+
              $.ajax({
                 url: url,
                 type: 'POST',
@@ -667,6 +667,7 @@
 
             var formData = new FormData(this);
             var url = $form.attr('action');
+            
              $.ajax({
                 url: url,
                 type: 'GET',
