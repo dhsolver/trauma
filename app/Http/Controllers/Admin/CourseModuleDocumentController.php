@@ -7,6 +7,7 @@ use App\CourseModule;
 use App\CourseModuleDocument;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseModuleDocumentRequest;
+use Illuminate\Http\Request;
 
 class CourseModuleDocumentController extends AdminController {
 
@@ -84,6 +85,24 @@ class CourseModuleDocumentController extends AdminController {
         return redirect()->action('Admin\CourseModuleController@edit', [
             'course' => $course,
             'courseModule' => $courseModule
+        ]);
+    }
+
+    public function update(Course $course, CourseModule $courseModule, CourseModuleDocument $courseModuleDocument, Request $request)
+    {
+        $courseModuleDocument->display_name = $request->display_name;
+        $courseModuleDocument->save();
+        
+        session()->flash('courseModuleMessage',
+            $courseModuleDocument->type === 'url' ?
+                'URL has been updated!' : 'Document has been updated.'
+        );
+        return response()->json([
+            'success' => true,
+            'redirect' => action('Admin\CourseModuleController@edit', [
+                'course' => $course,
+                'courseModule' => $courseModule
+            ])
         ]);
     }
 }

@@ -262,34 +262,59 @@
             }
         });
 
-        $('form.form-course-module-doc').submit(function(event) {
+        $('form.form-course-module-doc').unbind().bind('submit', function(event) {
             event.preventDefault();
 
             var $form = $(this);
-            $form.find('.form-group').removeClass('has-error');
-            $form.find('.form-group .help-block').text('');
+            if ($('#module-document').prop('files').length > 0 || $form.attr('id') == 'course-module-document-url-form') {
+                $form.find('.form-group').removeClass('has-error');
+                $form.find('.form-group .help-block').text('');
 
-            var formData = new FormData(this);
-            var url = $form.attr('action');
-             $.ajax({
-                url: url,
-                type: 'POST',
-                data: formData,
-                success: function (data) {
-                    if (data.success) {
-                        location.href = data.redirect;
-                    }
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            }).fail(function(xhr) {
-                var errors = xhr.responseJSON;
-                $.each(Object.keys(errors), function(index, key) {
-                    $form.find('.form-group.' + key).addClass('has-error');
-                    $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
+                var formData = new FormData(this);
+                var url = $form.attr('action');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    success: function (data) {
+                        if (data.success) {
+                            location.href = data.redirect;
+                        }
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).fail(function(xhr) {
+                    var errors = xhr.responseJSON;
+                    $.each(Object.keys(errors), function(index, key) {
+                        $form.find('.form-group.' + key).addClass('has-error');
+                        $form.find('.form-group.' + key + ' .help-block').text(errors[key]);
+                    });
                 });
-            });
+            }
+            else {
+                var display_name = $form.find('input[name="displayName"]').val();
+                var document_id = $form.find('input[name="id"]').val();
+                if (document_id == '' || document_id == undefined) {
+                    $form.find('.form-group.document').addClass('has-error');
+                    $form.find('.form-group.document .help-block').text('Please upload file');
+                }
+                else {
+                    var url = $form.attr('action') + '/' + document_id + '/update?display_name=' + display_name;
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function (data) {
+                            if (data.success) {
+                                location.href = data.redirect;
+                            }
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                }
+            }
         });
 
         $('form.form-course-module #btn-save-and-new').click(function(event) {

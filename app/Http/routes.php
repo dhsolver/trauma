@@ -98,6 +98,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
 
     Route::post('courses/{course}/modules/{coursemodule}/documents', 'Admin\CourseModuleDocumentController@store');
     Route::get('courses/{course}/modules/{coursemodule}/documents/{coursemoduledocument}/delete', 'Admin\CourseModuleDocumentController@delete');
+    Route::get('courses/{course}/modules/{coursemodule}/documents/{coursemoduledocument}/update', 'Admin\CourseModuleDocumentController@update');
 });
 
 /***************    Admin routes  **********************************/
