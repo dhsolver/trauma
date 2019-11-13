@@ -10,6 +10,7 @@ Route::model('coursemodule', 'App\CourseModule');
 Route::model('coursemoduledocument', 'App\CourseModuleDocument');
 Route::model('courseregistration', 'App\UsersCoursesRegistration');
 Route::model('staticpage', 'App\StaticPage');
+Route::model('organization', 'App\Organization');
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
 
@@ -112,6 +113,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('users/{user}/approve', 'Admin\UserController@approve');
     Route::get('users/{user}/deny', 'Admin\UserController@deny');
     Route::get('users/{user}/courses/export', 'Admin\UserController@exportCourses');
+
+    // Organization Routes
+    Route::get('organizations/', 'Admin\OrganizationController@index');
+    Route::get('organizations/create', 'Admin\OrganizationController@create');
+    Route::get('organizations/{organization}/edit', 'Admin\OrganizationController@edit')->name('organization.edit');
+    Route::post('organizations', 'Admin\OrganizationController@store');
+    Route::put('organizations/{organization}', 'Admin\OrganizationController@update');
+    Route::get('organizations/{organization}/assigned_users', 'Admin\OrganizationController@updateAssignedUsers');
 
     // Courses routes
     // Route::get('courses/{course}/delete', 'Admin\CourseController@delete');

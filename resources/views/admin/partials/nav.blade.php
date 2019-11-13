@@ -31,6 +31,11 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav">
+                <li class="{{ (Request::is('admin/organizations', 'admin/organizations/*') ? 'active' : '') }}">
+                    <a href="{{url('admin/organizations')}}"><i class="fa fa-building"></i> Organizations</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('admin/staticpages', 'admin/staticpages/*') ? 'active' : '') }}">
                     <a href="{{url('admin/staticpages')}}">Static Pages</a>
                 </li>

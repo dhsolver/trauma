@@ -92,6 +92,35 @@
         }
     }
 
+    .form-group {
+        margin-bottom: 30px;
+        
+        .users {
+            border-bottom: 1px solid #000;
+            height: 100px;
+            overflow: auto;
+            
+            .user {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                padding-right: 10px;
+            }
+        }
+    }
+    
+    .form-organization {
+        textarea:focus {
+            border-top-style: dotted;
+            border-top-width: 1px;
+            margin-top: -1px;
+        }
+
+        .img-course {
+            margin-bottom: 12px;
+        }
+    }
+
     .form-horizontal {
         .checkbox {
             font-size: 18px;
