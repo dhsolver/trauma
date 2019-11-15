@@ -144,13 +144,6 @@
     <div class="form-group">
         {!! Form::label('instructors', 'Available Instructors', array('class' => 'control-label shown')) !!}
         <div class="controls instructors">
-            {{-- <select class="form-control" name="instructors[]" multiple="">
-                @foreach ($faculties as $faculty)
-                @if ($faculty['approval'] === 'approved')
-                <option value="{{ $faculty['id'] }}" @if (is_array($course->instructors) && in_array($faculty['id'], $course->instructors)) selected @endif>{{ $faculty['first_name'] }} {{ $faculty['last_name'] }} ({{ $faculty['email'] }})</option>
-                @endif
-                @endforeach
-            </select> --}}
             @foreach ($faculties as $faculty)
             @if ($faculty['approval'] === 'approved')
             <div class="instructor" data-instructor="{{ $faculty['id'] }}" data-url={{ url('admin/courses/'.$course->id.'/instructors') }}>
@@ -162,6 +155,51 @@
                 @endif
             </div>
             @endif
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    <h3 class="section-title">
+        Organization
+    </h3>
+    <div class="table-responsive table-container">
+        @if (!empty($course->organization_id))
+        <table class="table table-hover table-course-keys">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Contact Name</th>
+                    <th>Contact Email</th>
+                </tr>
+            </thead>        
+            <?php $organization = $organizations[$course->organization_id]; ?>
+            <tr>
+                <td>{{ $organization['id'] }}</td>
+                <td>{{ $organization['name'] }}</td>
+                <td>{{ $organization['contact_name'] }}</td>
+                <td>{{ $organization['contact_email'] }}</td>
+            </tr>
+        </table>
+        @else
+        <h4>No organization specified.</h4>
+        @endif
+    </div>
+
+    @if (Auth::user()->role === 'admin')
+    <div class="form-group">
+        {!! Form::label('organizations', 'Organizations', array('class' => 'control-label shown')) !!}
+        <div class="controls organizations">
+            @foreach ($organizations as $organization)
+            <div class="organization" data-organization="{{ $organization['id'] }}" data-url={{ url('admin/courses/'.$course->id.'/organization') }}>
+                <div>{{ $organization['name'] }} ({{ $organization['contact_email'] }})</div>
+                @if ($organization['id'] == $course->organization_id)
+                <button class="btn btn-danger btn-xs">Remove</button>
+                @else
+                <button class="btn btn-primary btn-xs">Add</button>
+                @endif
+            </div>
             @endforeach
         </div>
     </div>
@@ -698,7 +736,26 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                data:{name:'aaaa'},
+                success: function(data) {
+                    if (data.success) {
+                        location.href = data.redirect;
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+
+        $('form.form-course .organizations .organization button').click(function(event) {
+            event.preventDefault();
+
+            var organization_id = $(this).parent().data('organization');
+            var url = $(this).parent().data('url') + '?organization_id=' + organization_id;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
                 success: function(data) {
                     if (data.success) {
                         location.href = data.redirect;

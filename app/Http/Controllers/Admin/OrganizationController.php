@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Organization;
+use App\Course;
 use App\Jobs\SendInvitationEmail;
 use App\Jobs\SendApprovedEmail;
 use App\Http\Controllers\AdminController;
@@ -36,7 +37,6 @@ class OrganizationController extends AdminController
     {
         $users = User::where('role', 'faculty')
             ->orWhere('role', 'manager')
-            // ->where('approval', 'approved')
             ->orderBy('first_name', 'asc')
             ->orderBy('last_name', 'asc')
             ->get()
@@ -46,7 +46,10 @@ class OrganizationController extends AdminController
         if (empty($organization->assigned_users)) {
             $organization->assigned_users = [];
         }
-        return view('admin.organizations.edit', compact('organization', 'users'));
+
+        $courses = Course::where('organization_id', $organization->id)->get();
+
+        return view('admin.organizations.edit', compact('organization', 'courses', 'users'));
     }
 
     public function update(OrganizationRequest $request, Organization $organization)

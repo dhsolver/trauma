@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'faculty'], function() {
     Route::post('courses/{course}/photo', 'Admin\CourseController@updatePhoto');
     Route::get('courses/{course}/copy', 'Admin\CourseController@copy');
     Route::get('courses/{course}/instructors', 'Admin\CourseController@updateInstrcutors');
+    Route::get('courses/{course}/organization', 'Admin\CourseController@updateOrganization');
 
     Route::post('courses/{course}/keys', 'Admin\CourseKeyController@create');
     Route::get('courses/{course}/keys/export', 'Admin\CourseKeyController@export');

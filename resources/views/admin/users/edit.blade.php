@@ -75,6 +75,20 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                Organization
+            </div>
+            <div className="col-sm-9">
+                @if (!empty($organization))
+                {{ $organization->name }}
+                @else
+                No Organization specified.
+                @endif
+            </div>
+        </div>
+
         <h3 class="section-title">Personal Information</h3>
         <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
             {!! Form::label('first_name', 'First Name', array('class' => 'control-label')) !!}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Course;
 use App\User;
+use App\Organization;
 use App\UsersCoursesRegistration;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Admin\CourseRequest;
@@ -56,17 +57,42 @@ class CourseController extends AdminController {
             return redirect()->action('Admin\CourseController@index');
         }
 
-        $faculties = User::where('role', 'faculty')
-            // ->where('approval', 'approved')
-            ->orderBy('first_name', 'asc')
-            ->orderBy('last_name', 'asc')
+        $organizations = Organization::where('id', '>', '0')
             ->get()
             ->keyBy('id')
             ->toArray();
 
+        if (empty($course->organization_id)) {
+            $faculties = User::where('role', 'faculty')
+                ->orderBy('first_name', 'asc')
+                ->orderBy('last_name', 'asc')
+                ->get()
+                ->keyBy('id')
+                ->toArray();
+        }
+        else {
+            $organization = Organization::find($course->organization_id);
+            $faculties = User::where('role', 'faculty')
+                ->whereIn('id', $organization->assigned_users)
+                ->orderBy('first_name', 'asc')
+                ->orderBy('last_name', 'asc')
+                ->get()
+                ->keyBy('id')
+                ->toArray();
+            
+            $facultyIds = array_keys($faculties);
+            $instructors = [];
+            foreach ($course->instructors as $instructor_id) {
+                if (in_array($instructor_id, $facultyIds)) {
+                    $instructors[] = $instructor_id;
+                }
+            }
+            $course->instructors = $instructors;
+        }
+
         $s3Data = prepareS3Data();
 
-        return view('admin.courses.edit', compact('course', 'faculties', 's3Data'));
+        return view('admin.courses.edit', compact('course', 'faculties', 'organizations', 's3Data'));
     }
 
     public function update(CourseRequest $request, Course $course)
@@ -281,6 +307,27 @@ class CourseController extends AdminController {
         }
 
         $course->instructors = $instructors;
+        $course->save();
+        
+        return response()->json
+        ([
+            'success' => true,
+            'redirect' => action('Admin\CourseController@edit', [
+                'course' => $course
+            ])
+        ]);
+    }
+
+    public function updateOrganization(Course $course, Request $request)
+    {
+        $organization_id = $request->organization_id;
+        if ($course->organization_id == $organization_id) {
+            $course->organization_id = 0;
+        }
+        else {
+            $course->organization_id = $organization_id;
+        }
+
         $course->save();
         
         return response()->json

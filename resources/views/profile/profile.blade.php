@@ -61,6 +61,19 @@
                 </div>
             </div>
 
+            <div class="row form-profile">
+                <div class="col-sm-3">
+                    Organization
+                </div>
+                <div className="col-sm-9">
+                    @if (!empty($organization))
+                    {{ $organization->name }}
+                    @else
+                    No Organization specified.
+                    @endif
+                </div>
+            </div>
+
             {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class' => 'form-profile')) !!}
                 <input type="hidden" name="discussion_emails_enabled" value="0">
 

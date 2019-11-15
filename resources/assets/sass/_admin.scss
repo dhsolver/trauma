@@ -79,6 +79,19 @@
                     padding-right: 10px;
                 }
             }
+
+            .organizations {
+                border-bottom: 1px solid #000;
+                height: 100px;
+                overflow: auto;
+
+                .organization {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 5px;
+                    padding-right: 10px;
+                }
+            }
         }
 
         textarea:focus {

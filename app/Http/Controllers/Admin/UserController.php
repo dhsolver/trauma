@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\User;
+use App\Organization;
 use App\Jobs\SendInvitationEmail;
 use App\Jobs\SendApprovedEmail;
 use App\Http\Controllers\AdminController;
@@ -32,7 +33,7 @@ class UserController extends AdminController
             die;
         }
 
-        $managers = User::whereIn('role', ['faculty', 'admin'])
+        $managers = User::whereIn('role', ['faculty', 'admin', 'manager'])
             ->orderBy('role', 'asc')
             ->get();
 
@@ -80,7 +81,8 @@ class UserController extends AdminController
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $organization = Organization::where('assigned_users', 'like', "%$user->id%")->first();
+        return view('admin.users.edit', compact('user', 'organization'));
     }
 
     public function update(UserRequest $request, User $user)

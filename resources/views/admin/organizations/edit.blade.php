@@ -78,8 +78,8 @@
             @foreach ($organization->assigned_users as $user_id)
             <?php $user = $users[$user_id]; ?>
             <tr>
-                <td>{{ $user['id'] }}</td>
-                <td>{{ $user['first_name'] }} {{ $user['last_name'] }}</td>
+                <td><a href="{!! url('admin/uses/'.$user_id.'/edit') !!}">#{{ $user['id'] }}</a></td>
+                <td><a href="{!! url('admin/uses/'.$user_id.'/edit') !!}">{{ $user['first_name'] }} {{ $user['last_name'] }}</a></td>
                 <td>{{ $user['email'] }}</td>
                 <td>
                     @if ($user['approval'] === 'pending')
@@ -101,7 +101,7 @@
             @foreach ($users as $user)
             @if ($user['approval'] === 'approved')
             <div class="user" data-user="{{ $user['id'] }}" data-url={{ url('admin/organizations/'.$organization->id.'/assigned_users') }}>
-                <div>{{ $user['first_name'] }} {{ $user['last_name'] }} ({{ $user['email'] }})</div>
+                <div><a href="{!! url('admin/uses/'.$user['id'].'/edit') !!}">{{ $user['first_name'] }} {{ $user['last_name'] }} ({{ $user['email'] }})</a></div>
                 @if (in_array($user['id'], $organization->assigned_users))
                 <button class="btn btn-danger btn-xs">Remove</button>
                 @else
@@ -113,6 +113,35 @@
         </div>
     </div>
     @endif
+
+    <h3 class="section-title">Assigned Courses</h3>
+    <div class="table-responsive table-container">
+        <table class="table table-hover">
+            @foreach ($courses as $course)
+            <tr>
+                <td><a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">#{{ $course->id }}</a></td>
+                <td>
+                    <a href="{!! url('admin/courses/'.$course->id.'/edit') !!}">{{ $course->title }}</a><br>
+                    {{ $course->online_only ? 'Online' : $course->date_start . '-' . $course->date_end }}
+                </td>
+                <td>{{ $course->location }}</td>
+                <td>
+                    @if (is_array($course->instructors) && count($course->instructors) > 0)
+                        @for ($i = 0; $i < count($course->instructors); $i++)
+                        {{ $users[$course->instructors[$i]]['first_name'] }} {{ $users[$course->instructors[$i]]['last_name'] }}
+                            @if ($i < count($course->instructors)-1)<br> @endif
+                        @endfor
+                    @else
+                        -
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </table>
+        @if (!count($courses))
+        <h4>No courses assigned.</h4>
+        @endif
+    </div>
 @endsection
 
 @section('scripts')

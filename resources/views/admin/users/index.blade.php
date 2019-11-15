@@ -90,6 +90,11 @@
                     </div>
                     <div class="checkbox inline">
                         <label>
+                            {!! Form::checkbox('role[]', 'manager', is_array(Request::get('role')) && in_array('manager', Request::get('role'))) !!} Manager
+                        </label>
+                    </div>
+                    <div class="checkbox inline">
+                        <label>
                             {!! Form::checkbox('role[]', 'admin', is_array(Request::get('role')) && in_array('admin', Request::get('role'))) !!} Administrator
                         </label>
                     </div>
@@ -143,7 +148,7 @@
     </div>
 
     <h3 class="section-title">
-        Faculties & Administrators
+        Faculties, Managers, Administrators
         <div class="pull-right">
             <a href="{!! url('admin/users/create') !!}" class="btn btn-sm btn-primary">Invite a Faculty</a>
         </div>
@@ -156,7 +161,7 @@
                 <td><a href="{!! url('admin/users/'.$user->id.'/edit') !!}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <label class="label {{ $user->role == 'admin' ? 'label-danger' : ($user->role === 'faculty' ? 'label-info' : 'label-primary') }}">{{ ucfirst($user->role) }}</label>
+                    <label class="label {{ $user->role == 'admin' ? 'label-danger' : ($user->role === 'manager' ? 'label-warning' : ($user->role === 'faculty' ? 'label-info' : 'label-primary')) }}">{{ ucfirst($user->role) }}</label>
                 </td>
                 <td>
                     @if ($user->role !== 'admin')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -11,8 +12,9 @@ class ProfileController extends Controller {
     {
         $user = Auth::user();
         $s3Data = prepareS3Data();
+        $organization = Organization::where('assigned_users', 'like', "%$user->id%")->first();
 
-        return view('profile.profile', compact('user', 's3Data'));
+        return view('profile.profile', compact('user', 'organization', 's3Data'));
     }
 
     public function saveProfile(Request $request)
