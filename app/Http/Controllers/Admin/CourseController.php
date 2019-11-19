@@ -25,12 +25,14 @@ class CourseController extends AdminController {
         if (!empty($request->location)) $courses = $courses->where('location', 'like', "%$request->location%");
         $user = Auth::user();
         if ($user->role === 'faculty') $courses = $courses->where('instructors', 'like', "%$user->id%");
+        // $courses = $courses->where('organization_id', '=', '0');
+
 
         $courses = $courses->orderBy('title', 'asc')
             ->get();
 
         $users = User::all()->keyBy('id')->toArray();
-        // var_dump(count($courses));exit;
+        
         return view('admin.courses.index', compact('courses', 'users'));
     }
 
@@ -56,11 +58,20 @@ class CourseController extends AdminController {
         if (($user->role === 'faculty' && (!is_array($course->instructors) || !in_array($user->id, $course->instructors)))) {
             return redirect()->action('Admin\CourseController@index');
         }
-
-        $organizations = Organization::where('id', '>', '0')
-            ->get()
-            ->keyBy('id')
-            ->toArray();
+        
+        if ($user->role === 'faculty' || $user->role === 'manager') {
+            $organizations = Organization::where('id', '>', '0')
+                ->where('assigned_users', 'like', "%$user->id%")
+                ->get()
+                ->keyBy('id')
+                ->toArray();    
+        }
+        else if ($user->role === 'admin') {
+            $organizations = Organization::where('id', '>', '0')
+                ->get()
+                ->keyBy('id')
+                ->toArray();    
+        }
 
         if (empty($course->organization_id)) {
             $faculties = User::where('role', 'faculty')

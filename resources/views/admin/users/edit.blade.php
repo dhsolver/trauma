@@ -76,17 +76,32 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-3">
-                Organization
-            </div>
-            <div className="col-sm-9">
-                @if (!empty($organization))
-                {{ $organization->name }}
-                @else
-                No Organization specified.
-                @endif
-            </div>
+        <h3 class="section-title">
+            Organizations
+        </h3>
+        <div class="table-responsive table-container">
+            @if (!empty($organizations))
+            <table class="table table-hover table-course-keys">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Contact Name</th>
+                        <th>Contact Email</th>
+                    </tr>
+                </thead>        
+                @foreach ($organizations as $organization)
+                <tr>
+                    <td>{{ $organization['id'] }}</td>
+                    <td>{{ $organization['name'] }}</td>
+                    <td>{{ $organization['contact_name'] }}</td>
+                    <td>{{ $organization['contact_email'] }}</td>
+                </tr>
+                @endforeach
+            </table>
+            @else
+            <h4>No organization specified.</h4>
+            @endif
         </div>
 
         <h3 class="section-title">Personal Information</h3>

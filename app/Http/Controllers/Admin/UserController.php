@@ -81,8 +81,8 @@ class UserController extends AdminController
 
     public function edit(User $user)
     {
-        $organization = Organization::where('assigned_users', 'like', "%$user->id%")->first();
-        return view('admin.users.edit', compact('user', 'organization'));
+        $organizations = Organization::where('assigned_users', 'like', "%$user->id%")->get()->toArray();
+        return view('admin.users.edit', compact('user', 'organizations'));
     }
 
     public function update(UserRequest $request, User $user)

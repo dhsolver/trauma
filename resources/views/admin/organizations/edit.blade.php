@@ -78,8 +78,8 @@
             @foreach ($organization->assigned_users as $user_id)
             <?php $user = $users[$user_id]; ?>
             <tr>
-                <td><a href="{!! url('admin/uses/'.$user_id.'/edit') !!}">#{{ $user['id'] }}</a></td>
-                <td><a href="{!! url('admin/uses/'.$user_id.'/edit') !!}">{{ $user['first_name'] }} {{ $user['last_name'] }}</a></td>
+                <td><a href="{!! url('admin/users/'.$user_id.'/edit') !!}">#{{ $user['id'] }}</a></td>
+                <td><a href="{!! url('admin/users/'.$user_id.'/edit') !!}">{{ $user['first_name'] }} {{ $user['last_name'] }}</a></td>
                 <td>{{ $user['email'] }}</td>
                 <td>
                     @if ($user['approval'] === 'pending')
@@ -101,7 +101,7 @@
             @foreach ($users as $user)
             @if ($user['approval'] === 'approved')
             <div class="user" data-user="{{ $user['id'] }}" data-url={{ url('admin/organizations/'.$organization->id.'/assigned_users') }}>
-                <div><a href="{!! url('admin/uses/'.$user['id'].'/edit') !!}">{{ $user['first_name'] }} {{ $user['last_name'] }} ({{ $user['email'] }})</a></div>
+                <div><a href="{!! url('admin/users/'.$user['id'].'/edit') !!}">{{ $user['first_name'] }} {{ $user['last_name'] }} ({{ $user['email'] }})</a></div>
                 @if (in_array($user['id'], $organization->assigned_users))
                 <button class="btn btn-danger btn-xs">Remove</button>
                 @else

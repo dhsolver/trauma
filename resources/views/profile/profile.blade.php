@@ -59,20 +59,33 @@
                         @endif
                     </div>
                 </div>
-            </div>
 
-            <div class="row form-profile">
-                <div class="col-sm-3">
-                    Organization
-                </div>
-                <div className="col-sm-9">
-                    @if (!empty($organization))
-                    {{ $organization->name }}
+                <h3 class="form-subheader">Organizations</h3>
+                <div class="table-responsive table-container">
+                    @if (!empty($organizations))
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact Name</th>
+                                <th>Contact Email</th>
+                            </tr>
+                        </thead>        
+                        @foreach ($organizations as $organization)
+                        <tr>
+                            <td>{{ $organization['name'] }}</td>
+                            <td>{{ $organization['contact_name'] }}</td>
+                            <td>{{ $organization['contact_email'] }}</td>
+                        </tr>
+                        @endforeach
+                    </table>
                     @else
-                    No Organization specified.
+                    <h4>No organization specified.</h4>
                     @endif
                 </div>
             </div>
+
+            
 
             {!! Form::open(array('url' => url('profile'), 'method' => 'post', 'class' => 'form-profile')) !!}
                 <input type="hidden" name="discussion_emails_enabled" value="0">

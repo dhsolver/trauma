@@ -187,7 +187,6 @@
         @endif
     </div>
 
-    @if (Auth::user()->role === 'admin')
     <div class="form-group">
         {!! Form::label('organizations', 'Organizations', array('class' => 'control-label shown')) !!}
         <div class="controls organizations">
@@ -203,7 +202,6 @@
             @endforeach
         </div>
     </div>
-    @endif
 
     <div class="form-group {{ $errors->has('overview') ? 'has-error' : '' }}">
         {!! Form::label('overview', 'Overview', array('class' => 'control-label shown')) !!}

@@ -12,9 +12,9 @@ class ProfileController extends Controller {
     {
         $user = Auth::user();
         $s3Data = prepareS3Data();
-        $organization = Organization::where('assigned_users', 'like', "%$user->id%")->first();
+        $organizations = Organization::where('assigned_users', 'like', "%$user->id%")->get()->toArray();
 
-        return view('profile.profile', compact('user', 'organization', 's3Data'));
+        return view('profile.profile', compact('user', 'organizations', 's3Data'));
     }
 
     public function saveProfile(Request $request)
