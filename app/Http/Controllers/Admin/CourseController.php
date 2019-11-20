@@ -24,15 +24,23 @@ class CourseController extends AdminController {
         if (!empty($request->title)) $courses = $courses->where('title', 'like', "%$request->title%");
         if (!empty($request->location)) $courses = $courses->where('location', 'like', "%$request->location%");
         $user = Auth::user();
-        if ($user->role === 'faculty') $courses = $courses->where('instructors', 'like', "%$user->id%");
-        // $courses = $courses->where('organization_id', '=', '0');
+        $organization_ids = Organization::where('assigned_users', 'like', "%$user->id%")->lists('id')->toArray();
+        
+        if ($user->role === 'faculty') {
+            $courses = $courses->where('instructors', 'like', "%$user->id%")
+                ->orWhereIn('organization_id', $organization_ids);
+        }
+        if ($user->role === 'manager') {
+            $courses = $courses->where('organization_id', '=', '0')
+                ->orWhereIn('organization_id', $organization_ids);
+        }
 
 
         $courses = $courses->orderBy('title', 'asc')
             ->get();
 
         $users = User::all()->keyBy('id')->toArray();
-        
+
         return view('admin.courses.index', compact('courses', 'users'));
     }
 

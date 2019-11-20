@@ -35,7 +35,7 @@ class Faculty
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            if ($this->auth->user()->role === 'faculty' || $this->auth->user()->role === 'admin') {
+            if ($this->auth->user()->role === 'faculty' || $this->auth->user()->role === 'admin' || $this->auth->user()->role === 'manager') {
                 return $next($request);
             } else {
                 // session()->flash('authMessage', 'You\'re not allowed to access this page.');
